@@ -1,0 +1,19 @@
+<h1>New workunit</h1>
+
+<% form_for(@workunit) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :started_on %><br />
+    <%= f.datetime_select :started_on %>
+  </p>
+  <p>
+    <%= f.label :ended_on %><br />
+    <%= f.datetime_select :ended_on %>
+  </p>
+  <p>
+    <%= f.submit "Create" %>
+  </p>
+<% end %>
+
+<%= link_to 'Back', workunits_path %>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" implements="mx.controls.listClasses.IDropInListItemRenderer"
+  initialize="init()">
+  <mx:Script>
+    <![CDATA[
+      import pomodo.events.SubtractTimeEvent;
+      import pomodo.events.TimeChangeEvent;
+      import pomodo.utils.DateUtilities;
+      import pomodo.utils.PomodoUtils;
+      import pomodo.controllers.TaskTracker;
+      import mx.controls.listClasses.BaseListData;
+      import mx.controls.dataGridClasses.DataGridListData;
+      import mx.collections.ArrayCollection;
+      import mx.controls.DataGrid;
+      import mx.controls.dataGridClasses.DataGridColumn;
+      import mx.formatters.DateFormatter;
+      
+      private var _listData:DataGridListData;
+      
+      [Bindable]
+      private var totalCost:Number;
+      
+      private function init():void {
+        Pomodo.tracker.addEventListener(TimeChangeEvent.ID, onTimeChange);
+        Pomodo.tracker.addEventListener(SubtractTimeEvent.ID, onSubtractTime);
+      }
+
+      private function onTimeChange(event:Event):void {
+        totalCost = totalCost + (Pomodo.tracker.activeTask.sprint.billedHourlyRate / 3600);
+      }
+      
+      private function onSubtractTime(event:SubtractTimeEvent):void {
+        totalCost = totalCost - ((Pomodo.tracker.activeTask.sprint.billedHourlyRate * event.time) / 3600);
+      }
+      
+      public function get listData():BaseListData {
+        return _listData;
+      }
+      
+      public function set listData(value:BaseListData):void {
+        if (value) {
+          var dataValue:DataGridListData = DataGridListData(value);
+          var dataProvider:ArrayCollection = ArrayCollection(DataGrid(dataValue.owner).dataProvider);
+          if (dataProvider.length > 0) {
+            var ref:Object = dataProvider.getItemAt(dataValue.rowIndex);
+            if (ref.hasOwnProperty(dataValue.dataField)) {
+              var milliseconds:Number = ref[dataValue.dataField];
+              totalCost = milliseconds;
+            }
+          }
+        }
+      }
+    ]]>
+  </mx:Script>
+  <mx:Text text="{PomodoUtils.getCostFormatter().format(totalCost)}"/>
+</mx:Canvas>

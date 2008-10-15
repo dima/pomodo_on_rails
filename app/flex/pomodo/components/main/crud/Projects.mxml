@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" 
+  xmlns:extras="pomodo.components.extras.*">
+  <mx:Script>
+    <![CDATA[
+      import pomodo.models.ProjectCategory;
+      import pomodo.controllers.ModelsController;
+      import mx.controls.DataGrid;
+      import mx.messaging.Producer;
+      import mx.controls.TextInput;
+      import mx.events.DataGridEvent;
+      import pomodo.models.Project;
+      import org.ruboss.Ruboss;
+      
+      [Bindable]
+      private var selectedProject:Project = new Project;
+      
+      private function selectProjectToEdit():void {
+        selectedProject = Project(projectsDataGrid.selectedItem);
+      }
+      
+      private function newProject():void {
+        selectedProject = new Project;
+        selectedProject.name = "New Project";
+      }
+
+      private function saveProject(project:Project):void {
+        if (project.id) {
+          project.update({afterCallback: onProjectUpdate});
+        } else {
+          project.create({afterCallback: onProjectCreate});
+        }
+      }
+      
+      private function saveSelectedProject():void {        
+        selectedProject.name = nameTextInput.text;
+        selectedProject.notes = notesTextArea.text;
+        selectedProject.billedHourlyRate = parseInt(hourlyRateTextInput.text);
+        selectedProject.completed = completedCheckBox.selected;
+        selectedProject.projectCategory = ProjectCategory(selectedProjectCategoryTree.selectedItem);
+        saveProject(selectedProject);
+      }
+      
+      internal function deleteSelectedProject():void {
+        if (!selectedProject) {
+          selectProjectToEdit();
+        }
+        selectedProject.destroy({afterCallback: onProjectDestroy});
+      }
+      
+      private function onProjectUpdate(project:Project):void {
+        projectsDataGrid.selectedItem = selectedProject = project;
+      }
+      
+      private function onProjectCreate(project:Project):void {
+        onProjectUpdate(project);
+      }
+      
+      private function onProjectDestroy(project:Project):void {
+        selectedProject = new Project;
+      }
+    ]]>
+  </mx:Script>
+  <mx:DataGrid id="projectsDataGrid" horizontalScrollPolicy="auto"
+      dataProvider="{Pomodo.models.projects}"
+      height="{this.height - 270}" right="5" top="0" left="5" click="selectProjectToEdit()">
+      <mx:columns>
+        <mx:DataGridColumn dataField="name" headerText="Name" width="200"/>
+        <mx:DataGridColumn dataField="notes" headerText="Notes" width="{projectsDataGrid.width - 500}"/>
+        <mx:DataGridColumn dataField="projectCategory" headerText="Category" width="193"/>
+        <mx:DataGridColumn dataField="billedHourlyRate" headerText="Hourly Rate" width="80"/>
+        <mx:DataGridColumn editable="false" width="25" headerText="">
+          <mx:itemRenderer>
+            <mx:Component>
+              <mx:Canvas width="25" height="25" dataChange="onDataChange(event)">
+                <mx:Script>
+                  <![CDATA[
+                    import pomodo.models.Project;
+                    
+                    private function onDataChange(event:Event):void {
+                      if (data is Project) deletionIcon.visible = true;
+                    }
+                  ]]>
+                </mx:Script>
+                <mx:Image id="deletionIcon" source="assets/story_editor_icon.png" visible="false"
+                  width="18" height="18" x="4" y="3" click="outerDocument.deleteSelectedProject()"/>
+              </mx:Canvas>
+            </mx:Component>
+          </mx:itemRenderer>
+        </mx:DataGridColumn>
+      </mx:columns>
+  </mx:DataGrid>
+  <mx:Button label="+" bottom="247" left="10" styleName="addItemButton" click="newProject()"/>
+  <mx:Form width="50%" bottom="40" left="5" height="200">
+    <mx:FormItem label="Name:" width="100%">
+      <mx:TextInput id="nameTextInput" width="100%" text="{selectedProject.name}"/>
+    </mx:FormItem>
+    <mx:FormItem label="Notes:" height="100%" width="100%">
+      <mx:TextArea id="notesTextArea" height="100%" width="100%" text="{selectedProject.notes}"/>
+    </mx:FormItem>
+    <mx:FormItem label="Hourly Rate:" width="100%">
+      <mx:TextInput id="hourlyRateTextInput" width="100%" text="{selectedProject.billedHourlyRate}"/>
+    </mx:FormItem>
+    <mx:FormItem>
+      <mx:CheckBox id="completedCheckBox" label="Completed" selected="{selectedProject.completed}"/>
+    </mx:FormItem>
+  </mx:Form>
+  <mx:Form width="48%" bottom="40" right="5" height="200">
+    <mx:FormItem label="Category:" width="100%" height="100%">
+      <mx:Tree id="selectedProjectCategoryTree" width="100%" height="100%" 
+        dataProvider="{Pomodo.models.projectCategories}" selectedItem="{selectedProject.projectCategory}"></mx:Tree>
+    </mx:FormItem>
+  </mx:Form>
+  <mx:Button label="Save" bottom="10" left="10" click="saveSelectedProject()"/>
+</mx:Canvas>

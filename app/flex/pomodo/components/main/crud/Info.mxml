@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%">
+  <mx:Script>
+    <![CDATA[
+      import pomodo.models.Account;
+      import pomodo.models.Address;
+      import pomodo.models.User;
+      import org.ruboss.models.RubossFileReference;
+      
+      [Bindable]
+      private var infoFormInvalid:Boolean;
+      
+      private var photo:RubossFileReference;
+
+      private function chooseFile():void {
+        photo = new RubossFileReference;
+        photo.addEventListener(IOErrorEvent.IO_ERROR, ioErrorHandler, false, 0, true);
+        photo.addEventListener(Event.SELECT, selectFile, false, 0, true);
+        photo.addEventListener(Event.CANCEL, cancelBrowse, false, 0, true);
+        photo.browse();
+      }
+
+      private function selectFile(event:Event):void { 
+        fileSelected(event)
+      }
+      
+      private function cancelBrowse(event:Event):void {
+        photo = null;
+      }
+      
+      private function fileSelected(event:Event):void {
+        updatePersonalInformation();
+      }
+      
+      private function ioErrorHandler(event:Event):void {
+        photo = null;        
+      }
+      
+      private function updatePersonalInformation():void {
+        var user:User = Pomodo.models.currentUser;
+        user.title = titleTextInput.text;
+        user.update();
+        
+        var account:Account = Pomodo.models.currentUser.account;
+        account.email = emailTextInput.text;
+        account.name = nameTextInput.text;
+        account.password = passwordTextInput.text;
+        account.passwordConfirmation = passwordConfirmationTextInput.text;
+        if (photo) {
+          account.attachment = photo;
+        }
+        account.update({afterCallback: onAccountUpdate});
+        
+        var address:Address = user.address;
+        address.lineOne = lineOneTextInput.text;
+        address.lineTwo = lineTwoTextInput.text;
+        address.city = cityTextInput.text;
+        address.province = provinceTextInput.text;
+        address.country = countryTextInput.text;
+        address.postcode = postcodeTextInput.text;
+        address.update();
+      }
+      
+      private function onAccountUpdate(account:Account):void {
+        photo = null;
+        account.attachment = null;
+        Pomodo.models.currentUser.account = account;
+      }
+    ]]>
+  </mx:Script>
+  <mx:EmailValidator source="{emailTextInput}" property="text" invalid="infoFormInvalid = true" 
+    valid="infoFormInvalid = false"/>
+  <mx:RegExpValidator source="{passwordConfirmationTextInput}" 
+    property="text" expression="{passwordTextInput.text}" noMatchError="Passwords do not match"
+    invalid="infoFormInvalid = true" valid="infoFormInvalid = false"/>
+  <mx:StringValidator source="{passwordTextInput}" property="text" 
+        minLength="1" invalid="infoFormInvalid = true"/>
+    
+  <mx:Image x="10" y="10" source="{Pomodo.models.currentUser.account.photoUrl}" width="100" height="100"
+    click="chooseFile()"/>
+  <mx:Form left="118" top="45" paddingBottom="0" paddingLeft="0" paddingRight="0" paddingTop="0" width="400">
+    <mx:FormItem label="Username:" width="100%">
+      <mx:TextInput text="{Pomodo.models.currentUser.account.login}" editable="false" width="200" borderStyle="none"/>
+    </mx:FormItem>
+    <mx:FormItem label="Password" required="true">
+      <mx:TextInput id="passwordTextInput" width="190" displayAsPassword="true"/>
+    </mx:FormItem>
+    <mx:FormItem label="Confirm" required="true">
+      <mx:TextInput id="passwordConfirmationTextInput" width="190" displayAsPassword="true"/>
+    </mx:FormItem>
+    <mx:FormItem label="Name:" width="100%">
+      <mx:TextInput id="nameTextInput" text="{Pomodo.models.currentUser.account.name}" width="100%"/>
+    </mx:FormItem>
+    <mx:FormItem label="Email:" width="100%">
+      <mx:TextInput id="emailTextInput" text="{Pomodo.models.currentUser.account.email}" width="100%"/>
+    </mx:FormItem>
+    <mx:FormItem label="Title:" width="100%">
+      <mx:TextInput id="titleTextInput" text="{Pomodo.models.currentUser.title}" width="100%"/>
+    </mx:FormItem>
+  </mx:Form>
+  <mx:Label x="118" y="10" text="Personal Information:" styleName="infoTitle"/>
+  <mx:Label x="118" y="230" text="Address:" styleName="infoTitle"/>
+  <mx:Form x="95" y="265" paddingBottom="0" paddingLeft="0" paddingRight="0" paddingTop="0" width="423">
+    <mx:FormItem label="Line 1:" width="100%">
+      <mx:TextInput id="lineOneTextInput" text="{Pomodo.models.currentUser.address.lineOne}" width="100%"/>
+    </mx:FormItem>
+    <mx:FormItem label="Line 2:" width="100%">
+      <mx:TextInput id="lineTwoTextInput" text="{Pomodo.models.currentUser.address.lineTwo}" width="100%"/>
+    </mx:FormItem>
+    <mx:FormItem label="City:" width="100%">
+      <mx:TextInput id="cityTextInput" text="{Pomodo.models.currentUser.address.city}" width="150"/>
+    </mx:FormItem>
+    <mx:FormItem label="Province/State:" width="100%">
+      <mx:TextInput id="provinceTextInput" text="{Pomodo.models.currentUser.address.province}" width="150"/>
+    </mx:FormItem>
+    <mx:FormItem label="Country:" width="100%">
+      <mx:TextInput id="countryTextInput" text="{Pomodo.models.currentUser.address.country}" width="250"/>
+    </mx:FormItem>
+    <mx:FormItem label="Post Code:" width="100%">
+      <mx:TextInput id="postcodeTextInput" text="{Pomodo.models.currentUser.address.postcode}" width="80"/>
+    </mx:FormItem>
+  </mx:Form>
+  <mx:Button x="118" label="Update" bottom="10" click="updatePersonalInformation()" enabled="{!infoFormInvalid}"/>
+</mx:Canvas>

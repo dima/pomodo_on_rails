@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" label="Task"
+  xmlns:rcomponents="org.ruboss.components.*">
+<mx:Script><![CDATA[
+  import org.ruboss.Ruboss;
+  import org.ruboss.utils.RubossUtils;
+  import pomodo.models.Task;
+  import pomodo.models.Sprint;
+  import pomodo.models.User;
+
+  [Bindable]
+  private var _task:Task = new Task();
+
+  private function newTask():void {
+    _task = new Task();
+    tasksList.selectedIndex = -1;
+  }
+
+  private function saveTask():void {
+    if (_task.id) {
+      updateTask();
+    } else {
+      createTask();
+    }
+  }
+  
+  private function createTask():void {
+    var task:Task = new Task();
+    task.name = nameTextInput.text;
+    task.notes = notesTextArea.text;
+    task.completed = completedCheckBox.selected;
+    task.billedPercentage = int(billedPercentageTextInput.text);
+
+    task.sprint = Sprint(sprintComboBox.selectedItem);
+    task.user = User(userComboBox.selectedItem);
+    task.create({afterCallback: onTaskCreate});
+  }
+
+  private function updateTask():void {
+    _task.name = nameTextInput.text;
+    _task.notes = notesTextArea.text;
+    _task.completed = completedCheckBox.selected;
+    _task.billedPercentage = int(billedPercentageTextInput.text);
+
+    _task.sprint = Sprint(sprintComboBox.selectedItem);
+    _task.user = User(userComboBox.selectedItem);
+    _task.update({afterCallback: onTaskUpdate});
+  }
+
+  private function destroyTask():void {
+    _task.destroy({afterCallback: onTaskDestroy});
+  }
+  
+  private function onTaskSelect():void {
+    _task = RubossUtils.clone(tasksList.selectedItem) as Task;
+  }
+  
+  private function onTaskCreate(task:Task):void {
+    _task = new Task;
+  }
+  
+  private function onTaskUpdate(task:Task):void {
+    tasksList.selectedItem = task;
+    _task = RubossUtils.clone(task) as Task;
+  }
+  
+  private function onTaskDestroy(task:Task):void {
+    onTaskCreate(task);
+  }
+
+  private function canDeleteTask(task:Task):Boolean {
+    return task != null && task.id != 0;
+  }
+]]></mx:Script>
+  <mx:Panel id="tasksPanel"
+    title="Tasks" cornerRadius="0" dropShadowEnabled="false" borderStyle="solid" 
+    borderThickness="1" backgroundColor="#EEEEEE" width="25%" height="100%">
+    <mx:List id="tasksList"
+      width="100%" height="100%"
+      dataProvider="{Ruboss.models.index(Task)}"
+      change="onTaskSelect()"/>
+    <mx:ControlBar width="100%">
+      <mx:Button label="New Task" width="100%" height="30"
+        click="newTask()"/>
+    </mx:ControlBar>
+  </mx:Panel>
+  <mx:Panel title="Edit Task" cornerRadius="0" dropShadowEnabled="false" borderStyle="solid" 
+    borderThickness="1" backgroundColor="#EEEEEE" width="75%" height="100%">
+    <mx:Form width="100%" height="100%">
+      <mx:FormItem label="Name" width="100%">
+        <mx:TextInput id="nameTextInput" width="100%" text="{_task.name}"/>
+      </mx:FormItem>
+      <mx:FormItem label="Notes" width="100%">
+        <mx:TextArea id="notesTextArea" width="100%" height="200" text="{_task.notes}"/>
+      </mx:FormItem>
+      <mx:FormItem label="Completed" width="100%">
+        <mx:CheckBox id="completedCheckBox" selected="{_task.completed}"/>
+      </mx:FormItem>
+      <mx:FormItem label="BilledPercentage" width="100%">
+        <mx:TextInput id="billedPercentageTextInput" width="100%" text="{_task.billedPercentage}"/>
+      </mx:FormItem>
+      <mx:FormItem label="Sprint" width="100%">
+        <mx:ComboBox id="sprintComboBox" width="200"
+          labelField="{Sprint.LABEL}"
+          dataProvider="{Ruboss.models.index(Sprint)}" prompt="Sprint ..."
+          selectedItem="{_task.sprint}" />
+      </mx:FormItem>
+      <mx:FormItem label="User" width="100%">
+        <mx:ComboBox id="userComboBox" width="200"
+          labelField="{User.LABEL}"
+          dataProvider="{Ruboss.models.index(User)}" prompt="User ..."
+          selectedItem="{_task.user}" />
+      </mx:FormItem>
+    </mx:Form>
+    <mx:ControlBar width="100%">
+      <mx:Button label="Save Task" width="50%" height="30"
+        click="saveTask()"/>
+      <mx:Button label="Delete Task" width="50%" height="30"
+        enabled="{canDeleteTask(_task)}"
+        click="destroyTask()"/>
+    </mx:ControlBar>
+  </mx:Panel>
+</mx:HBox>

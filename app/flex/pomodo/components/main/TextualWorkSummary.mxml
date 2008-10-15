@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml">
+  <mx:Script>
+    <![CDATA[
+      import mx.events.ListEvent;
+      import pomodo.controllers.StatisticsController;
+            
+      private function selectSummaryStat(event:ListEvent):void {
+        var option:String = ComboBox(event.currentTarget).selectedItem as String;
+        if (option == "Hours") {
+          totalTime.visible = true;
+          totalCost.visible = false;
+        } else {
+          totalTime.visible = false;
+          totalCost.visible = true;
+        }
+      }
+    ]]>
+  </mx:Script>
+  <mx:Label text="Total: " fontWeight="bold" top="7" left="0"/>
+  <mx:ComboBox dataProvider="['Hours','Cost']" left="40" top="5" change="selectSummaryStat(event)"/>
+  <mx:Canvas id="summaryContainer" width="100%" height="50" top="35">
+    <mx:DataGrid id="totalTime" dataProvider="{Pomodo.stats.totalTimeNumbers}" width="100%" height="50"
+      selectable="false" editable="false" sortableColumns="false" tabEnabled="false" horizontalScrollPolicy="off"
+      verticalScrollPolicy="off">
+      <mx:columns>
+        <mx:DataGridColumn dataField="totalTimeToday" headerText="Today"
+          itemRenderer="pomodo.components.main.renderers.SummaryTimeRenderer"/>
+        <mx:DataGridColumn dataField="totalTimeThisWeek" headerText="This Week"
+          itemRenderer="pomodo.components.main.renderers.SummaryTimeRenderer"/>
+        <mx:DataGridColumn dataField="totalTimeThisMonth" headerText="This Month"
+          itemRenderer="pomodo.components.main.renderers.SummaryTimeRenderer"/>
+      </mx:columns>  
+    </mx:DataGrid>
+    <mx:DataGrid id="totalCost" dataProvider="{Pomodo.stats.totalCostNumbers}" width="100%" height="50"
+      selectable="false" editable="false" sortableColumns="false" tabEnabled="false" visible="false"
+      horizontalScrollPolicy="off" verticalScrollPolicy="off">
+      <mx:columns>
+        <mx:DataGridColumn dataField="totalCostToday" headerText="Today"
+          itemRenderer="pomodo.components.main.renderers.SummaryCostRenderer"/>
+        <mx:DataGridColumn dataField="totalCostThisWeek" headerText="This Week"
+          itemRenderer="pomodo.components.main.renderers.SummaryCostRenderer"/>
+        <mx:DataGridColumn dataField="totalCostThisMonth" headerText="This Month"
+          itemRenderer="pomodo.components.main.renderers.SummaryCostRenderer"/>
+      </mx:columns>  
+    </mx:DataGrid>
+  </mx:Canvas>
+</mx:Canvas>

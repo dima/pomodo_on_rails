@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" label="Project"
+  xmlns:rcomponents="org.ruboss.components.*">
+<mx:Script><![CDATA[
+  import org.ruboss.Ruboss;
+  import org.ruboss.utils.RubossUtils;
+  import pomodo.models.Project;
+
+  [Bindable]
+  private var _project:Project = new Project();
+
+  private function newProject():void {
+    _project = new Project();
+    projectsList.selectedIndex = -1;
+  }
+
+  private function saveProject():void {
+    if (_project.id) {
+      updateProject();
+    } else {
+      createProject();
+    }
+  }
+  
+  private function createProject():void {
+    var project:Project = new Project();
+    project.name = nameTextInput.text;
+    project.notes = notesTextArea.text;
+    project.completed = completedCheckBox.selected;
+    project.billedHourlyRate = int(billedHourlyRateTextInput.text);
+
+    project.create({afterCallback: onProjectCreate});
+  }
+
+  private function updateProject():void {
+    _project.name = nameTextInput.text;
+    _project.notes = notesTextArea.text;
+    _project.completed = completedCheckBox.selected;
+    _project.billedHourlyRate = int(billedHourlyRateTextInput.text);
+
+    _project.update({afterCallback: onProjectUpdate});
+  }
+
+  private function destroyProject():void {
+    _project.destroy({afterCallback: onProjectDestroy});
+  }
+  
+  private function onProjectSelect():void {
+    _project = RubossUtils.clone(projectsList.selectedItem) as Project;
+  }
+  
+  private function onProjectCreate(project:Project):void {
+    _project = new Project;
+  }
+  
+  private function onProjectUpdate(project:Project):void {
+    projectsList.selectedItem = project;
+    _project = RubossUtils.clone(project) as Project;
+  }
+  
+  private function onProjectDestroy(project:Project):void {
+    onProjectCreate(project);
+  }
+
+  private function canDeleteProject(project:Project):Boolean {
+    return project != null && project.id != 0;
+  }
+]]></mx:Script>
+  <mx:Panel id="projectsPanel"
+    title="Projects" cornerRadius="0" dropShadowEnabled="false" borderStyle="solid" 
+    borderThickness="1" backgroundColor="#EEEEEE" width="25%" height="100%">
+    <mx:List id="projectsList"
+      width="100%" height="100%"
+      dataProvider="{Ruboss.models.index(Project)}"
+      change="onProjectSelect()"/>
+    <mx:ControlBar width="100%">
+      <mx:Button label="New Project" width="100%" height="30"
+        click="newProject()"/>
+    </mx:ControlBar>
+  </mx:Panel>
+  <mx:Panel title="Edit Project" cornerRadius="0" dropShadowEnabled="false" borderStyle="solid" 
+    borderThickness="1" backgroundColor="#EEEEEE" width="75%" height="100%">
+    <mx:Form width="100%" height="100%">
+      <mx:FormItem label="Name" width="100%">
+        <mx:TextInput id="nameTextInput" width="100%" text="{_project.name}"/>
+      </mx:FormItem>
+      <mx:FormItem label="Notes" width="100%">
+        <mx:TextArea id="notesTextArea" width="100%" height="200" text="{_project.notes}"/>
+      </mx:FormItem>
+      <mx:FormItem label="Completed" width="100%">
+        <mx:CheckBox id="completedCheckBox" selected="{_project.completed}"/>
+      </mx:FormItem>
+      <mx:FormItem label="BilledHourlyRate" width="100%">
+        <mx:TextInput id="billedHourlyRateTextInput" width="100%" text="{_project.billedHourlyRate}"/>
+      </mx:FormItem>
+    </mx:Form>
+    <mx:ControlBar width="100%">
+      <mx:Button label="Save Project" width="50%" height="30"
+        click="saveProject()"/>
+      <mx:Button label="Delete Project" width="50%" height="30"
+        enabled="{canDeleteProject(_project)}"
+        click="destroyProject()"/>
+    </mx:ControlBar>
+  </mx:Panel>
+</mx:HBox>

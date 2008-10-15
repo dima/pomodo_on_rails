@@ -1,0 +1,72 @@
+@font-face {
+  src: url("assets/fonts/MyriadWebPro.ttf");
+  fontFamily: MyriadWebPro;
+  fontStyle: normal;
+  fontWeight: normal;
+}
+
+@font-face {
+  src: url("assets/fonts/MyriadWebPro-Bold.ttf");
+  fontFamily: MyriadWebPro;
+  fontStyle: normal;
+  fontWeight: bold;
+}
+
+Application {
+  fontFamily: MyriadWebPro;
+  fontSize: 12;
+}
+
+ApplicationControlBar {
+  borderColor: #999999;
+  borderStyle: solid;
+  borderThickness: 1;
+  dropShadowEnabled: false;
+  fontFamily: MyriadWebPro;
+  fontSize: 12;
+	cornerRadius: 0;
+	paddingLeft: 0;
+	paddingRight: 0;
+	paddingTop: 0;
+	paddingBottom: 0;
+	horizontalGap: 5;
+}
+
+.appContainer {
+  backgroundImage: Embed("assets/background.png",
+      scaleGridLeft="25",
+      scaleGridRight="700",
+      scaleGridTop="60",
+      scaleGridBottom="200");
+  backgroundSize: "100%";
+}
+
+.infoBox {
+  backgroundColor: #FFFFFF;
+  borderColor: #999999;
+  borderStyle: solid;
+  borderThickness: 1;
+  cornerRadius: 5;
+}
+
+.appTitle {
+  fontSize: 24;
+  color: #FFFFFF;
+}
+
+.appDescription {
+  fontSize: 14;
+  color: #FFFFFF;
+}
+
+.infoTitle {
+  fontSize: 18;
+}
+
+.addItemButton {
+	cornerRadius: 0;
+	paddingLeft: 0;
+	paddingRight: 0;
+	paddingTop: 2;
+	themeColor: #939393;
+}

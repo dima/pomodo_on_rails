@@ -1,0 +1,22 @@
+<h1>Listing workunits</h1>
+
+<table>
+  <tr>
+    <th>Started on</th>
+    <th>Ended on</th>
+  </tr>
+
+<% for workunit in @workunits %>
+  <tr>
+    <td><%=h workunit.started_on %></td>
+    <td><%=h workunit.ended_on %></td>
+    <td><%= link_to 'Show', workunit %></td>
+    <td><%= link_to 'Edit', edit_workunit_path(workunit) %></td>
+    <td><%= link_to 'Destroy', workunit, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New workunit', new_workunit_path %>

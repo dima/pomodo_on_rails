@@ -1,0 +1,33 @@
+<p>
+  <b>Line one:</b>
+  <%=h @address.line_one %>
+</p>
+
+<p>
+  <b>Line two:</b>
+  <%=h @address.line_two %>
+</p>
+
+<p>
+  <b>City:</b>
+  <%=h @address.city %>
+</p>
+
+<p>
+  <b>Province:</b>
+  <%=h @address.province %>
+</p>
+
+<p>
+  <b>Country:</b>
+  <%=h @address.country %>
+</p>
+
+<p>
+  <b>Postcode:</b>
+  <%=h @address.postcode %>
+</p>
+
+
+<%= link_to 'Edit', edit_address_path(@address) %> |
+<%= link_to 'Back', addresses_path %>

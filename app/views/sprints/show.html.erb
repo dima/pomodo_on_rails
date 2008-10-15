@@ -1,0 +1,18 @@
+<p>
+  <b>Name:</b>
+  <%=h @sprint.name %>
+</p>
+
+<p>
+  <b>Due by:</b>
+  <%=h @sprint.due_by %>
+</p>
+
+<p>
+  <b>Billed hourly rate:</b>
+  <%=h @sprint.billed_hourly_rate %>
+</p>
+
+
+<%= link_to 'Edit', edit_sprint_path(@sprint) %> |
+<%= link_to 'Back', sprints_path %>

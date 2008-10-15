@@ -1,0 +1,33 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+task_one:
+  name: Task1NameString
+  notes: Task1NotesText
+  completed: false
+  billed_percentage: 1
+  sprint: sprint_one
+  user: user_one
+
+task_two:
+  name: Task2NameString
+  notes: Task2NotesText
+  completed: false
+  billed_percentage: 1
+  sprint: sprint_two
+  user: user_two
+
+task_three:
+  name: Task3NameString
+  notes: Task3NotesText
+  completed: false
+  billed_percentage: 1
+  sprint: sprint_three
+  user: user_three
+
+task_four:
+  name: Task4NameString
+  notes: Task4NotesText
+  completed: false
+  billed_percentage: 1
+  sprint: sprint_four
+  user: user_four

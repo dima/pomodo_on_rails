@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" label="User"
+  xmlns:rcomponents="org.ruboss.components.*">
+<mx:Script><![CDATA[
+  import org.ruboss.Ruboss;
+  import org.ruboss.utils.RubossUtils;
+  import pomodo.models.User;
+  import pomodo.models.Address;
+
+  [Bindable]
+  private var _user:User = new User();
+
+  private function newUser():void {
+    _user = new User();
+    usersList.selectedIndex = -1;
+  }
+
+  private function saveUser():void {
+    if (_user.id) {
+      updateUser();
+    } else {
+      createUser();
+    }
+  }
+  
+  private function createUser():void {
+    var user:User = new User();
+    user.login = loginTextInput.text;
+    user.firstName = firstNameTextInput.text;
+    user.lastName = lastNameTextInput.text;
+    user.email = emailTextInput.text;
+
+    user.address = Address(addressComboBox.selectedItem);
+    user.create({afterCallback: onUserCreate});
+  }
+
+  private function updateUser():void {
+    _user.login = loginTextInput.text;
+    _user.firstName = firstNameTextInput.text;
+    _user.lastName = lastNameTextInput.text;
+    _user.email = emailTextInput.text;
+
+    _user.address = Address(addressComboBox.selectedItem);
+    _user.update({afterCallback: onUserUpdate});
+  }
+
+  private function destroyUser():void {
+    _user.destroy({afterCallback: onUserDestroy});
+  }
+  
+  private function onUserSelect():void {
+    _user = RubossUtils.clone(usersList.selectedItem) as User;
+  }
+  
+  private function onUserCreate(user:User):void {
+    _user = new User;
+  }
+  
+  private function onUserUpdate(user:User):void {
+    usersList.selectedItem = user;
+    _user = RubossUtils.clone(user) as User;
+  }
+  
+  private function onUserDestroy(user:User):void {
+    onUserCreate(user);
+  }
+
+  private function canDeleteUser(user:User):Boolean {
+    return user != null && user.id != 0;
+  }
+]]></mx:Script>
+  <mx:Panel id="usersPanel"
+    title="Users" cornerRadius="0" dropShadowEnabled="false" borderStyle="solid" 
+    borderThickness="1" backgroundColor="#EEEEEE" width="25%" height="100%">
+    <mx:List id="usersList"
+      width="100%" height="100%"
+      dataProvider="{Ruboss.models.index(User)}"
+      change="onUserSelect()"/>
+    <mx:ControlBar width="100%">
+      <mx:Button label="New User" width="100%" height="30"
+        click="newUser()"/>
+    </mx:ControlBar>
+  </mx:Panel>
+  <mx:Panel title="Edit User" cornerRadius="0" dropShadowEnabled="false" borderStyle="solid" 
+    borderThickness="1" backgroundColor="#EEEEEE" width="75%" height="100%">
+    <mx:Form width="100%" height="100%">
+      <mx:FormItem label="Login" width="100%">
+        <mx:TextInput id="loginTextInput" width="100%" text="{_user.login}"/>
+      </mx:FormItem>
+      <mx:FormItem label="FirstName" width="100%">
+        <mx:TextInput id="firstNameTextInput" width="100%" text="{_user.firstName}"/>
+      </mx:FormItem>
+      <mx:FormItem label="LastName" width="100%">
+        <mx:TextInput id="lastNameTextInput" width="100%" text="{_user.lastName}"/>
+      </mx:FormItem>
+      <mx:FormItem label="Email" width="100%">
+        <mx:TextInput id="emailTextInput" width="100%" text="{_user.email}"/>
+      </mx:FormItem>
+      <mx:FormItem label="Address" width="100%">
+        <mx:ComboBox id="addressComboBox" width="200"
+          labelField="{Address.LABEL}"
+          dataProvider="{Ruboss.models.index(Address)}" prompt="Address ..."
+          selectedItem="{_user.address}" />
+      </mx:FormItem>
+    </mx:Form>
+    <mx:ControlBar width="100%">
+      <mx:Button label="Save User" width="50%" height="30"
+        click="saveUser()"/>
+      <mx:Button label="Delete User" width="50%" height="30"
+        enabled="{canDeleteUser(_user)}"
+        click="destroyUser()"/>
+    </mx:ControlBar>
+  </mx:Panel>
+</mx:HBox>

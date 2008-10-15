@@ -1,0 +1,25 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+workunit_one:
+  started_on: 2008-10-06 16:28:27
+  ended_on: 2008-10-06 16:28:27
+  user: user_one
+  task: task_one
+
+workunit_two:
+  started_on: 2008-10-06 16:28:27
+  ended_on: 2008-10-06 16:28:27
+  user: user_two
+  task: task_two
+
+workunit_three:
+  started_on: 2008-10-06 16:28:27
+  ended_on: 2008-10-06 16:28:27
+  user: user_three
+  task: task_three
+
+workunit_four:
+  started_on: 2008-10-06 16:28:27
+  ended_on: 2008-10-06 16:28:27
+  user: user_four
+  task: task_four

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%">
+  <mx:Script>
+    <![CDATA[
+      import pomodo.models.Project;
+      import pomodo.models.Sprint;
+      import org.ruboss.Ruboss;
+      
+      [Bindable]
+      private var selectedSprint:Sprint = new Sprint;
+      
+      private function selectSprintToEdit():void {
+        selectedSprint = Sprint(sprintsDataGrid.selectedItem);      
+      }
+
+      private function newSprint():void {
+        selectedSprint = new Sprint;
+        selectedSprint.name = "New Sprint";
+        selectedSprint.dueBy = new Date;
+      }      
+      
+      private function saveSprint(sprint:Sprint):void {
+        if (sprint.id) {
+          sprint.update({afterCallback: onSprintUpdate});
+        } else {
+          sprint.create({afterCallback: onSprintCreate});
+        }
+      }
+      
+      private function saveSelectedSprint():void {        
+        selectedSprint.name = nameTextInput.text;
+        selectedSprint.billedHourlyRate = int(billedHourlyRateTextInput.text);
+        selectedSprint.project = Project(projectsComboBox.selectedItem);
+        selectedSprint.dueBy = dueByDateField.selectedDate as Date;
+        
+        saveSprint(selectedSprint);
+      }
+
+      internal function deleteSelectedSprint():void {
+        if (!selectedSprint) {
+          selectSprintToEdit();
+        }
+        selectedSprint.destroy({afterCallback: onSprintDestroy});
+      }
+      
+      private function onSprintUpdate(sprint:Sprint):void {
+        sprintsDataGrid.selectedItem = selectedSprint = sprint;
+      }
+      
+      private function onSprintCreate(sprint:Sprint):void {
+        onSprintUpdate(sprint);
+      }
+      
+      private function onSprintDestroy(sprint:Sprint):void {
+        selectedSprint = new Sprint;
+      }
+    ]]>
+  </mx:Script>
+  <mx:DataGrid id="sprintsDataGrid"
+      horizontalScrollPolicy="auto"
+      dataProvider="{Pomodo.models.sprints}"
+      height="{this.height - 270}" right="5" top="0" left="5" click="selectSprintToEdit()">
+      <mx:columns>
+        <mx:DataGridColumn dataField="name" headerText="Name" width="{sprintsDataGrid.width - 507}"/>
+        <mx:DataGridColumn dataField="dueBy" headerText="Due By" width="200"/>
+        <mx:DataGridColumn dataField="billedHourlyRate" headerText="Hourly Rate" width="80"/>
+        <mx:DataGridColumn dataField="project" headerText="Project" width="200"/>
+        <mx:DataGridColumn editable="false" width="25" headerText="">
+          <mx:itemRenderer>
+            <mx:Component>
+              <mx:Canvas width="25" height="25" dataChange="onDataChange(event)">
+                <mx:Script>
+                  <![CDATA[
+                    import pomodo.models.Sprint;
+                    
+                    private function onDataChange(event:Event):void {
+                      if (data is Sprint) deletionIcon.visible = true;
+                    }
+                  ]]>
+                </mx:Script>
+                <mx:Image id="deletionIcon" source="assets/story_editor_icon.png" visible="false"
+                  width="18" height="18" x="4" y="3" click="outerDocument.deleteSelectedSprint()"/>
+              </mx:Canvas>
+            </mx:Component>
+          </mx:itemRenderer>
+        </mx:DataGridColumn>
+      </mx:columns>
+  </mx:DataGrid>
+  <mx:Button label="+" bottom="247" left="10" styleName="addItemButton" click="newSprint()"/>
+  <mx:Form width="50%" bottom="40" left="5" height="200">
+    <mx:FormItem label="Name:" width="100%">
+      <mx:TextInput id="nameTextInput" width="100%" text="{selectedSprint.name}"/>
+    </mx:FormItem>
+    <mx:FormItem label="Due By:" width="100%">
+      <mx:DateField id="dueByDateField" text="{selectedSprint.dueBy}"/>
+    </mx:FormItem>
+    <mx:FormItem label="Project:">
+      <mx:ComboBox id="projectsComboBox" dataProvider="{Ruboss.models.cached(Project)}" 
+        labelField="name"></mx:ComboBox>
+    </mx:FormItem>
+    <mx:FormItem label="Billed %:" width="100%">
+      <mx:TextInput id="billedHourlyRateTextInput" width="70" text="{selectedSprint.billedHourlyRate}"/>
+    </mx:FormItem>
+  </mx:Form>
+  <mx:Button label="Save" bottom="10" left="10" click="saveSelectedSprint()"/>
+</mx:Canvas>

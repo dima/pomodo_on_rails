@@ -1,0 +1,13 @@
+<p>
+  <b>Started on:</b>
+  <%=h @workunit.started_on %>
+</p>
+
+<p>
+  <b>Ended on:</b>
+  <%=h @workunit.ended_on %>
+</p>
+
+
+<%= link_to 'Edit', edit_workunit_path(@workunit) %> |
+<%= link_to 'Back', workunits_path %>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml"
+  xmlns:login="pomodo.components.login.*"
+  xmlns:generated="pomodo.components.generated.*"
+  paddingBottom="4" paddingLeft="8" paddingRight="8" paddingTop="8"
+  styleName="plain" initialize="init()">
+  <mx:Script>
+    <![CDATA[
+      import pomodo.controllers.TaskTracker;
+      import pomodo.controllers.StatisticsController;
+      import pomodo.controllers.ModelsController;
+      import pomodo.controllers.PomodoController;
+      import pomodo.components.login.LoginScreen;
+      import pomodo.components.main.App;
+      import mx.containers.Canvas;
+      import org.ruboss.Ruboss;
+
+      private function init():void {
+        Ruboss.enableLogging();
+        PomodoController.initialize();
+      }
+
+      private function onLogin(event:Event):void {
+        var app:App = new App;
+        app.addEventListener("logout", onLogout);
+        showScreen(app);
+      }
+      
+      private function onLogout(event:Event):void {
+        var loginScreen:LoginScreen = new LoginScreen;
+        loginScreen.setStyle("verticalCenter", 0);
+        loginScreen.setStyle("horizontalCenter", 0);
+        loginScreen.addEventListener("login", onLogin);
+        showScreen(loginScreen);
+      }
+      
+      private function showScreen(screen:Canvas):void {
+        container.removeAllChildren();
+        container.addChild(screen);
+      }
+
+      public static function get models():ModelsController {
+        return ModelsController.instance;
+      }
+      
+      public static function get stats():StatisticsController {
+        return StatisticsController.instance;
+      }
+      
+      public static function get tracker():TaskTracker {
+        return TaskTracker.instance;
+      }
+      
+      public static function reset():void {
+        PomodoController.initialize();
+        Ruboss.reset();
+        ModelsController.reset();
+        StatisticsController.reset();
+        TaskTracker.reset();
+      }
+    ]]>
+  </mx:Script>
+  <mx:Style source="styles.css"/>
+  <mx:Canvas id="container" styleName="appContainer" x="0" y="0" width="100%" height="100%">
+    <login:LoginScreen login="onLogin(event)" verticalCenter="0" horizontalCenter="0"/>  
+  </mx:Canvas>
+</mx:Application>

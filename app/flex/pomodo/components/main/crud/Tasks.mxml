@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%">
+  <mx:Script>
+    <![CDATA[
+      import pomodo.models.Sprint;
+      import pomodo.models.Task;
+      import org.ruboss.Ruboss;
+      
+      [Bindable]
+      private var selectedTask:Task = new Task;
+      
+      private function selectTaskToEdit():void {
+        selectedTask = Task(tasksDataGrid.selectedItem);
+      }
+      
+      private function newTask():void {
+        selectedTask = new Task;
+        selectedTask.name = "New Task";
+      }
+      
+      private function saveTask(task:Task):void {
+        if (task.id) {
+          task.update({afterCallback: onTaskUpdate});
+        } else {
+          task.create({afterCallback: onTaskCreate});
+        }
+      }
+      
+      private function saveSelectedTask():void {        
+        selectedTask.name = nameTextInput.text;
+        selectedTask.notes = notesTextArea.text;
+        selectedTask.sprint = Sprint(sprintComboBox.selectedItem);
+        selectedTask.user = Pomodo.models.currentUser;
+        selectedTask.billedPercentage = parseInt(billedPercentageTextInput.text);
+        selectedTask.completed = completedCheckBox.selected;
+        saveTask(selectedTask);
+      }
+
+      internal function deleteSelectedTask():void {
+        if (!selectedTask) {
+          selectTaskToEdit();
+        }
+        selectedTask.destroy({afterCallback: onTaskDestroy});
+      }
+      
+      private function onTaskUpdate(task:Task):void {
+        tasksDataGrid.selectedItem = selectedTask = task;
+      }
+      
+      private function onTaskCreate(task:Task):void {
+        onTaskUpdate(task);
+      }
+      
+      private function onTaskDestroy(task:Task):void {
+        selectedTask = new Task;
+      }
+    ]]>
+  </mx:Script>
+  <mx:DataGrid id="tasksDataGrid"
+      horizontalScrollPolicy="auto"
+      dataProvider="{Pomodo.models.tasks}"
+      height="{this.height - 270}" right="5" top="0" left="5" click="selectTaskToEdit()">
+      <mx:columns>
+        <mx:DataGridColumn dataField="name" headerText="Name" width="218"/>
+        <mx:DataGridColumn dataField="notes" headerText="Notes" width="{tasksDataGrid.width - 560}"/>
+        <mx:DataGridColumn dataField="completed" headerText="Completed" width="75"/>
+        <mx:DataGridColumn dataField="sprint" headerText="Sprint" width="180"/>
+        <mx:DataGridColumn dataField="billedPercentage" headerText="Billed %" width="60"/>
+        <mx:DataGridColumn editable="false" width="25" headerText="">
+          <mx:itemRenderer>
+            <mx:Component>
+              <mx:Canvas width="25" height="25" dataChange="onDataChange(event)">
+                <mx:Script>
+                  <![CDATA[
+                    import pomodo.models.Task;
+                    
+                    private function onDataChange(event:Event):void {
+                      if (data is Task) deletionIcon.visible = true;
+                    }
+                  ]]>
+                </mx:Script>
+                <mx:Image id="deletionIcon" source="assets/story_editor_icon.png" visible="false"
+                  width="18" height="18" x="4" y="3" click="outerDocument.deleteSelectedTask()"/>
+              </mx:Canvas>
+            </mx:Component>
+          </mx:itemRenderer>
+        </mx:DataGridColumn>
+      </mx:columns>
+  </mx:DataGrid>
+  <mx:Button label="+" bottom="247" left="10" styleName="addItemButton" click="newTask()"/>
+  <mx:Form width="50%" bottom="40" left="5" height="200">
+    <mx:FormItem label="Name:" width="100%">
+      <mx:TextInput id="nameTextInput" width="100%" text="{selectedTask.name}"/>
+    </mx:FormItem>
+    <mx:FormItem label="Notes:" height="100%" width="100%">
+      <mx:TextArea id="notesTextArea" height="100%" width="100%" text="{selectedTask.notes}"/>
+    </mx:FormItem>
+    <mx:FormItem label="Sprint:">
+      <mx:ComboBox id="sprintComboBox" dataProvider="{Ruboss.models.cached(Sprint)}" 
+        labelField="qualifiedName"></mx:ComboBox>
+    </mx:FormItem>
+    <mx:FormItem label="Billed %:" width="100%">
+      <mx:TextInput id="billedPercentageTextInput" width="70" text="{selectedTask.billedPercentage}"/>
+    </mx:FormItem>
+    <mx:FormItem>
+      <mx:CheckBox id="completedCheckBox" label="Completed" selected="{selectedTask.completed}"/>
+    </mx:FormItem>
+  </mx:Form>
+  <mx:Button label="Save" bottom="10" left="10" click="saveSelectedTask()"/>
+</mx:Canvas>

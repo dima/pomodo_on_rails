@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" left="16" bottom="12" right="16" initialize="init()">
+  <mx:Script>
+    <![CDATA[
+      import org.ruboss.events.ServiceCallStopEvent;
+      import org.ruboss.events.ServiceCallStartEvent;
+      import org.ruboss.Ruboss;
+      import mx.core.UIComponent;
+
+      [Bindable]
+      public var container:App;
+  
+      [Embed(source='/assets/sync_light.swf', symbol='icon_syncronizing')]
+      [Bindable]
+      private var iconSyncronizing:Class;
+  
+      private function init():void {
+        Ruboss.models.addEventListener(ServiceCallStartEvent.ID, onSyncStart);
+        Ruboss.models.addEventListener(ServiceCallStopEvent.ID, onSyncEnd);  
+      }
+
+      private function onSyncStart(event:Event):void {
+        syncIcon.visible = true;
+        syncText.visible = true;
+      }
+  
+      private function onSyncEnd(event:Event):void {
+        syncIcon.visible = false;
+        syncText.visible = false;
+      }
+  
+      private function logoutOnEnter(event:KeyboardEvent):void {
+        if (event.keyCode == 13) {
+          container.logout();
+        }
+      }
+    ]]>
+  </mx:Script>
+  <mx:Image source="{iconSyncronizing}" left="0" verticalCenter="+4" id="syncIcon" visible="false"/>
+  <mx:Label text="Syncronizing" left="80" verticalCenter="+1" id="syncText" visible="false"/>    
+  <mx:LinkButton label="Logout" fontWeight="bold" right="0" verticalCenter="+1" click="container.logout()" 
+    keyDown="logoutOnEnter(event)" paddingBottom="0" paddingLeft="0" paddingRight="0" paddingTop="0"/>
+</mx:Canvas>  

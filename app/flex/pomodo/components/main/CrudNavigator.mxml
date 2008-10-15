@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%"
+  xmlns:crud="pomodo.components.main.crud.*" xmlns:flexlib="http://code.google.com/p/flexlib/">
+  <mx:Script>
+    <![CDATA[
+      import flexlib.controls.tabBarClasses.SuperTab;
+      import mx.events.ItemClickEvent;
+      import pomodo.components.main.crud.Info;
+      import pomodo.components.main.crud.Tasks;
+      import pomodo.components.main.crud.Sprints;
+      import pomodo.components.main.crud.Projects;
+
+      [Bindable]      
+      private var screens:Array = [
+        {label: "Projects", clazz: Projects},
+        {label: "Sprints", clazz: Sprints},
+        {label: "Tasks", clazz: Tasks},
+        {label: "Information", clazz: Info}
+      ];
+      
+      private function hardLinkProjects():void {
+        navigator.setClosePolicyForTab(0, SuperTab.CLOSE_NEVER);
+      }
+      
+      private function addNewTab(event:ItemClickEvent):void {
+        var child:Canvas = Canvas(navigator.getChildByName(event.label));
+        if (!child) {
+          child = Canvas(new (event.item.clazz as Class));
+          child.label = event.label;
+          child.name = event.label;
+          navigator.addChild(DisplayObject(child));
+        }
+        navigator.selectedChild = child;
+      }
+    ]]>
+  </mx:Script>
+  <mx:ApplicationControlBar left="10" right="0" top="5" height="30">
+    <mx:LinkBar dataProvider="{screens}" itemClick="addNewTab(event)"/>
+  </mx:ApplicationControlBar>
+  <flexlib:SuperTabNavigator id="navigator" width="100%" top="40" left="8" bottom="10" 
+    creationComplete="hardLinkProjects()">
+    <crud:Projects label="Projects" name="Projects"/>
+  </flexlib:SuperTabNavigator>       
+</mx:Canvas>

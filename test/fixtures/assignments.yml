@@ -1,0 +1,17 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+assignment_one:
+  user: user_one
+  project: project_one
+
+assignment_two:
+  user: user_two
+  project: project_two
+
+assignment_three:
+  user: user_three
+  project: project_three
+
+assignment_four:
+  user: user_four
+  project: project_four

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" label="Sprint"
+  xmlns:rcomponents="org.ruboss.components.*">
+<mx:Script><![CDATA[
+  import org.ruboss.Ruboss;
+  import org.ruboss.utils.RubossUtils;
+  import pomodo.models.Sprint;
+  import pomodo.models.Project;
+
+  [Bindable]
+  private var _sprint:Sprint = new Sprint();
+
+  private function newSprint():void {
+    _sprint = new Sprint();
+    sprintsList.selectedIndex = -1;
+  }
+
+  private function saveSprint():void {
+    if (_sprint.id) {
+      updateSprint();
+    } else {
+      createSprint();
+    }
+  }
+  
+  private function createSprint():void {
+    var sprint:Sprint = new Sprint();
+    sprint.name = nameTextInput.text;
+    sprint.dueBy = dueByDateTimeTextInput.date;
+    sprint.billedHourlyRate = int(billedHourlyRateTextInput.text);
+
+    sprint.project = Project(projectComboBox.selectedItem);
+    sprint.create({afterCallback: onSprintCreate});
+  }
+
+  private function updateSprint():void {
+    _sprint.name = nameTextInput.text;
+    _sprint.dueBy = dueByDateTimeTextInput.date;
+    _sprint.billedHourlyRate = int(billedHourlyRateTextInput.text);
+
+    _sprint.project = Project(projectComboBox.selectedItem);
+    _sprint.update({afterCallback: onSprintUpdate});
+  }
+
+  private function destroySprint():void {
+    _sprint.destroy({afterCallback: onSprintDestroy});
+  }
+  
+  private function onSprintSelect():void {
+    _sprint = RubossUtils.clone(sprintsList.selectedItem) as Sprint;
+  }
+  
+  private function onSprintCreate(sprint:Sprint):void {
+    _sprint = new Sprint;
+  }
+  
+  private function onSprintUpdate(sprint:Sprint):void {
+    sprintsList.selectedItem = sprint;
+    _sprint = RubossUtils.clone(sprint) as Sprint;
+  }
+  
+  private function onSprintDestroy(sprint:Sprint):void {
+    onSprintCreate(sprint);
+  }
+
+  private function canDeleteSprint(sprint:Sprint):Boolean {
+    return sprint != null && sprint.id != 0;
+  }
+]]></mx:Script>
+  <mx:Panel id="sprintsPanel"
+    title="Sprints" cornerRadius="0" dropShadowEnabled="false" borderStyle="solid" 
+    borderThickness="1" backgroundColor="#EEEEEE" width="25%" height="100%">
+    <mx:List id="sprintsList"
+      width="100%" height="100%"
+      dataProvider="{Ruboss.models.index(Sprint)}"
+      change="onSprintSelect()"/>
+    <mx:ControlBar width="100%">
+      <mx:Button label="New Sprint" width="100%" height="30"
+        click="newSprint()"/>
+    </mx:ControlBar>
+  </mx:Panel>
+  <mx:Panel title="Edit Sprint" cornerRadius="0" dropShadowEnabled="false" borderStyle="solid" 
+    borderThickness="1" backgroundColor="#EEEEEE" width="75%" height="100%">
+    <mx:Form width="100%" height="100%">
+      <mx:FormItem label="Name" width="100%">
+        <mx:TextInput id="nameTextInput" width="100%" text="{_sprint.name}"/>
+      </mx:FormItem>
+      <mx:FormItem label="DueBy" width="100%">
+        <rcomponents:DateTimeTextInput id="dueByDateTimeTextInput" width="200" date="{_sprint.dueBy}"/>
+      </mx:FormItem>
+      <mx:FormItem label="BilledHourlyRate" width="100%">
+        <mx:TextInput id="billedHourlyRateTextInput" width="100%" text="{_sprint.billedHourlyRate}"/>
+      </mx:FormItem>
+      <mx:FormItem label="Project" width="100%">
+        <mx:ComboBox id="projectComboBox" width="200"
+          labelField="{Project.LABEL}"
+          dataProvider="{Ruboss.models.index(Project)}" prompt="Project ..."
+          selectedItem="{_sprint.project}" />
+      </mx:FormItem>
+    </mx:Form>
+    <mx:ControlBar width="100%">
+      <mx:Button label="Save Sprint" width="50%" height="30"
+        click="saveSprint()"/>
+      <mx:Button label="Delete Sprint" width="50%" height="30"
+        enabled="{canDeleteSprint(_sprint)}"
+        click="destroySprint()"/>
+    </mx:ControlBar>
+  </mx:Panel>
+</mx:HBox>

@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" height="400" width="300" 
+  xmlns:validators="org.ruboss.validators.*">
+  <mx:Metadata>
+    [Event(name="login", type="flash.events.Event")]
+  </mx:Metadata>
+  <mx:Script>
+    <![CDATA[
+      import mx.core.Application;
+      import org.ruboss.models.RubossFileReference;
+      import org.ruboss.Ruboss;
+      import pomodo.models.User;
+      import pomodo.models.Account;
+      
+      [Bindable]
+      private var photoFileName:String = "None selected";
+      
+      private var photo:RubossFileReference;
+      
+      [Bindable]
+      private var signUpFormDirty:Boolean = true;
+      
+      private function login():void {
+        Ruboss.http(onLoginSuccess, onLoginFailure).invoke("session.fxml", 
+          { login: userTI.text, password: passwordTI.text }, "POST", true);
+      }
+      
+      private function signUp():void {
+        var account:Account = new Account;
+        account.login = signUpUsername.text;
+        account.email = signUpEmail.text;
+        account.password = signUpPassword.text;
+        account.passwordConfirmation = signUpPasswordConfirmation.text;
+        account.attachment = photo;
+        account.create(onSignUp);
+      }
+      
+      private function onLoginSuccess(result:User):void {
+        Pomodo.models.currentUser = result;
+        Ruboss.sessionToken = result.account.sessionToken;
+        dispatchEvent(new Event("login"));
+      }
+      
+      private function onLoginFailure(result:Object):void {
+        loginForm.errorString = "Wrong username or password. Try again.";
+      }
+      
+      private function onSignUp(account:Account):void {
+        views.selectedChild = signUpConfirmationView;
+      }
+
+      private function loginOnEnter(event:KeyboardEvent):void {
+        if (event.keyCode == 13) {
+          login();
+        }
+      }
+      
+      private function signUpOnEnter(event:KeyboardEvent):void {
+        if (event.keyCode == 13) {
+          signUp();
+        }
+      }
+
+      private function chooseFile():void {
+        photo = new RubossFileReference;
+        photo.addEventListener(IOErrorEvent.IO_ERROR, ioErrorHandler, false, 0, true);
+        photo.addEventListener(Event.SELECT, selectFile, false, 0, true);
+        photo.addEventListener(Event.CANCEL, cancelBrowse, false, 0, true);
+        photo.browse();
+      }
+
+      private function selectFile(event:Event):void { 
+        fileSelected(event)
+      }
+      
+      private function cancelBrowse(event:Event):void {
+        photo = null;
+      }
+      
+      private function fileSelected(event:Event):void {
+        photoFileName = RubossFileReference(event.target).name;
+      }
+      
+      private function ioErrorHandler(event:Event):void {
+        photoChooser.errorString = "Failed to selected a file. Please try again.";
+      }
+    ]]>    
+  </mx:Script>
+  <mx:Fade id="hideEffect" duration="300" alphaFrom="1" alphaTo="0"/>
+  <mx:Fade id="showEffect" duration="300" alphaFrom="0" alphaTo="1"/>
+  
+  <!-- Flex Validators -->
+  <mx:StringValidator source="{signUpUsername}" property="text" 
+        minLength="1" invalid="signUpFormDirty = true"/>
+  <mx:EmailValidator source="{signUpEmail}" property="text" invalid="signUpFormDirty = true"/>
+  <mx:RegExpValidator source="{signUpPasswordConfirmation}" 
+    property="text" expression="{signUpPassword.text}" noMatchError="Passwords do not match"
+    invalid="signUpFormDirty = true" valid="signUpFormDirty = false"/>
+  
+  <!-- Proxies for Rails Validators -->
+  <validators:ServiceErrorValidator id="signUpLoginNameValidator" field="login" listener="{signUpUsername}" 
+     serviceErrors="{Ruboss.errors}"/>
+  <validators:ServiceErrorValidator id="signUpPasswordValidator" field="password" listener="{signUpPassword}" 
+     serviceErrors="{Ruboss.errors}"/>
+
+  <mx:ViewStack height="100%" width="100%" id="views">
+    <mx:Canvas id="loginView" width="100%" height="100%" hideEffect="{hideEffect}" showEffect="{showEffect}">
+      <mx:Form verticalCenter="0" horizontalCenter="0" id="loginForm" borderStyle="solid">
+        <mx:Canvas backgroundColor="#000000" width="100%" height="50">
+          <mx:Label text="Pomodo / Welcome" styleName="appTitle" x="4" y="2" selectable="false"/>
+          <mx:Label text="Agile time tracking for everyone" styleName="appDescription" x="4" y="27" selectable="false"/>
+        </mx:Canvas>
+        <mx:FormItem label="Username">
+          <mx:TextInput width="190" id="userTI"/>
+        </mx:FormItem>
+        <mx:FormItem label="Password">
+          <mx:TextInput width="190" displayAsPassword="true" id="passwordTI" keyDown="loginOnEnter(event)"/>
+        </mx:FormItem>
+        <mx:FormItem label="">
+          <mx:Button label="Login" click="login()" keyDown="loginOnEnter(event)"/>  
+        </mx:FormItem>
+      </mx:Form>
+      <mx:Text text="Don't have an account?" verticalCenter="101" horizontalCenter="-80"/>
+      <mx:LinkButton label="Sign Up!" horizontalCenter="18" verticalCenter="101" 
+        click="views.selectedChild = signUpView"/>
+    </mx:Canvas>
+    <mx:Canvas id="signUpView" width="100%" height="100%" hideEffect="{hideEffect}" showEffect="{showEffect}">
+      <mx:Form verticalCenter="0" horizontalCenter="0" id="signUpForm" borderStyle="solid">
+        <mx:Canvas backgroundColor="#000000" width="100%" height="50">
+          <mx:Label text="Pomodo / Sign Up" styleName="appTitle" x="4" y="2" selectable="false"/>
+          <mx:Label text="Agile time tracking for everyone" styleName="appDescription" x="4" y="27" selectable="false"/>
+        </mx:Canvas>
+        <mx:FormItem label="Username" required="true">
+          <mx:TextInput id="signUpUsername" width="190"/>
+        </mx:FormItem>
+        <mx:FormItem label="Email" required="true">
+          <mx:TextInput id="signUpEmail" width="190"/>
+        </mx:FormItem>
+        <mx:FormItem label="Password" required="true">
+          <mx:TextInput id="signUpPassword" width="190" displayAsPassword="true"/>
+        </mx:FormItem>
+        <mx:FormItem label="Confirm" required="true">
+          <mx:TextInput id="signUpPasswordConfirmation" width="190" displayAsPassword="true"
+            keyDown="signUpOnEnter(event)"/>
+        </mx:FormItem>
+        <mx:FormItem label="Photo:" width="100%" id="photoChooser">
+          <mx:Button label="Browse…" id="photoBrowseButton" click="chooseFile()" />
+          <mx:Label text="{photoFileName}" maxWidth="190" />
+        </mx:FormItem>
+        <mx:FormItem label="">
+          <mx:Button label="Sign Up" click="signUp()" keyDown="signUpOnEnter(event)" enabled="{!signUpFormDirty}"/>  
+        </mx:FormItem>
+      </mx:Form>
+      <mx:Text text="Already have an account?" verticalCenter="158" horizontalCenter="-77"/>
+      <mx:LinkButton label="Log In" horizontalCenter="21" verticalCenter="158" 
+        click="views.selectedChild = loginView"/>    
+     </mx:Canvas>
+     <mx:Canvas id="signUpConfirmationView" width="100%" height="100%" 
+       hideEffect="{hideEffect}" showEffect="{showEffect}">
+       <mx:Form verticalCenter="0" horizontalCenter="0" borderStyle="solid">
+        <mx:Canvas backgroundColor="#000000" width="100%" height="50">
+          <mx:Label text="Pomodo / Thank You" styleName="appTitle" x="4" y="2" selectable="false"/>
+          <mx:Label text="Agile time tracking for everyone" styleName="appDescription" x="4" y="27" selectable="false"/>
+        </mx:Canvas>
+        <mx:Text text="Thanks for signing up!  We're sending you an email with your activation code." width="100%"/>         
+       </mx:Form>
+     </mx:Canvas>
+  </mx:ViewStack>
+</mx:Canvas>

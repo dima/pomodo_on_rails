@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" initialize="init()" 
+  dataChange="onDataChange(event)">
+  <mx:Script>
+    <![CDATA[
+      import pomodo.events.TimeChangeEvent;
+      import pomodo.utils.PomodoUtils;
+      import pomodo.utils.DateUtilities;
+      import pomodo.controllers.TaskTracker;
+      import pomodo.models.Task;
+      import mx.formatters.DateFormatter;
+      
+      [Bindable]
+      private var task:Task;
+      
+      [Bindable]
+      private var totalTime:Number;
+      
+      private function init():void {
+        Pomodo.tracker.addEventListener(TimeChangeEvent.ID, onTimeChange);
+      }
+      
+      private function onTimeChange(event:Event):void {
+        if (task == Pomodo.tracker.activeTask) {
+          totalTime = Pomodo.tracker.totalTaskTime;
+        }
+      }
+    
+      private function onDataChange(event:Event):void {
+        task = Task(data);
+        totalTime = task.computedTotalTime;
+      }
+    ]]>
+  </mx:Script>
+  <mx:Text text="{PomodoUtils.getFormattedTime(totalTime)}"/>  
+</mx:Canvas>

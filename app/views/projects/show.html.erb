@@ -1,0 +1,23 @@
+<p>
+  <b>Name:</b>
+  <%=h @project.name %>
+</p>
+
+<p>
+  <b>Notes:</b>
+  <%=h @project.notes %>
+</p>
+
+<p>
+  <b>Completed:</b>
+  <%=h @project.completed %>
+</p>
+
+<p>
+  <b>Billed hourly rate:</b>
+  <%=h @project.billed_hourly_rate %>
+</p>
+
+
+<%= link_to 'Edit', edit_project_path(@project) %> |
+<%= link_to 'Back', projects_path %>

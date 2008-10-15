@@ -1,0 +1,29 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+project_one:
+  name: Project1NameString
+  notes: Project1NotesText
+  completed: false
+  billed_hourly_rate: 100
+  project_category_id: 100
+
+project_two:
+  name: Project2NameString
+  notes: Project2NotesText
+  completed: false
+  billed_hourly_rate: 100
+  project_category_id: 101
+
+project_three:
+  name: Project3NameString
+  notes: Project3NotesText
+  completed: false
+  billed_hourly_rate: 100
+  project_category_id: 102
+
+project_four:
+  name: Project4NameString
+  notes: Project4NotesText
+  completed: false
+  billed_hourly_rate: 100
+  project_category_id: 103

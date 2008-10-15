@@ -1,0 +1,23 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+project_category_one:
+  id: 100
+  name: ProjectCategory1NameString
+  description: ProjectCategory1DescriptionText
+
+project_category_two:
+  id: 101
+  name: ProjectCategory2NameString
+  description: ProjectCategory2DescriptionText
+
+project_category_three:
+  id: 102
+  name: ProjectCategory3NameString
+  description: ProjectCategory3DescriptionText
+  parent_id: 100
+
+project_category_four:
+  id: 103
+  name: ProjectCategory4NameString
+  description: ProjectCategory4DescriptionText
+  parent_id: 101

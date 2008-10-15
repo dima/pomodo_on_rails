@@ -1,0 +1,21 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+user_one:
+  title: Random Title
+  account: aaron
+  address: address_one
+
+user_two:
+  title: I wish I knew
+  account: quentin
+  address: address_two
+
+user_three:
+  title: Chief Foo
+  account: peter
+  address: address_three
+
+user_four:
+  title: Code Monkey
+  account: dima
+  address: address_four

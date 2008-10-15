@@ -1,0 +1,24 @@
+<h1>Listing sprints</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Due by</th>
+    <th>Billed hourly rate</th>
+  </tr>
+
+<% for sprint in @sprints %>
+  <tr>
+    <td><%=h sprint.name %></td>
+    <td><%=h sprint.due_by %></td>
+    <td><%=h sprint.billed_hourly_rate %></td>
+    <td><%= link_to 'Show', sprint %></td>
+    <td><%= link_to 'Edit', edit_sprint_path(sprint) %></td>
+    <td><%= link_to 'Destroy', sprint, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New sprint', new_sprint_path %>

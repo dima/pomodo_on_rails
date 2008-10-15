@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" x="0" y="0" top="8" left="8" right="8" height="50" 
+  initialize="init()">
+  <mx:Script>
+    <![CDATA[
+      import mx.core.Application;
+      import pomodo.events.StopWorkEvent;
+      import pomodo.events.StartWorkEvent;
+      import pomodo.utils.PomodoUtils;
+      import pomodo.controllers.TaskTracker;
+
+      [Bindable]
+      public var container:App;   
+    
+      private function init():void {
+        Pomodo.tracker.addEventListener(StartWorkEvent.ID, onStartWork);
+        Pomodo.tracker.addEventListener(StopWorkEvent.ID, onStopWork);
+      }
+
+      private function onStartWork(event:Event):void {
+        startStopButton.source = "assets/pause.png";
+      }
+  
+      private function onStopWork(event:Event):void {
+        startStopButton.source = "assets/play_green.png";
+      }
+
+      private function toggleWorkState():void {
+        if (Pomodo.tracker.currentlyWorking()) {
+          Pomodo.tracker.stopWork();
+        } else if (Pomodo.tracker.selectedTask) {
+          Pomodo.tracker.startWork();
+        } else {
+          infoText.text = "Select a task to work on.";
+        }
+      }
+    ]]>
+  </mx:Script>
+  <mx:Image source="assets/play_green.png" click="toggleWorkState()" id="startStopButton" x="10" y="8"/>
+  <mx:Canvas height="41" styleName="infoBox" y="4" id="infoBox" left="50" right="10">
+    <mx:Text text="{(Pomodo.tracker.currentlyWorking()) ? Pomodo.tracker.activeTask.name : Pomodo.tracker.selectedTask.name}"
+      selectable="false" id="infoText"
+      fontSize="12" verticalCenter="-7" horizontalCenter="0" maxWidth="{infoBox.width - 5}"/>
+    <mx:Text text="{PomodoUtils.getFormattedTime(Pomodo.tracker.totalTaskTime)}" fontSize="16" verticalCenter="+5" 
+      horizontalCenter="0" minWidth="65" maxWidth="{infoBox.width - 5}" selectable="false"/>
+  </mx:Canvas>
+</mx:Canvas>

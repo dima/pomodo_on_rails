@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" label="Assignment"
+  xmlns:rcomponents="org.ruboss.components.*">
+<mx:Script><![CDATA[
+  import org.ruboss.Ruboss;
+  import org.ruboss.utils.RubossUtils;
+  import pomodo.models.Assignment;
+  import pomodo.models.User;
+  import pomodo.models.Project;
+
+  [Bindable]
+  private var _assignment:Assignment = new Assignment();
+
+  private function newAssignment():void {
+    _assignment = new Assignment();
+    assignmentsList.selectedIndex = -1;
+  }
+
+  private function saveAssignment():void {
+    if (_assignment.id) {
+      updateAssignment();
+    } else {
+      createAssignment();
+    }
+  }
+  
+  private function createAssignment():void {
+    var assignment:Assignment = new Assignment();
+
+    assignment.user = User(userComboBox.selectedItem);
+    assignment.project = Project(projectComboBox.selectedItem);
+    assignment.create({afterCallback: onAssignmentCreate});
+  }
+
+  private function updateAssignment():void {
+
+    _assignment.user = User(userComboBox.selectedItem);
+    _assignment.project = Project(projectComboBox.selectedItem);
+    _assignment.update({afterCallback: onAssignmentUpdate});
+  }
+
+  private function destroyAssignment():void {
+    _assignment.destroy({afterCallback: onAssignmentDestroy});
+  }
+  
+  private function onAssignmentSelect():void {
+    _assignment = RubossUtils.clone(assignmentsList.selectedItem) as Assignment;
+  }
+  
+  private function onAssignmentCreate(assignment:Assignment):void {
+    _assignment = new Assignment;
+  }
+  
+  private function onAssignmentUpdate(assignment:Assignment):void {
+    assignmentsList.selectedItem = assignment;
+    _assignment = RubossUtils.clone(assignment) as Assignment;
+  }
+  
+  private function onAssignmentDestroy(assignment:Assignment):void {
+    onAssignmentCreate(assignment);
+  }
+
+  private function canDeleteAssignment(assignment:Assignment):Boolean {
+    return assignment != null && assignment.id != 0;
+  }
+]]></mx:Script>
+  <mx:Panel id="assignmentsPanel"
+    title="Assignments" cornerRadius="0" dropShadowEnabled="false" borderStyle="solid" 
+    borderThickness="1" backgroundColor="#EEEEEE" width="25%" height="100%">
+    <mx:List id="assignmentsList"
+      width="100%" height="100%"
+      dataProvider="{Ruboss.models.index(Assignment)}"
+      change="onAssignmentSelect()"/>
+    <mx:ControlBar width="100%">
+      <mx:Button label="New Assignment" width="100%" height="30"
+        click="newAssignment()"/>
+    </mx:ControlBar>
+  </mx:Panel>
+  <mx:Panel title="Edit Assignment" cornerRadius="0" dropShadowEnabled="false" borderStyle="solid" 
+    borderThickness="1" backgroundColor="#EEEEEE" width="75%" height="100%">
+    <mx:Form width="100%" height="100%">
+      <mx:FormItem label="User" width="100%">
+        <mx:ComboBox id="userComboBox" width="200"
+          labelField="{User.LABEL}"
+          dataProvider="{Ruboss.models.index(User)}" prompt="User ..."
+          selectedItem="{_assignment.user}" />
+      </mx:FormItem>
+      <mx:FormItem label="Project" width="100%">
+        <mx:ComboBox id="projectComboBox" width="200"
+          labelField="{Project.LABEL}"
+          dataProvider="{Ruboss.models.index(Project)}" prompt="Project ..."
+          selectedItem="{_assignment.project}" />
+      </mx:FormItem>
+    </mx:Form>
+    <mx:ControlBar width="100%">
+      <mx:Button label="Save Assignment" width="50%" height="30"
+        click="saveAssignment()"/>
+      <mx:Button label="Delete Assignment" width="50%" height="30"
+        enabled="{canDeleteAssignment(_assignment)}"
+        click="destroyAssignment()"/>
+    </mx:ControlBar>
+  </mx:Panel>
+</mx:HBox>

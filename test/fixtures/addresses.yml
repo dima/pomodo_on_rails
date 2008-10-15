@@ -1,0 +1,33 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+address_one:
+  line_one: Address1LineOneString
+  line_two: Address1LineTwoString
+  city: Address1CityString
+  province: Address1ProvinceString
+  country: Address1CountryString
+  postcode: Address1PostcodeString
+
+address_two:
+  line_one: Address2LineOneString
+  line_two: Address2LineTwoString
+  city: Address2CityString
+  province: Address2ProvinceString
+  country: Address2CountryString
+  postcode: Address2PostcodeString
+
+address_three:
+  line_one: Address3LineOneString
+  line_two: Address3LineTwoString
+  city: Address3CityString
+  province: Address3ProvinceString
+  country: Address3CountryString
+  postcode: Address3PostcodeString
+
+address_four:
+  line_one: Address4LineOneString
+  line_two: Address4LineTwoString
+  city: Address4CityString
+  province: Address4ProvinceString
+  country: Address4CountryString
+  postcode: Address4PostcodeString

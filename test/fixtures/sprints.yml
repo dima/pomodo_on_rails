@@ -1,0 +1,30 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+sprint_one:
+  id: <%= Fixtures.identify(:sprint_one) %>
+  name: Sprint1NameString
+  due_by: 2008-10-06 16:28:25
+  billed_hourly_rate: 1
+  project_id: <%= Fixtures.identify(:project_one) %>
+
+sprint_two:
+  id: <%= Fixtures.identify(:sprint_two) %>
+  name: Sprint2NameString
+  due_by: 2008-10-06 16:28:25
+  billed_hourly_rate: 1
+  project_id: <%= Fixtures.identify(:project_two) %>
+
+sprint_three:
+  id: <%= Fixtures.identify(:sprint_three) %>
+  name: Sprint3NameString
+  due_by: 2008-10-06 16:28:25
+  billed_hourly_rate: 1
+  project_id: <%= Fixtures.identify(:project_three) %>
+
+sprint_four:
+  id: <%= Fixtures.identify(:sprint_four) %>
+  name: Sprint4NameString
+  due_by: 2008-10-06 16:28:25
+  billed_hourly_rate: 1
+  project_id: <%= Fixtures.identify(:project_four) %>
+
