@@ -1,5 +1,4 @@
 package pomodo.controllers {
-  import flash.events.Event;
   import flash.events.EventDispatcher;
   import flash.events.TimerEvent;
   import flash.utils.Timer;
@@ -69,6 +68,7 @@ package pomodo.controllers {
         activeWorkunit = new Workunit;
         activeWorkunit.startedOn = new Date;
         activeWorkunit.task = activeTask;
+        activeWorkunit.user = Pomodo.models.currentUser;
         totalTaskTime = activeTask.computedTotalTime;
         latestTaskTime = 0;
       }

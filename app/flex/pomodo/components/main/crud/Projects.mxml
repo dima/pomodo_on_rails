@@ -74,6 +74,9 @@
       useNegativeSign="true"
       currencySymbol="$"
       alignSymbol="left"/>
+  <mx:CurrencyValidator id="currencyValidator" 
+      source="{hourlyRateMoneyTextInput}" property="text"
+      alignSymbol="left" allowNegative="false"/>
   <mx:DataGrid id="projectsDataGrid" horizontalScrollPolicy="auto"
       dataProvider="{Pomodo.models.projects}"
       height="{this.height - 270}" right="5" top="0" left="5" click="selectProjectToEdit()">
