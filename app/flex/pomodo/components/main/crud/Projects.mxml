@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" 
-  xmlns:extras="pomodo.components.extras.*">
+  xmlns:extras="pomodo.components.extras.*" xmlns:components="org.ruboss.components.*">
   <mx:Script>
     <![CDATA[
+      import mx.controls.dataGridClasses.DataGridColumn;
       import pomodo.models.ProjectCategory;
       import pomodo.controllers.ModelsController;
       import mx.controls.DataGrid;
@@ -35,7 +36,7 @@
       private function saveSelectedProject():void {        
         selectedProject.name = nameTextInput.text;
         selectedProject.notes = notesTextArea.text;
-        selectedProject.billedHourlyRate = parseInt(hourlyRateTextInput.text);
+        selectedProject.billedHourlyRate = int(hourlyRateMoneyTextInput.dollars);
         selectedProject.completed = completedCheckBox.selected;
         selectedProject.projectCategory = ProjectCategory(selectedProjectCategoryTree.selectedItem);
         saveProject(selectedProject);
@@ -59,8 +60,20 @@
       private function onProjectDestroy(project:Project):void {
         selectedProject = new Project;
       }
+      
+      private function currencyLabel(item:Object, column:DataGridColumn):String {
+        return currencyFormatter.format(item[column.dataField]);
+      }
     ]]>
   </mx:Script>
+  <mx:CurrencyFormatter id="currencyFormatter" precision="2"
+      rounding="none"
+      decimalSeparatorTo="."
+      thousandsSeparatorTo=","
+      useThousandsSeparator="true"
+      useNegativeSign="true"
+      currencySymbol="$"
+      alignSymbol="left"/>
   <mx:DataGrid id="projectsDataGrid" horizontalScrollPolicy="auto"
       dataProvider="{Pomodo.models.projects}"
       height="{this.height - 270}" right="5" top="0" left="5" click="selectProjectToEdit()">
@@ -68,7 +81,8 @@
         <mx:DataGridColumn dataField="name" headerText="Name" width="200"/>
         <mx:DataGridColumn dataField="notes" headerText="Notes" width="{projectsDataGrid.width - 500}"/>
         <mx:DataGridColumn dataField="projectCategory" headerText="Category" width="193"/>
-        <mx:DataGridColumn dataField="billedHourlyRate" headerText="Hourly Rate" width="80"/>
+        <mx:DataGridColumn dataField="billedHourlyRate" headerText="Hourly Rate" width="80" 
+          labelFunction="currencyLabel"/>
         <mx:DataGridColumn editable="false" width="25" headerText="">
           <mx:itemRenderer>
             <mx:Component>
@@ -99,7 +113,7 @@
       <mx:TextArea id="notesTextArea" height="100%" width="100%" text="{selectedProject.notes}"/>
     </mx:FormItem>
     <mx:FormItem label="Hourly Rate:" width="100%">
-      <mx:TextInput id="hourlyRateTextInput" width="100%" text="{selectedProject.billedHourlyRate}"/>
+      <components:MoneyTextInput id="hourlyRateMoneyTextInput" width="100" dollars="{selectedProject.billedHourlyRate}"/>
     </mx:FormItem>
     <mx:FormItem>
       <mx:CheckBox id="completedCheckBox" label="Completed" selected="{selectedProject.completed}"/>

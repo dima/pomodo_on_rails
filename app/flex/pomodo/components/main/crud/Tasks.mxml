@@ -31,7 +31,7 @@
         selectedTask.notes = notesTextArea.text;
         selectedTask.sprint = Sprint(sprintComboBox.selectedItem);
         selectedTask.user = Pomodo.models.currentUser;
-        selectedTask.billedPercentage = parseInt(billedPercentageTextInput.text);
+        selectedTask.billedPercentage = billedHourlyRateNumericStepper.value;
         selectedTask.completed = completedCheckBox.selected;
         saveTask(selectedTask);
       }
@@ -100,7 +100,8 @@
         labelField="qualifiedName"></mx:ComboBox>
     </mx:FormItem>
     <mx:FormItem label="Billed %:" width="100%">
-      <mx:TextInput id="billedPercentageTextInput" width="70" text="{selectedTask.billedPercentage}"/>
+      <mx:NumericStepper minimum="0" maximum="100" id="billedHourlyRateNumericStepper" 
+        value="{selectedTask.billedPercentage}"/>
     </mx:FormItem>
     <mx:FormItem>
       <mx:CheckBox id="completedCheckBox" label="Completed" selected="{selectedTask.completed}"/>

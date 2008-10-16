@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%">
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" xmlns:components="org.ruboss.components.*">
   <mx:Script>
     <![CDATA[
       import pomodo.models.Project;
@@ -29,7 +29,7 @@
       
       private function saveSelectedSprint():void {        
         selectedSprint.name = nameTextInput.text;
-        selectedSprint.billedHourlyRate = int(billedHourlyRateTextInput.text);
+        selectedSprint.billedHourlyRate = int(hourlyRateMoneyTextInput.dollars);
         selectedSprint.project = Project(projectsComboBox.selectedItem);
         selectedSprint.dueBy = dueByDateField.selectedDate as Date;
         
@@ -54,8 +54,20 @@
       private function onSprintDestroy(sprint:Sprint):void {
         selectedSprint = new Sprint;
       }
+
+      private function currencyLabel(item:Object, column:DataGridColumn):String {
+        return currencyFormatter.format(item[column.dataField]);
+      }
     ]]>
   </mx:Script>
+  <mx:CurrencyFormatter id="currencyFormatter" precision="2"
+      rounding="none"
+      decimalSeparatorTo="."
+      thousandsSeparatorTo=","
+      useThousandsSeparator="true"
+      useNegativeSign="true"
+      currencySymbol="$"
+      alignSymbol="left"/>
   <mx:DataGrid id="sprintsDataGrid"
       horizontalScrollPolicy="auto"
       dataProvider="{Pomodo.models.sprints}"
@@ -63,7 +75,8 @@
       <mx:columns>
         <mx:DataGridColumn dataField="name" headerText="Name" width="{sprintsDataGrid.width - 507}"/>
         <mx:DataGridColumn dataField="dueBy" headerText="Due By" width="200"/>
-        <mx:DataGridColumn dataField="billedHourlyRate" headerText="Hourly Rate" width="80"/>
+        <mx:DataGridColumn dataField="billedHourlyRate" headerText="Hourly Rate" width="80"
+          labelFunction="currencyLabel"/>
         <mx:DataGridColumn dataField="project" headerText="Project" width="200"/>
         <mx:DataGridColumn editable="false" width="25" headerText="">
           <mx:itemRenderer>
@@ -98,8 +111,8 @@
       <mx:ComboBox id="projectsComboBox" dataProvider="{Ruboss.models.cached(Project)}" 
         labelField="name"></mx:ComboBox>
     </mx:FormItem>
-    <mx:FormItem label="Billed %:" width="100%">
-      <mx:TextInput id="billedHourlyRateTextInput" width="70" text="{selectedSprint.billedHourlyRate}"/>
+    <mx:FormItem label="Billed Hourly Rate:" width="100%">
+      <components:MoneyTextInput id="hourlyRateMoneyTextInput" width="100" dollars="{selectedSprint.billedHourlyRate}"/>
     </mx:FormItem>
   </mx:Form>
   <mx:Button label="Save" bottom="10" left="10" click="saveSelectedSprint()"/>
