@@ -5,6 +5,8 @@
 	<key>documents</key>
 	<array>
 		<dict>
+			<key>expanded</key>
+			<true/>
 			<key>name</key>
 			<string>build</string>
 			<key>regexFolderFilter</key>
@@ -13,8 +15,6 @@
 			<string>tmp/build</string>
 		</dict>
 		<dict>
-			<key>expanded</key>
-			<true/>
 			<key>name</key>
 			<string>deploy</string>
 			<key>regexFolderFilter</key>
@@ -31,8 +31,6 @@
 			<string>html-template</string>
 		</dict>
 		<dict>
-			<key>expanded</key>
-			<true/>
 			<key>name</key>
 			<string>lib</string>
 			<key>regexFolderFilter</key>
@@ -41,8 +39,6 @@
 			<string>lib</string>
 		</dict>
 		<dict>
-			<key>expanded</key>
-			<true/>
 			<key>name</key>
 			<string>src</string>
 			<key>regexFolderFilter</key>
@@ -85,6 +81,6 @@
 	<key>showFileHierarchyDrawer</key>
 	<false/>
 	<key>windowFrame</key>
-	<string>{{1, 10}, {1073, 860}}</string>
+	<string>{{9, 13}, {1073, 860}}</string>
 </dict>
 </plist>
