@@ -5,12 +5,13 @@
       import pomodo.models.Project;
       import pomodo.models.Sprint;
       import org.ruboss.Ruboss;
+      import org.ruboss.utils.RubossUtils;
       
       [Bindable]
       private var selectedSprint:Sprint = new Sprint;
       
       private function selectSprintToEdit():void {
-        selectedSprint = Sprint(sprintsDataGrid.selectedItem);      
+        selectedSprint = Sprint(RubossUtils.clone(sprintsDataGrid.selectedItem));      
       }
 
       private function newSprint():void {

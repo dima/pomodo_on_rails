@@ -5,12 +5,13 @@
       import pomodo.models.Sprint;
       import pomodo.models.Task;
       import org.ruboss.Ruboss;
+      import org.ruboss.utils.RubossUtils;
       
       [Bindable]
       private var selectedTask:Task = new Task;
       
       private function selectTaskToEdit():void {
-        selectedTask = Task(tasksDataGrid.selectedItem);
+        selectedTask = Task(RubossUtils.clone(tasksDataGrid.selectedItem));
       }
       
       private function newTask():void {

@@ -2,6 +2,7 @@
 <mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%">
   <mx:Script>
     <![CDATA[
+      import org.ruboss.utils.RubossUtils;
       import pomodo.models.Account;
       import pomodo.models.Address;
       import pomodo.models.User;
@@ -37,34 +38,95 @@
       }
       
       private function updatePersonalInformation():void {
-        var user:User = Pomodo.models.currentUser;
-        user.title = titleTextInput.text;
-        user.update();
+        var user:User = User(RubossUtils.clone(Pomodo.models.currentUser));
+        var account:Account = Account(RubossUtils.clone(user.account));
+        var address:Address = Address(RubossUtils.clone(user.address));
         
-        var account:Account = Pomodo.models.currentUser.account;
-        account.email = emailTextInput.text;
-        account.name = nameTextInput.text;
-        account.password = passwordTextInput.text;
-        account.passwordConfirmation = passwordConfirmationTextInput.text;
+        var accountModelDirty:Boolean = false;
+        var addressModelDirty:Boolean = false;
+
+        if (user.title != titleTextInput.text) {
+          user.title = titleTextInput.text;
+          user.update({afterCallback: onUserUpdate});
+        }
+        
+        if (account.email != emailTextInput.text) {
+          account.email = emailTextInput.text;
+          accountModelDirty = true;
+        }
+        
+        if (account.name != nameTextInput.text) {
+          account.name = nameTextInput.text;
+          accountModelDirty = true;
+        }
+        
+        if (account.password != passwordTextInput.text && passwordTextInput.text != "") {
+          account.password = passwordTextInput.text;
+          accountModelDirty = true;
+        }
+        
+        if (account.passwordConfirmation != passwordConfirmationTextInput.text 
+          && passwordConfirmationTextInput.text != "") {        
+          account.passwordConfirmation = passwordConfirmationTextInput.text;
+          accountModelDirty = true;
+        }
+          
         if (photo) {
           account.attachment = photo;
+          accountModelDirty = true;
         }
-        account.update({afterCallback: onAccountUpdate});
         
-        var address:Address = user.address;
-        address.lineOne = lineOneTextInput.text;
-        address.lineTwo = lineTwoTextInput.text;
-        address.city = cityTextInput.text;
-        address.province = provinceTextInput.text;
-        address.country = countryTextInput.text;
-        address.postcode = postcodeTextInput.text;
-        address.update();
+        if (accountModelDirty) {
+          account.update({afterCallback: onAccountUpdate});
+        }
+        
+        if (address.lineOne != lineOneTextInput.text) {
+          address.lineOne = lineOneTextInput.text;
+          addressModelDirty = true;
+        }
+        
+        if (address.lineTwo != lineTwoTextInput.text) {
+          address.lineTwo = lineTwoTextInput.text;
+          addressModelDirty = true;
+        }
+        
+        if (address.city != cityTextInput.text) {
+          address.city = cityTextInput.text;
+          addressModelDirty = true;
+        }
+        
+        if (address.province != provinceTextInput.text) {
+          address.province = provinceTextInput.text;
+          addressModelDirty = true;
+        }
+         
+        if (address.country != countryTextInput.text) {
+          address.country = countryTextInput.text;
+          addressModelDirty = true;
+        }
+         
+        if (address.postcode != postcodeTextInput.text) {
+          address.postcode = postcodeTextInput.text;
+          addressModelDirty = true;
+        }
+        
+        if (addressModelDirty) {
+          address.update({afterCallback: onAddressUpdate});
+        }
+      }
+      
+      private function onUserUpdate(user:User):void {
+        Pomodo.models.currentUser = user;
       }
       
       private function onAccountUpdate(account:Account):void {
         photo = null;
         account.attachment = null;
         Pomodo.models.currentUser.account = account;
+      }
+      
+      private function onAddressUpdate(address:Address):void {
+        Pomodo.models.currentUser.address = address;
       }
     ]]>
   </mx:Script>

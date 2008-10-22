@@ -12,12 +12,13 @@
       import mx.events.DataGridEvent;
       import pomodo.models.Project;
       import org.ruboss.Ruboss;
+      import org.ruboss.utils.RubossUtils;
       
       [Bindable]
       private var selectedProject:Project = new Project;
       
       private function selectProjectToEdit():void {
-        selectedProject = Project(projectsDataGrid.selectedItem);
+        selectedProject = Project(RubossUtils.clone(projectsDataGrid.selectedItem));
       }
       
       private function newProject():void {
@@ -33,7 +34,7 @@
         }
       }
       
-      private function saveSelectedProject():void {        
+      private function saveSelectedProject():void {
         selectedProject.name = nameTextInput.text;
         selectedProject.notes = notesTextArea.text;
         selectedProject.billedHourlyRate = int(hourlyRateMoneyTextInput.dollars);
