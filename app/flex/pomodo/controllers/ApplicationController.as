@@ -6,18 +6,18 @@ package pomodo.controllers {
   import pomodo.commands.*;
   import pomodo.models.*;
 
-  public class PomodoController extends RubossCommandsController {
-    private static var controller:PomodoController;
+  public class ApplicationController extends RubossCommandsController {
+    private static var controller:ApplicationController;
     
     public static var models:Array = [Account, Address, Assignment, Project, ProjectCategory, Sprint, Task, User, Workunit]; /* Models */
     
-    public function PomodoController(enforcer:SingletonEnforcer, extraServices:Array,
+    public function ApplicationController(enforcer:SingletonEnforcer, extraServices:Array,
       defaultServiceId:int = -1) {
       super([] /* Commands */, 
         models, extraServices, defaultServiceId);
     }
     
-    public static function get instance():PomodoController {
+    public static function get instance():ApplicationController {
       if (controller == null) initialize();
       return controller;
     }
@@ -25,7 +25,7 @@ package pomodo.controllers {
     public static function initialize(extraServices:Array = null, defaultServiceId:int = -1,
       airDatabaseName:String = null):void {
       if (!RubossUtils.isEmpty(airDatabaseName)) Ruboss.airDatabaseName = airDatabaseName;
-      controller = new PomodoController(new SingletonEnforcer, extraServices,
+      controller = new ApplicationController(new SingletonEnforcer, extraServices,
         defaultServiceId);
       Ruboss.commands = controller;
     }

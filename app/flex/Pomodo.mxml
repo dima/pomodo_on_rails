@@ -9,7 +9,7 @@
       import pomodo.controllers.TaskTracker;
       import pomodo.controllers.StatisticsController;
       import pomodo.controllers.ModelsController;
-      import pomodo.controllers.PomodoController;
+      import pomodo.controllers.ApplicationController;
       import pomodo.components.login.LoginScreen;
       import pomodo.components.main.App;
       import mx.containers.Canvas;
@@ -17,7 +17,7 @@
 
       private function init():void {
         Ruboss.enableLogging();
-        PomodoController.initialize();
+        ApplicationController.initialize();
       }
 
       private function onLogin(event:Event):void {
@@ -52,7 +52,7 @@
       }
       
       public static function reset():void {
-        PomodoController.initialize();
+        ApplicationController.initialize();
         Ruboss.reset();
         ModelsController.reset();
         StatisticsController.reset();
