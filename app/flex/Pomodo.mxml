@@ -52,8 +52,8 @@
       }
       
       public static function reset():void {
-        ApplicationController.initialize();
         Ruboss.reset();
+        ApplicationController.initialize();
         ModelsController.reset();
         StatisticsController.reset();
         TaskTracker.reset();
