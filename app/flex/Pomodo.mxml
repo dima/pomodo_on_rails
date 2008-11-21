@@ -3,7 +3,7 @@
   xmlns:login="pomodo.components.login.*"
   xmlns:generated="pomodo.components.generated.*"
   paddingBottom="4" paddingLeft="8" paddingRight="8" paddingTop="8"
-  styleName="plain" initialize="init()">
+  styleName="plain" initialize="init()" minHeight="600" minWidth="800">
   <mx:Script>
     <![CDATA[
       import pomodo.controllers.TaskTracker;
@@ -14,6 +14,7 @@
       import pomodo.components.main.App;
       import mx.containers.Canvas;
       import org.ruboss.Ruboss;
+      import org.ruboss.utils.RubossUtils;
 
       private function init():void {
         Ruboss.enableLogging();
@@ -27,11 +28,7 @@
       }
       
       private function onLogout(event:Event):void {
-        var loginScreen:LoginScreen = new LoginScreen;
-        loginScreen.setStyle("verticalCenter", 0);
-        loginScreen.setStyle("horizontalCenter", 0);
-        loginScreen.addEventListener("login", onLogin);
-        showScreen(loginScreen);
+        RubossUtils.navToURL("/");
       }
       
       private function showScreen(screen:Canvas):void {
@@ -49,14 +46,6 @@
       
       public static function get tracker():TaskTracker {
         return TaskTracker.instance;
-      }
-      
-      public static function reset():void {
-        Ruboss.reset();
-        ApplicationController.initialize();
-        ModelsController.reset();
-        StatisticsController.reset();
-        TaskTracker.reset();
       }
     ]]>
   </mx:Script>

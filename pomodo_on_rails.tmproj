@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>currentDocument</key>
+	<string>app/flex/Pomodo.mxml</string>
 	<key>documents</key>
 	<array>
 		<dict>
@@ -18,7 +20,26 @@
 	<key>fileHierarchyDrawerWidth</key>
 	<integer>299</integer>
 	<key>metaData</key>
-	<dict/>
+	<dict>
+		<key>app/flex/Pomodo.mxml</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>49</integer>
+				<key>line</key>
+				<integer>12</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
+	</dict>
+	<key>openDocuments</key>
+	<array>
+		<string>app/flex/Pomodo.mxml</string>
+	</array>
 	<key>shellVariables</key>
 	<array>
 		<dict>
@@ -41,7 +62,7 @@
 			<key>enabled</key>
 			<true/>
 			<key>value</key>
-			<string>/Users/Dima/Projects/ruboss/ruboss_framework/bin/ruboss.swc,/Users/Dima/Projects/ruboss/pomodo_on_rails/lib/flexlib-2.4.swc</string>
+			<string>/Users/Dima/Projects/ruboss/ruboss_framework/framework/bin/ruboss.swc,/Users/Dima/Projects/ruboss/pomodo_on_rails/lib/flexlib-2.4.swc</string>
 			<key>variable</key>
 			<string>TM_FLEX_LIB_PATH</string>
 		</dict>

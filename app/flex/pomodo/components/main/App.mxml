@@ -24,7 +24,6 @@
       }
       
       private function onLogout(result:Object):void {
-        Pomodo.reset();
         dispatchEvent(new Event("logout"));
       }
       
