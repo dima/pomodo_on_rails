@@ -1,5 +1,5 @@
 package pomodo.models {
-  import org.ruboss.models.ModelsCollection;
+  import org.ruboss.collections.ModelsCollection;
   import org.ruboss.models.RubossModel;
   
   [Resource(name="sprints")]

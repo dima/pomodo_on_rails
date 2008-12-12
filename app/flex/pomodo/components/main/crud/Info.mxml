@@ -2,11 +2,11 @@
 <mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%">
   <mx:Script>
     <![CDATA[
+      import org.ruboss.utils.RubossFileReference;
       import org.ruboss.utils.RubossUtils;
       import pomodo.models.Account;
       import pomodo.models.Address;
       import pomodo.models.User;
-      import org.ruboss.models.RubossFileReference;
       
       [Bindable]
       private var infoFormInvalid:Boolean;

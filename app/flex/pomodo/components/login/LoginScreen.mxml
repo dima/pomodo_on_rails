@@ -6,8 +6,8 @@
   </mx:Metadata>
   <mx:Script>
     <![CDATA[
+      import org.ruboss.utils.RubossFileReference;
       import mx.core.Application;
-      import org.ruboss.models.RubossFileReference;
       import org.ruboss.Ruboss;
       import pomodo.models.User;
       import pomodo.models.Account;

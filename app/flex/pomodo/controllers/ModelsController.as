@@ -37,21 +37,21 @@ package pomodo.controllers {
     }
 
     private function onCacheUpdate(event:CacheUpdateEvent):void {
-      if (event.fqn == Ruboss.models.names[Project]) {
+      if (event.isFor(Project)) {
         projectsAndAny = Ruboss.merge(Ruboss.models.cached(Project), [Project.ANY]);
         projects = Ruboss.models.cached(Project);
         sprints = Ruboss.models.cached(Sprint);
         tasks = Ruboss.models.cached(Task);
         incompleteTasks = Ruboss.filter(Ruboss.models.cached(Task), filterByCompletionAndProject);
-      } else if (event.fqn == Ruboss.models.names[ProjectCategory]) {
+      } else if (event.isFor(ProjectCategory)) {
         projectCategories = Ruboss.filter(Ruboss.models.cached(ProjectCategory), filterByCategoryWithNoParent);
-      } else if (event.fqn == Ruboss.models.names[Task]) {
+      } else if (event.isFor(Task)) {
         tasks = Ruboss.models.cached(Task);
         incompleteTasks = Ruboss.filter(Ruboss.models.cached(Task), filterByCompletionAndProject); 
       } else {
         var prop:String = RubossUtils.toCamelCase(Ruboss.models.state.controllers[event.fqn]);
         if (hasOwnProperty(prop)) {
-          this[prop] = Ruboss.models.cache[event.fqn];
+          this[prop] = Ruboss.models.cache.data[event.fqn];
         }
       }
     }

@@ -1,5 +1,5 @@
 package pomodo.models {
-  import org.ruboss.models.ModelsCollection;
+  import org.ruboss.collections.ModelsCollection;
   import org.ruboss.models.RubossTreeModel;
   
   [Resource(name="project_categories")]

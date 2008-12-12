@@ -29,7 +29,7 @@ package pomodo.controllers {
     }
     
     private function onCacheUpdate(event:CacheUpdateEvent):void {
-      if (event.fqn == Ruboss.models.names[Project]) {
+      if (event.isFor(Project)) {
         var totalCostToday:Number = new Number(0);
         var totalCostThisWeek:Number = new Number(0);
         var totalCostThisMonth:Number = new Number(0);
