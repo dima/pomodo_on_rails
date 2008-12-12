@@ -22,9 +22,9 @@
       
       private function saveSprint(sprint:Sprint):void {
         if (sprint.id) {
-          sprint.update({afterCallback: onSprintUpdate});
+          sprint.update({onSuccess: onSprintUpdate});
         } else {
-          sprint.create({afterCallback: onSprintCreate});
+          sprint.create({onSuccess: onSprintCreate});
         }
       }
       
@@ -41,7 +41,7 @@
         if (!selectedSprint) {
           selectSprintToEdit();
         }
-        selectedSprint.destroy({afterCallback: onSprintDestroy});
+        selectedSprint.destroy({onSuccess: onSprintDestroy});
       }
       
       private function onSprintUpdate(sprint:Sprint):void {

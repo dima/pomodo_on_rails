@@ -47,7 +47,7 @@
 
         if (user.title != titleTextInput.text) {
           user.title = titleTextInput.text;
-          user.update({afterCallback: onUserUpdate});
+          user.update({onSuccess: onUserUpdate});
         }
         
         if (account.email != emailTextInput.text) {
@@ -77,7 +77,7 @@
         }
         
         if (accountModelDirty) {
-          account.update({afterCallback: onAccountUpdate});
+          account.update({onSuccess: onAccountUpdate});
         }
         
         if (address.lineOne != lineOneTextInput.text) {
@@ -111,7 +111,7 @@
         }
         
         if (addressModelDirty) {
-          address.update({afterCallback: onAddressUpdate});
+          address.update({onSuccess: onAddressUpdate});
         }
       }
       

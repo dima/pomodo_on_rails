@@ -21,9 +21,9 @@
       
       private function saveTask(task:Task):void {
         if (task.id) {
-          task.update({afterCallback: onTaskUpdate});
+          task.update({onSuccess: onTaskUpdate});
         } else {
-          task.create({afterCallback: onTaskCreate});
+          task.create({onSuccess: onTaskCreate});
         }
       }
       
@@ -41,7 +41,7 @@
         if (!selectedTask) {
           selectTaskToEdit();
         }
-        selectedTask.destroy({afterCallback: onTaskDestroy});
+        selectedTask.destroy({onSuccess: onTaskDestroy});
       }
       
       private function onTaskUpdate(task:Task):void {

@@ -28,9 +28,9 @@
 
       private function saveProject(project:Project):void {
         if (project.id) {
-          project.update({afterCallback: onProjectUpdate});
+          project.update({onSuccess: onProjectUpdate});
         } else {
-          project.create({afterCallback: onProjectCreate});
+          project.create({onSuccess: onProjectCreate});
         }
       }
       
@@ -47,7 +47,7 @@
         if (!selectedProject) {
           selectProjectToEdit();
         }
-        selectedProject.destroy({afterCallback: onProjectDestroy});
+        selectedProject.destroy({onSuccess: onProjectDestroy});
       }
       
       private function onProjectUpdate(project:Project):void {
