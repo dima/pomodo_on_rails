@@ -98,7 +98,7 @@
     </mx:FormItem>
     <mx:FormItem label="Sprint:">
       <mx:ComboBox id="sprintComboBox" dataProvider="{Ruboss.models.cached(Sprint)}" 
-        labelField="qualifiedName"></mx:ComboBox>
+        labelField="qualifiedName" selectedItem="{selectedTask.sprint}"></mx:ComboBox>
     </mx:FormItem>
     <mx:FormItem label="Billed %:" width="100%">
       <mx:NumericStepper minimum="0" maximum="100" id="billedHourlyRateNumericStepper" 

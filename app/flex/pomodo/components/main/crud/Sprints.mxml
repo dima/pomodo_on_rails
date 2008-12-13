@@ -113,7 +113,7 @@
     </mx:FormItem>
     <mx:FormItem label="Project:">
       <mx:ComboBox id="projectsComboBox" dataProvider="{Ruboss.models.cached(Project)}" 
-        labelField="name"></mx:ComboBox>
+        labelField="name" selectedItem="{selectedSprint.project}"></mx:ComboBox>
     </mx:FormItem>
     <mx:FormItem label="Billed Hourly Rate:" width="100%">
       <components:MoneyTextInput id="hourlyRateMoneyTextInput" width="100" dollars="{selectedSprint.billedHourlyRate}"/>
