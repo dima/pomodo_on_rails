@@ -22,18 +22,20 @@ class Account < ActiveRecord::Base
   validates_format_of       :email,    :with => Authentication.email_regex, :message => Authentication.bad_email_message
 
   has_one :user
+  
+  has_attached_file :avatar, :styles => {:thumb => '100x100>'} # doesn't resize for some reason, check!
 
-  has_attachment :content_type => :image, 
-                 :storage => :file_system,
-                 :resize_to => '100x100>',
-                 :path_prefix => 'public/images/accounts'
+  # has_attachment :content_type => :image, 
+  #                :storage => :file_system,
+  #                :resize_to => '100x100>',
+  #                :path_prefix => 'public/images/accounts'
 
   cattr_accessor :current_account, :session_token
 
   # HACK HACK HACK -- how to do attr_accessible from here?
   # prevents a user from submitting a crafted form that bypasses activation
   # anything else you want your user to change should be added here.
-  attr_accessible :login, :email, :name, :password, :password_confirmation, :uploaded_data, :session_token
+  attr_accessible :login, :email, :name, :password, :password_confirmation, :session_token, :avatar #:uploaded_data
   
   # Authenticates a user by their login name and unencrypted password.  Returns the user or nil.
   #
@@ -61,7 +63,8 @@ class Account < ActiveRecord::Base
   
   def photo_url
     begin
-      public_filename
+      #public_filename
+      avatar.url(:original)
     rescue
       DEFAULT_PHOTO_URL
     end

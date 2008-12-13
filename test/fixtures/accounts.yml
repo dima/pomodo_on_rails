@@ -22,7 +22,7 @@ dima:
   activation_code:           1b6453892473a467d07372d45eb05abc2031647a
   activated_at:              
   state:                     active
-  attachment_file:           test/images/dima.png
+  #attachment_file:           test/images/dima.png
 
 peter:
   login:                     peter
@@ -46,5 +46,4 @@ aaron:
   remember_token:            
   activation_code:           1b6453892473a467d07372d45eb05abc2031647a
   activated_at:              
-
   state:                     active

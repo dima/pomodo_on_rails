@@ -16,13 +16,19 @@ class CreateAccounts < ActiveRecord::Migration
       t.column :deleted_at,                :datetime
 
       # For attachment_fu
-      t.column :parent_id,  :integer
-      t.column :content_type, :string
-      t.column :filename, :string    
-      t.column :thumbnail, :string 
-      t.column :size, :integer
-      t.column :width, :integer
-      t.column :height, :integer
+      # t.column :parent_id,  :integer
+      # t.column :content_type, :string
+      # t.column :filename, :string    
+      # t.column :thumbnail, :string 
+      # t.column :size, :integer
+      # t.column :width, :integer
+      # t.column :height, :integer
+      
+      # For paperclip
+      t.column :avatar_file_name, :string
+      t.column :avatar_content_type, :string
+      t.column :avatar_file_size, :integer
+      t.column :avatar_updated_at, :datetime
     end
     add_index :accounts, :login, :unique => true
   end

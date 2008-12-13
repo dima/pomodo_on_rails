@@ -8,8 +8,9 @@ class ProjectsController < ApplicationController
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @projects }
-      format.fxml  { render :fxml => @projects.to_fxml(:include => 
-        {:sprints => {:include => {:tasks => {:methods => 
+      format.fxml  { render :fxml => @projects.to_fxml(:root => Project.to_s.underscore.pluralize,
+        :include => {:sprints => {:root => Sprint.to_s.underscore.pluralize, 
+          :include => {:tasks => {:root => Task.to_s.underscore.pluralize, :methods => 
           [:total_time, :total_time_today, :total_time_this_week, :total_time_this_month]}}}}) }    
     end
   end

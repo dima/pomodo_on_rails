@@ -62,7 +62,7 @@
       }
 
       private function chooseFile():void {
-        photo = new RubossFileReference;
+        photo = new RubossFileReference("avatar");
         photo.addEventListener(IOErrorEvent.IO_ERROR, ioErrorHandler, false, 0, true);
         photo.addEventListener(Event.SELECT, selectFile, false, 0, true);
         photo.addEventListener(Event.CANCEL, cancelBrowse, false, 0, true);
