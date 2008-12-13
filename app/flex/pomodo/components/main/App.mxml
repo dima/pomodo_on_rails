@@ -92,8 +92,9 @@
                       }
                     ]]>
                   </mx:Script>
-                  <mx:Image id="completionIcon" source="assets/story_editor_icon.png" 
-                    width="18" height="18" x="4" y="3" click="completeTask(event)"/>
+                  <mx:Image id="completionIcon" source="assets/task_complete.png" 
+                    width="18" height="18" x="4" y="3" click="completeTask(event)" useHandCursor="true" buttonMode="true"
+                    toolTip="Complete This Task"/>
                 </mx:Canvas>
               </mx:Component>
             </mx:itemRenderer>

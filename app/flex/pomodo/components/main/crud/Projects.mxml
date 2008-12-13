@@ -3,6 +3,8 @@
   xmlns:extras="pomodo.components.extras.*" xmlns:components="org.ruboss.components.*">
   <mx:Script>
     <![CDATA[
+      import mx.events.CloseEvent;
+      import mx.controls.Alert;
       import mx.controls.dataGridClasses.DataGridColumn;
       import pomodo.models.ProjectCategory;
       import pomodo.controllers.ModelsController;
@@ -47,7 +49,13 @@
         if (!selectedProject) {
           selectProjectToEdit();
         }
-        selectedProject.destroy({onSuccess: onProjectDestroy});
+        Alert.show("Delete This Project?", "Delete", Alert.YES|Alert.NO, this, confirmDelete, null, Alert.YES);
+      }
+      
+      private function confirmDelete(event:CloseEvent):void {
+        if (event.detail == Alert.YES) {
+          selectedProject.destroy({onSuccess: onProjectDestroy});
+        }
       }
       
       private function onProjectUpdate(project:Project):void {
@@ -90,7 +98,9 @@
         <mx:DataGridColumn editable="false" width="25" headerText="">
           <mx:itemRenderer>
             <mx:Component>
-              <mx:Canvas width="25" height="25" dataChange="onDataChange(event)">
+              <mx:Canvas width="25" height="25" dataChange="onDataChange(event)" 
+                click="outerDocument.deleteSelectedProject()" useHandCursor="true" buttonMode="true" 
+                toolTip="Delete This Project">
                 <mx:Script>
                   <![CDATA[
                     import pomodo.models.Project;
@@ -100,8 +110,8 @@
                     }
                   ]]>
                 </mx:Script>
-                <mx:Image id="deletionIcon" source="assets/story_editor_icon.png" visible="false"
-                  width="18" height="18" x="4" y="3" click="outerDocument.deleteSelectedProject()"/>
+                <mx:Image id="deletionIcon" source="assets/trash.png" visible="false"
+                  width="16" height="16" x="4" y="3"/>
               </mx:Canvas>
             </mx:Component>
           </mx:itemRenderer>

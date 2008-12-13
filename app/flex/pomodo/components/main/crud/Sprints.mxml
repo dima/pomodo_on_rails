@@ -2,6 +2,8 @@
 <mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" xmlns:components="org.ruboss.components.*">
   <mx:Script>
     <![CDATA[
+      import mx.controls.Alert;
+      import mx.events.CloseEvent;
       import pomodo.models.Project;
       import pomodo.models.Sprint;
       import org.ruboss.Ruboss;
@@ -41,9 +43,15 @@
         if (!selectedSprint) {
           selectSprintToEdit();
         }
-        selectedSprint.destroy({onSuccess: onSprintDestroy});
+        Alert.show("Delete This Sprint?", "Delete", Alert.YES|Alert.NO, this, confirmDelete, null, Alert.YES);
       }
       
+      private function confirmDelete(event:CloseEvent):void {
+        if (event.detail == Alert.YES) {
+          selectedSprint.destroy({onSuccess: onSprintDestroy});
+        }
+      }      
+
       private function onSprintUpdate(sprint:Sprint):void {
         sprintsDataGrid.selectedItem = selectedSprint = sprint;
       }
@@ -85,7 +93,8 @@
         <mx:DataGridColumn editable="false" width="25" headerText="">
           <mx:itemRenderer>
             <mx:Component>
-              <mx:Canvas width="25" height="25" dataChange="onDataChange(event)">
+              <mx:Canvas width="25" height="25" dataChange="onDataChange(event)" click="outerDocument.deleteSelectedSprint()"
+                useHandCursor="true" buttonMode="true" toolTip="Delete This Sprint">
                 <mx:Script>
                   <![CDATA[
                     import pomodo.models.Sprint;
@@ -95,8 +104,8 @@
                     }
                   ]]>
                 </mx:Script>
-                <mx:Image id="deletionIcon" source="assets/story_editor_icon.png" visible="false"
-                  width="18" height="18" x="4" y="3" click="outerDocument.deleteSelectedSprint()"/>
+                <mx:Image id="deletionIcon" source="assets/trash.png" visible="false"
+                  width="16" height="16" x="4" y="3" />
               </mx:Canvas>
             </mx:Component>
           </mx:itemRenderer>
@@ -112,7 +121,7 @@
       <mx:DateField id="dueByDateField" text="{selectedSprint.dueBy}"/>
     </mx:FormItem>
     <mx:FormItem label="Project:">
-      <mx:ComboBox id="projectsComboBox" dataProvider="{Ruboss.models.cached(Project)}" 
+      <mx:ComboBox id="projectsComboBox" dataProvider="{Pomodo.models.projects}" 
         labelField="name" selectedItem="{selectedSprint.project}"></mx:ComboBox>
     </mx:FormItem>
     <mx:FormItem label="Billed Hourly Rate:" width="100%">
