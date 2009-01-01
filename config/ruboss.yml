@@ -13,4 +13,4 @@ base-package: pomodo
 # <base-package>.controllers folder. You can customize the name by uncommenting the following line 
 # and changing the controller name.
 
-controller-name: PomodoController
+controller-name: ApplicationController
