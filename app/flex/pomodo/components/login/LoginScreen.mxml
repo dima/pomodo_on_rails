@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" height="400" width="300" 
-  xmlns:validators="org.ruboss.validators.*">
+  xmlns:validators="org.restfulx.validators.*">
   <mx:Metadata>
     [Event(name="login", type="flash.events.Event")]
   </mx:Metadata>
   <mx:Script>
     <![CDATA[
-      import org.ruboss.utils.RubossFileReference;
+      import org.restfulx.utils.RxFileReference;
       import mx.core.Application;
-      import org.ruboss.Ruboss;
+      import org.restfulx.Rx;
       import pomodo.models.User;
       import pomodo.models.Account;
       
       [Bindable]
       private var photoFileName:String = "None selected";
       
-      private var photo:RubossFileReference;
+      private var photo:RxFileReference;
       
       [Bindable]
       private var signUpFormDirty:Boolean = true;
       
       private function login():void {
-        Ruboss.http(onLoginSuccess, onLoginFailure).invoke("session.fxml", 
+        Rx.http(onLoginSuccess, onLoginFailure).invoke("session.fxml", 
           { login: userTI.text, password: passwordTI.text }, "POST", true);
       }
       
@@ -37,7 +37,7 @@
       
       private function onLoginSuccess(result:User):void {
         Pomodo.models.currentUser = result;
-        Ruboss.sessionToken = result.account.sessionToken;
+        Rx.sessionToken = result.account.sessionToken;
         dispatchEvent(new Event("login"));
       }
       
@@ -62,7 +62,7 @@
       }
 
       private function chooseFile():void {
-        photo = new RubossFileReference("avatar");
+        photo = new RxFileReference("avatar");
         photo.addEventListener(IOErrorEvent.IO_ERROR, ioErrorHandler, false, 0, true);
         photo.addEventListener(Event.SELECT, selectFile, false, 0, true);
         photo.addEventListener(Event.CANCEL, cancelBrowse, false, 0, true);
@@ -78,7 +78,7 @@
       }
       
       private function fileSelected(event:Event):void {
-        photoFileName = RubossFileReference(event.target).name;
+        photoFileName = RxFileReference(event.target).name;
       }
       
       private function ioErrorHandler(event:Event):void {
@@ -99,9 +99,9 @@
   
   <!-- Proxies for Rails Validators -->
   <validators:ServiceErrorValidator id="signUpLoginNameValidator" field="login" listener="{signUpUsername}" 
-     serviceErrors="{Ruboss.errors}"/>
+     serviceErrors="{Rx.models.errors}"/>
   <validators:ServiceErrorValidator id="signUpPasswordValidator" field="password" listener="{signUpPassword}" 
-     serviceErrors="{Ruboss.errors}"/>
+     serviceErrors="{Rx.models.errors}"/>
 
   <mx:ViewStack height="100%" width="100%" id="views">
     <mx:Canvas id="loginView" width="100%" height="100%" hideEffect="{hideEffect}" showEffect="{showEffect}">

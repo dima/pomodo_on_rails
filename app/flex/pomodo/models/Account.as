@@ -1,9 +1,9 @@
 package pomodo.models {
-  import org.ruboss.models.RubossModel;
+  import org.restfulx.models.RxModel;
   
   [Resource(name="accounts")]
   [Bindable]
-  public class Account extends RubossModel {
+  public class Account extends RxModel {
     public static const LABEL:String = "login";
 
     public var login:String;

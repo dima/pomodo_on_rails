@@ -1,10 +1,10 @@
 package pomodo.models {
-  import org.ruboss.collections.ModelsCollection;
-  import org.ruboss.models.RubossModel;
+  import org.restfulx.collections.ModelsCollection;
+  import org.restfulx.models.RxModel;
   
   [Resource(name="sprints")]
   [Bindable]
-  public class Sprint extends RubossModel {
+  public class Sprint extends RxModel {
     public static const LABEL:String = "name";
     
     public var name:String;

@@ -1,4 +1,4 @@
-# Ruboss code generation configuration options
+# RestfulX code generation configuration options
 
 # By default flex models, commands, controllers and components are genearated into
 # app/flex/<your rails project name> folder. If you'd like to customize the target folder 
@@ -7,10 +7,8 @@
 
 base-package: pomodo
 
-# Main ruboss controller is typically named after your rails project name (camel-cased with a word
-# Controller appended at the end, e.g. if your application is called "pomodo" the flex application
-# controller will be called "PomodoController"). This controller is created in 
+# Main RestfulX controller is typically named AppicationController. This controller is created in 
 # <base-package>.controllers folder. You can customize the name by uncommenting the following line 
 # and changing the controller name.
 
-controller-name: ApplicationController
+#controller-name: ApplicationController

@@ -3,8 +3,8 @@ package pomodo.controllers {
   
   import mx.collections.ArrayCollection;
   
-  import org.ruboss.Ruboss;
-  import org.ruboss.events.CacheUpdateEvent;
+  import org.restfulx.Rx;
+  import org.restfulx.events.CacheUpdateEvent;
   
   import pomodo.models.Project;
   
@@ -18,8 +18,8 @@ package pomodo.controllers {
     public var totalCostNumbers:ArrayCollection = new ArrayCollection;
 
     public function StatisticsController(enforcer:SingletonEnforcer) {
-      Ruboss.models.addEventListener(CacheUpdateEvent.ID, onCacheUpdate);
-      Ruboss.http(function(result:Object):void {
+      Rx.models.addEventListener(CacheUpdateEvent.ID, onCacheUpdate);
+      Rx.http(function(result:Object):void {
         totalTimeNumbers.addItem({
           totalTimeToday: result.total_time_today.toString(), 
           totalTimeThisWeek: result.total_time_this_week.toString(),
@@ -33,7 +33,7 @@ package pomodo.controllers {
         var totalCostToday:Number = new Number(0);
         var totalCostThisWeek:Number = new Number(0);
         var totalCostThisMonth:Number = new Number(0);
-        for each (var project:Project in Ruboss.models.cached(Project)) {
+        for each (var project:Project in Rx.models.cached(Project)) {
           totalCostToday += project.computedTotalCostToday;
           totalCostThisWeek += project.computedTotalCostThisWeek;
           totalCostThisMonth += project.computedTotalCostThisMonth;

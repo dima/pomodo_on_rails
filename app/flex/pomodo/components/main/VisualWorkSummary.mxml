@@ -3,13 +3,13 @@
   <mx:Script>
     <![CDATA[
       import pomodo.components.extras.DataSetOption;
-      import org.ruboss.collections.RubossCollection;
+      import org.restfulx.collections.RxCollection;
       import pomodo.controllers.ModelsController;
       import mx.events.ListEvent;
       import pomodo.models.Task;
       import pomodo.models.Sprint;
       import pomodo.models.Project;
-      import org.ruboss.Ruboss;
+      import org.restfulx.Rx;
       import pomodo.utils.PomodoUtils;
       import mx.charts.series.items.PieSeriesItem;
       import mx.charts.HitData;
@@ -61,7 +61,7 @@
   <mx:Label text="By: " left="220" top="3" fontWeight="bold"/>
   <mx:ComboBox dataProvider="{availableDataSets}" labelField="label" left="248" top="1" width="117" 
     change="selectDataSet(event)"/>
-  <mx:PieChart id="pieStats" width="100%" height="270" dataProvider="{Ruboss.models.cached(Class(selectedDataSet.clazz))}" 
+  <mx:PieChart id="pieStats" width="100%" height="270" dataProvider="{Rx.models.cached(Class(selectedDataSet.clazz))}" 
     dataTipFunction="showProjectTotals" horizontalCenter="0" innerRadius="0.40" showDataTips="true" y="26">
     <mx:series>
       <mx:PieSeries id="pieSeries" field="{selectedTimeOption}" labelField="name" labelPosition="outside" fontSize="14"/>

@@ -2,8 +2,8 @@
 <mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%">
   <mx:Script>
     <![CDATA[
-      import org.ruboss.utils.RubossFileReference;
-      import org.ruboss.utils.RubossUtils;
+      import org.restfulx.utils.RxFileReference;
+      import org.restfulx.utils.RxUtils;
       import pomodo.models.Account;
       import pomodo.models.Address;
       import pomodo.models.User;
@@ -11,10 +11,10 @@
       [Bindable]
       private var infoFormInvalid:Boolean;
       
-      private var photo:RubossFileReference;
+      private var photo:RxFileReference;
 
       private function chooseFile():void {
-        photo = new RubossFileReference("avatar");
+        photo = new RxFileReference("avatar");
         photo.addEventListener(IOErrorEvent.IO_ERROR, ioErrorHandler, false, 0, true);
         photo.addEventListener(Event.SELECT, selectFile, false, 0, true);
         photo.addEventListener(Event.CANCEL, cancelBrowse, false, 0, true);
@@ -38,9 +38,9 @@
       }
       
       private function updatePersonalInformation():void {
-        var user:User = User(RubossUtils.clone(Pomodo.models.currentUser));
-        var account:Account = Account(RubossUtils.clone(user.account));
-        var address:Address = Address(RubossUtils.clone(user.address));
+        var user:User = User(RxUtils.clone(Pomodo.models.currentUser));
+        var account:Account = Account(RxUtils.clone(user.account));
+        var address:Address = Address(RxUtils.clone(user.address));
         
         var accountModelDirty:Boolean = false;
         var addressModelDirty:Boolean = false;

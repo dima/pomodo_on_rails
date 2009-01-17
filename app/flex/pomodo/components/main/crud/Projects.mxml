@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" 
-  xmlns:extras="pomodo.components.extras.*" xmlns:components="org.ruboss.components.*">
+  xmlns:extras="pomodo.components.extras.*" xmlns:components="org.restfulx.components.*">
   <mx:Script>
     <![CDATA[
       import mx.events.CloseEvent;
@@ -13,14 +13,14 @@
       import mx.controls.TextInput;
       import mx.events.DataGridEvent;
       import pomodo.models.Project;
-      import org.ruboss.Ruboss;
-      import org.ruboss.utils.RubossUtils;
+      import org.restfulx.Rx;
+      import org.restfulx.utils.RxUtils;
       
       [Bindable]
       private var selectedProject:Project = new Project;
       
       private function selectProjectToEdit():void {
-        selectedProject = Project(RubossUtils.clone(projectsDataGrid.selectedItem));
+        selectedProject = Project(RxUtils.clone(projectsDataGrid.selectedItem));
       }
       
       private function newProject():void {

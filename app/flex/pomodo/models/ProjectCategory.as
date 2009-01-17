@@ -1,10 +1,10 @@
 package pomodo.models {
-  import org.ruboss.collections.ModelsCollection;
-  import org.ruboss.models.RubossTreeModel;
+  import org.restfulx.collections.ModelsCollection;
+  import org.restfulx.models.RxTreeModel;
   
   [Resource(name="project_categories")]
   [Bindable]
-  public class ProjectCategory extends RubossTreeModel {
+  public class ProjectCategory extends RxTreeModel {
     public static const LABEL:String = "name";
 
     public var name:String;

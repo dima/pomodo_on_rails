@@ -13,14 +13,14 @@
       import mx.events.ListEvent;
       import pomodo.models.Task;
       import pomodo.models.Project;
-      import org.ruboss.Ruboss;
+      import org.restfulx.Rx;
 
       public function logout():void {
         Pomodo.tracker.stopWork(stopWorkAndLogOut);
       }
       
       private function stopWorkAndLogOut(result:Object):void {
-        Ruboss.http(onLogout).invoke({URL: "session.fxml", method: "DELETE"});
+        Rx.http(onLogout).invoke({URL: "session.fxml", method: "DELETE"});
       }
       
       private function onLogout(result:Object):void {

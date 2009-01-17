@@ -1,8 +1,8 @@
 package pomodo.controllers {
-  import org.ruboss.Ruboss;
-  import org.ruboss.collections.RubossCollection;
-  import org.ruboss.events.CacheUpdateEvent;
-  import org.ruboss.utils.RubossUtils;
+  import org.restfulx.Rx;
+  import org.restfulx.collections.RxCollection;
+  import org.restfulx.events.CacheUpdateEvent;
+  import org.restfulx.utils.RxUtils;
   
   import pomodo.models.Project;
   import pomodo.models.ProjectCategory;
@@ -19,39 +19,39 @@ package pomodo.controllers {
     
     public var currentUser:User;
     
-    public var projectCategories:RubossCollection;
+    public var projectCategories:RxCollection;
         
-    public var projectsAndAny:RubossCollection;
+    public var projectsAndAny:RxCollection;
     
-    public var projects:RubossCollection;
+    public var projects:RxCollection;
     
-    public var incompleteTasks:RubossCollection;
+    public var incompleteTasks:RxCollection;
     
-    public var tasks:RubossCollection;
+    public var tasks:RxCollection;
         
-    public var sprints:RubossCollection;
+    public var sprints:RxCollection;
     
     public function ModelsController(enforcer:SingletonEnforcer) {
-      Ruboss.models.addEventListener(CacheUpdateEvent.ID, onCacheUpdate);
-      Ruboss.models.index(Project);
+      Rx.models.addEventListener(CacheUpdateEvent.ID, onCacheUpdate);
+      Rx.models.index(Project);
     }
 
     private function onCacheUpdate(event:CacheUpdateEvent):void {
       if (event.isFor(Project)) {
-        projectsAndAny = Ruboss.merge(Ruboss.models.cached(Project), [Project.ANY]);
-        projects = Ruboss.models.cached(Project);
-        sprints = Ruboss.models.cached(Sprint);
-        tasks = Ruboss.models.cached(Task);
-        incompleteTasks = Ruboss.filter(Ruboss.models.cached(Task), filterByCompletionAndProject);
+        projectsAndAny = Rx.merge(Rx.models.cached(Project), [Project.ANY]);
+        projects = Rx.models.cached(Project);
+        sprints = Rx.models.cached(Sprint);
+        tasks = Rx.models.cached(Task);
+        incompleteTasks = Rx.filter(Rx.models.cached(Task), filterByCompletionAndProject);
       } else if (event.isFor(ProjectCategory)) {
-        projectCategories = Ruboss.filter(Ruboss.models.cached(ProjectCategory), filterByCategoryWithNoParent);
+        projectCategories = Rx.filter(Rx.models.cached(ProjectCategory), filterByCategoryWithNoParent);
       } else if (event.isFor(Task)) {
-        tasks = Ruboss.models.cached(Task);
-        incompleteTasks = Ruboss.filter(Ruboss.models.cached(Task), filterByCompletionAndProject); 
+        tasks = Rx.models.cached(Task);
+        incompleteTasks = Rx.filter(Rx.models.cached(Task), filterByCompletionAndProject); 
       } else {
-        var prop:String = RubossUtils.toCamelCase(Ruboss.models.state.controllers[event.fqn]);
+        var prop:String = RxUtils.toCamelCase(Rx.models.state.controllers[event.fqn]);
         if (hasOwnProperty(prop)) {
-          this[prop] = Ruboss.models.cache.data[event.fqn];
+          this[prop] = Rx.models.cache.data[event.fqn];
         }
       }
     }
@@ -70,7 +70,7 @@ package pomodo.controllers {
     }
 
     public function filterTasks(text:String = null):void {
-      if (!RubossUtils.isEmpty(text)) {
+      if (!RxUtils.isEmpty(text)) {
         incompleteTasks.filterFunction = function(task:Task):Boolean {
           return filterByCompletionAndProject(task) && (task.name.search(new RegExp(text, "i")) != -1);
         };

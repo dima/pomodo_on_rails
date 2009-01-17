@@ -6,14 +6,14 @@
       import mx.events.CloseEvent;
       import pomodo.models.Sprint;
       import pomodo.models.Task;
-      import org.ruboss.Ruboss;
-      import org.ruboss.utils.RubossUtils;
+      import org.restfulx.Rx;
+      import org.restfulx.utils.RxUtils;
       
       [Bindable]
       private var selectedTask:Task = new Task;
       
       private function selectTaskToEdit():void {
-        selectedTask = Task(RubossUtils.clone(tasksDataGrid.selectedItem));
+        selectedTask = Task(RxUtils.clone(tasksDataGrid.selectedItem));
       }
       
       private function newTask():void {

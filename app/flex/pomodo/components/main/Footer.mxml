@@ -2,9 +2,9 @@
 <mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" left="16" bottom="12" right="16" initialize="init()">
   <mx:Script>
     <![CDATA[
-      import org.ruboss.events.ServiceCallStopEvent;
-      import org.ruboss.events.ServiceCallStartEvent;
-      import org.ruboss.Ruboss;
+      import org.restfulx.events.ServiceCallStopEvent;
+      import org.restfulx.events.ServiceCallStartEvent;
+      import org.restfulx.Rx;
       import mx.core.UIComponent;
 
       [Bindable]
@@ -15,8 +15,8 @@
       private var iconSyncronizing:Class;
   
       private function init():void {
-        Ruboss.models.addEventListener(ServiceCallStartEvent.ID, onSyncStart);
-        Ruboss.models.addEventListener(ServiceCallStopEvent.ID, onSyncEnd);  
+        Rx.models.addEventListener(ServiceCallStartEvent.ID, onSyncStart);
+        Rx.models.addEventListener(ServiceCallStopEvent.ID, onSyncEnd);  
       }
 
       private function onSyncStart(event:Event):void {

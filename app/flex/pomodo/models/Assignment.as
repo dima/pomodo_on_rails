@@ -1,9 +1,9 @@
 package pomodo.models {
-  import org.ruboss.models.RubossModel;
+  import org.restfulx.models.RxModel;
   
   [Resource(name="assignments")]
   [Bindable]
-  public class Assignment extends RubossModel {
+  public class Assignment extends RxModel {
     public static const LABEL:String = "id";
 
     [BelongsTo]

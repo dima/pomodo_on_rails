@@ -1,9 +1,9 @@
 package pomodo.models {
-  import org.ruboss.models.RubossModel;
+  import org.restfulx.models.RxModel;
   
   [Resource(name="workunits")]
   [Bindable]
-  public class Workunit extends RubossModel {
+  public class Workunit extends RxModel {
     public static const LABEL:String = "startedOn";
     
     [DateTime]
