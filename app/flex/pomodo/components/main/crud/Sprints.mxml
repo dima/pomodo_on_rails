@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" xmlns:components="org.restfulx.components.*">
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" 
+  xmlns:rx="org.restfulx.components.rx.*">
   <mx:Script>
     <![CDATA[
       import mx.controls.Alert;
@@ -125,7 +126,7 @@
         labelField="name" selectedItem="{selectedSprint.project}"></mx:ComboBox>
     </mx:FormItem>
     <mx:FormItem label="Billed Hourly Rate:" width="100%">
-      <components:MoneyTextInput id="hourlyRateMoneyTextInput" width="100" dollars="{selectedSprint.billedHourlyRate}"/>
+      <rx:MoneyTextInput id="hourlyRateMoneyTextInput" width="100" dollars="{selectedSprint.billedHourlyRate}"/>
     </mx:FormItem>
   </mx:Form>
   <mx:Button label="Save" bottom="10" left="10" click="saveSelectedSprint()"/>
