@@ -35,7 +35,7 @@
         selectedSprint.name = nameTextInput.text;
         selectedSprint.billedHourlyRate = int(hourlyRateMoneyTextInput.dollars);
         selectedSprint.project = Project(projectsComboBox.selectedItem);
-        selectedSprint.dueBy = dueByDateField.selectedDate as Date;
+        selectedSprint.dueBy = dueByDateField.date as Date;
         
         saveSprint(selectedSprint);
       }
@@ -119,7 +119,7 @@
       <mx:TextInput id="nameTextInput" width="100%" text="{selectedSprint.name}"/>
     </mx:FormItem>
     <mx:FormItem label="Due By:" width="100%">
-      <mx:DateField id="dueByDateField" text="{selectedSprint.dueBy}"/>
+      <rx:DateTimeTextInput id="dueByDateField" date="{selectedSprint.dueBy}"/>
     </mx:FormItem>
     <mx:FormItem label="Project:">
       <mx:ComboBox id="projectsComboBox" dataProvider="{Pomodo.models.projects}" 
