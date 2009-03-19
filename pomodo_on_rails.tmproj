@@ -2,23 +2,25 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>currentDocument</key>
+	<string>app/flex/Pomodo.mxml</string>
 	<key>documents</key>
 	<array>
 		<dict>
 			<key>expanded</key>
 			<true/>
 			<key>name</key>
-			<string>pomodo_on_rails</string>
+			<string>pomodo</string>
 			<key>regexFolderFilter</key>
 			<string>!.*/(\.[^/]*|CVS|_darcs|_MTN|\{arch\}|blib|.*~\.nib|.*\.(framework|app|pbproj|pbxproj|xcode(proj)?|bundle))$</string>
 			<key>sourceDirectory</key>
 			<string></string>
 		</dict>
 	</array>
-	<key>fileHierarchyDrawerWidth</key>
-	<integer>299</integer>
-	<key>metaData</key>
-	<dict/>
+  <key>fileHierarchyDrawerWidth</key> 
+  <integer>299</integer> 
+  <key>metaData</key> 
+  <dict/> 
 	<key>shellVariables</key>
 	<array>
 		<dict>
@@ -41,14 +43,30 @@
 			<key>enabled</key>
 			<true/>
 			<key>value</key>
-			<string>/Users/Dima/Projects/ruboss/ruboss_framework/framework/bin/ruboss.swc,/Users/Dima/Projects/ruboss/pomodo_on_rails/lib/flexlib-2.4.swc</string>
+			<string>app/flex</string>
 			<key>variable</key>
-			<string>TM_FLEX_LIB_PATH</string>
+			<string>TM_AS3_USUAL_SRC_DIRS</string>
 		</dict>
+		<dict>
+			<key>enabled</key>
+			<true/>
+			<key>value</key>
+			<string>/Users/Dima/Projects/dev/restfulx_framework/framework/src</string>
+			<key>variable</key>
+			<string>TM_AS3_LIB_SRC_DIRS</string>
+		</dict>
+    <dict>
+      <key>enabled</key>
+      <true/>
+      <key>value</key>
+      <string>flex</string>
+      <key>variable</key>
+      <string>TM_FLEX_RUNTIME</string>
+    </dict>
 	</array>
 	<key>showFileHierarchyDrawer</key>
 	<false/>
 	<key>windowFrame</key>
-	<string>{{5, 15}, {1073, 860}}</string>
+	<string>{{53, 14}, {1221, 864}}</string>
 </dict>
 </plist>

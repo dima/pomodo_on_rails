@@ -1,10 +1,11 @@
 package pomodo.controllers {
+  import pomodo.models.*;
+  import pomodo.commands.*;
+
+  import mx.core.Application;		
   import org.restfulx.Rx;
   import org.restfulx.controllers.RxApplicationController;
   import org.restfulx.utils.RxUtils;
-  
-  import pomodo.commands.*;
-  import pomodo.models.*;
 
   public class ApplicationController extends RxApplicationController {
     private static var controller:ApplicationController;
@@ -13,8 +14,8 @@ package pomodo.controllers {
     
     public static var commands:Array = []; /* Commands */
     
-    public function ApplicationController(enforcer:SingletonEnforcer, extraServices:Array,
-      defaultServiceId:int = -1) {
+    public function ApplicationController(enforcer:SingletonEnforcer, 
+      extraServices:Array, defaultServiceId:int = -1) {
       super(commands, models, extraServices, defaultServiceId);
     }
     
@@ -23,11 +24,13 @@ package pomodo.controllers {
       return controller;
     }
     
-    public static function initialize(extraServices:Array = null, defaultServiceId:int = -1,
-      airDatabaseName:String = null):void {
+    public static function initialize(extraServices:Array = null, 
+      defaultServiceId:int = -1, airDatabaseName:String = null):void {
       if (!RxUtils.isEmpty(airDatabaseName)) Rx.airDatabaseName = airDatabaseName;
-      controller = new ApplicationController(new SingletonEnforcer, extraServices,
-        defaultServiceId);
+      controller = new ApplicationController(new SingletonEnforcer, 
+        extraServices, defaultServiceId);
+      Rx.sessionToken = Application.application.parameters.session_token;
+      Rx.authenticityToken = Application.application.parameters.authenticity_token;
     }
   }
 }
