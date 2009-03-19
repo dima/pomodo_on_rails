@@ -19,9 +19,6 @@ package pomodo.models {
     [Ignored]
     public var photoUrl:String;
     
-    [Ignored]
-    public var sessionToken:String;
-    
     public function Account() {
       super(LABEL);
     }

@@ -30,12 +30,12 @@ class Account < ActiveRecord::Base
   #                :resize_to => '100x100>',
   #                :path_prefix => 'public/images/accounts'
 
-  cattr_accessor :current_account, :session_token
+  cattr_accessor :current_account
 
   # HACK HACK HACK -- how to do attr_accessible from here?
   # prevents a user from submitting a crafted form that bypasses activation
   # anything else you want your user to change should be added here.
-  attr_accessible :login, :email, :name, :password, :password_confirmation, :session_token, :avatar #:uploaded_data
+  attr_accessible :login, :email, :name, :password, :password_confirmation, :avatar #:uploaded_data
   
   # Authenticates a user by their login name and unencrypted password.  Returns the user or nil.
   #
@@ -47,10 +47,6 @@ class Account < ActiveRecord::Base
     return nil if login.blank? || password.blank?
     u = find_in_state :first, :active, :conditions => {:login => login} # need to get the salt
     u && u.authenticated?(password) ? u : nil
-  end
-  
-  def session_token
-    Account.session_token
   end
 
   def login=(value)

@@ -17,9 +17,7 @@ class SessionsController < ApplicationController
       # reset_session
       new_cookie_flag = (params[:remember_me] == "1")
       handle_remember_cookie! new_cookie_flag
-      
-      Account.session_token = session.session_id
-      
+            
       self.current_account = account
       respond_to do |format|
         format.html do
@@ -29,12 +27,12 @@ class SessionsController < ApplicationController
         format.fxml do
           render :fxml => account.user.to_fxml(:methods => :photo, 
             :include => {:address => {}, :account => {:only => [:id, :login, :email, :name], 
-              :methods => [:session_token, :photo_url]}})
+              :methods => [:photo_url]}})
         end
         format.xml do 
           render :xml => account.user.to_fxml(:methods => :photo, 
             :include => {:address => {}, :account => {:only => [:id, :login, :email, :name], 
-              :methods => [:session_token, :photo_url]}})
+              :methods => [:photo_url]}})
         end
       end
     else
