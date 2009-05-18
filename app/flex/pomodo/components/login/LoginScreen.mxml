@@ -27,13 +27,19 @@
       }
       
       private function signUp():void {
-        var account:Account = new Account;
-        account.login = signUpUsername.text;
-        account.email = signUpEmail.text;
-        account.password = signUpPassword.text;
-        account.passwordConfirmation = signUpPasswordConfirmation.text;
-        account.attachment = photo;
-        account.create(onSignUp);
+        signUpClientUsernameValidator.validate(signUpUsername.text);
+        signUpClientEmailValidator.validate(signUpEmail.text);
+        signUpClientPasswordValidator.validate(signUpPasswordConfirmation.text);
+        
+        if (!signUpFormDirty) {
+          var account:Account = new Account;
+          account.login = signUpUsername.text;
+          account.email = signUpEmail.text;
+          account.password = signUpPassword.text;
+          account.passwordConfirmation = signUpPasswordConfirmation.text;
+          account.attachment = photo;
+          account.create(onSignUp);
+        }
       }
       
       private function onLoginSuccess(result:User):void {
@@ -90,17 +96,22 @@
   <mx:Fade id="showEffect" duration="300" alphaFrom="0" alphaTo="1"/>
   
   <!-- Flex Validators -->
-  <mx:StringValidator source="{signUpUsername}" property="text" 
-        minLength="1" invalid="signUpFormDirty = true"/>
-  <mx:EmailValidator source="{signUpEmail}" property="text" invalid="signUpFormDirty = true"/>
-  <mx:RegExpValidator source="{signUpPasswordConfirmation}" 
-    property="text" expression="{signUpPassword.text}" noMatchError="Passwords do not match"
-    invalid="signUpFormDirty = true" valid="signUpFormDirty = false"/>
+  <mx:StringValidator id="signUpClientUsernameValidator" source="{signUpUsername}" property="text" 
+    minLength="1" invalid="signUpFormDirty = true"
+    trigger="{signUpUsername}" triggerEvent="focusOut"/>
+  <mx:EmailValidator id="signUpClientEmailValidator" source="{signUpEmail}" property="text" invalid="signUpFormDirty = true"
+    trigger="{signUpEmail}" triggerEvent="focusOut"/>
+  <mx:RegExpValidator id="signUpClientPasswordValidator" source="{signUpPasswordConfirmation}" 
+    property="text" expression="^{signUpPassword.text}$" noMatchError="Passwords do not match"
+    invalid="signUpFormDirty = true" valid="signUpFormDirty = false;"
+    trigger="{signUpPasswordConfirmation}" triggerEvent="keyDown"/>
   
   <!-- Proxies for Rails Validators -->
   <validators:ServiceErrorValidator id="signUpLoginNameValidator" field="login" listener="{signUpUsername}" 
      serviceErrors="{Rx.models.errors}"/>
   <validators:ServiceErrorValidator id="signUpPasswordValidator" field="password" listener="{signUpPassword}" 
+     serviceErrors="{Rx.models.errors}"/>
+  <validators:ServiceErrorValidator id="emailValidator" field="email" listener="{signUpEmail}" 
      serviceErrors="{Rx.models.errors}"/>
 
   <mx:ViewStack height="100%" width="100%" id="views">
@@ -147,7 +158,7 @@
           <mx:Label text="{photoFileName}" maxWidth="190" />
         </mx:FormItem>
         <mx:FormItem label="">
-          <mx:Button label="Sign Up" click="signUp()" keyDown="signUpOnEnter(event)" enabled="{!signUpFormDirty}"/>  
+          <mx:Button id="signUpButton" label="Sign Up" click="signUp()" keyDown="signUpOnEnter(event)"/>  
         </mx:FormItem>
       </mx:Form>
       <mx:Text text="Already have an account?" verticalCenter="158" horizontalCenter="-77"/>
