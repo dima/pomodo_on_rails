@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" height="300" width="300" 
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" height="450" width="350" 
   xmlns:validators="org.restfulx.validators.*">
   <mx:Metadata>
     [Event(name="login", type="flash.events.Event")]

@@ -1,7 +1,7 @@
 # This controller handles the login/logout function of the site.  
 class SessionsController < ApplicationController
   
-  skip_before_filter :login_required
+  skip_before_filter :login_required, :verify_authenticity_token   
   
   # render new.rhtml
   def new
