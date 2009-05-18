@@ -1,12 +1,8 @@
-# When you do file uploads from Flash with File.upload() that, unfortunately generates a new session id,
-# which will fail to authenticate if you are using restful-authentication plugin or equivalent.
-#
-# The following code is a work-around for the Flash bug that prevents file uploader
-# from sending correct session_id. Here, we hack the Session#initialize method and force the session_id
-# to load from the query string via the request URI.
-#
-# Based on the code from http://seventytwo.co.uk/posts/making-swfupload-and-rails-work-together
-begin
+# the following patches allow us to overwrite session key on file uploads from Flash, 
+# which ends up creating a new session for every File.upload() invocation.
+
+# try settings for Rails 2.3.x first
+if RAILS_GEM_VERSION =~ /^2.3/
   require 'rack/utils'
 
   class FlashSessionCookieMiddleware
@@ -25,7 +21,8 @@ begin
       @app.call(env)
     end
   end
-rescue LoadError
+else
+  # otherwise default to Rails 2.x defaults
   class CGI::Session
     alias original_initialize initialize
 
