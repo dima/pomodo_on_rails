@@ -1,11 +1,13 @@
 package pomodo.controllers {
-  import pomodo.models.*;
-  import pomodo.commands.*;
-
-  import mx.core.Application;		
+  import mx.controls.Alert;
+  import mx.core.Application;
+  
   import org.restfulx.Rx;
   import org.restfulx.controllers.RxApplicationController;
   import org.restfulx.utils.RxUtils;
+  
+  import pomodo.commands.*;
+  import pomodo.models.*;
 
   public class ApplicationController extends RxApplicationController {
     private static var controller:ApplicationController;
@@ -31,6 +33,8 @@ package pomodo.controllers {
         extraServices, defaultServiceId);
       Rx.sessionToken = Application.application.parameters.session_token;
       Rx.authenticityToken = Application.application.parameters.authenticity_token;
+      Alert.show("session:" + Rx.sessionToken);
+      Alert.show("auth:" + Rx.authenticityToken);
     }
   }
 }

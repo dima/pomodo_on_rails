@@ -23,8 +23,12 @@ class Account < ActiveRecord::Base
 
   has_one :user
   
-  has_attached_file :avatar, :styles => {:thumb => '100x100>'} # doesn't resize for some reason, check!
+  # paperclip examples:
+  #   http://github.com/thoughtbot/paperclip/tree/master
+  has_attached_file :avatar,
+    :styles => { :thumb => "100x100>" }, :default_url => "/images/avatar-missing.png"
 
+  # attachment_fu
   # has_attachment :content_type => :image, 
   #                :storage => :file_system,
   #                :resize_to => '100x100>',
@@ -58,12 +62,7 @@ class Account < ActiveRecord::Base
   end
   
   def photo_url
-    begin
-      #public_filename
-      avatar.url(:original)
-    rescue
-      DEFAULT_PHOTO_URL
-    end
+    avatar.url(:original)
   end
   
   protected
