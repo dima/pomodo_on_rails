@@ -1,1 +1,1 @@
-ActionController::Dispatcher.middleware.use FlashSessionCookieMiddleware, ActionController::Base.session_options[:key] if RAILS_GEM_VERSION =~ /^2.3/
+ActionController::Dispatcher.middleware.use FlashSessionCookieMiddleware, ActionController::Base.session_options[:key]

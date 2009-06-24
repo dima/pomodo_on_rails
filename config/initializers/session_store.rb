@@ -5,7 +5,7 @@
 # Make sure the secret is at least 30 characters and all random, 
 # no regular words or you'll be exposed to dictionary attacks.
 ActionController::Base.session = {
-  :key         => '_pomodo_session',
+  :key         => '_session_id',
   :secret      => '81e4fbf8d3e89adf24efdf519b36a4faf6fb6dba36a4863c5999eaf9d13db0ee78cbcd99c65655ec2ebd5514982926df5c82242493b8a4293fea259ca0864c51'
 }
 
