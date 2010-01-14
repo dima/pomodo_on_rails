@@ -30,7 +30,7 @@ class SessionsController < ApplicationController
               :methods => [:photo_url]}})
         end
         format.amf do
-          render :fxml => account.user.to_amf(:methods => :photo, 
+          render :amf => account.user.to_amf(:methods => :photo, 
             :include => {:address => {}, :account => {:only => [:id, :login, :email, :name], 
               :methods => [:photo_url]}})
         end
