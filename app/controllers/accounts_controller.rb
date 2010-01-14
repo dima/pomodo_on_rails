@@ -87,12 +87,14 @@ class AccountsController < ApplicationController
         flash[:notice] = 'User was successfully updated.'
         format.html { redirect_to(@user) }
         format.xml  { head :ok }
-        format.fxml  { render :fxml => @account.to_fxml(:only => [:id, :name, :login, :email],
+        format.fxml { render :fxml => @account.to_fxml(:only => [:id, :name, :login, :email],
           :methods => [:photo_url]) }
+        format.amf  { render :amf => @account.to_amf(:only => [:id, :name, :login, :email], :methods => [:photo_url]) }
       else
         format.html { render :action => "edit" }
         format.xml  { render :xml => @account.errors, :status => :unprocessable_entity }
-        format.fxml  { render :fxml => @account.errors }
+        format.fxml { render :fxml => @account.errors }
+        format.amf  { render :amf => @account.errors }
       end
     end
   end

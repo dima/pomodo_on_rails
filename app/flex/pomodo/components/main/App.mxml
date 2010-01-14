@@ -6,11 +6,11 @@
   </mx:Metadata>
   <mx:Script>
     <![CDATA[
-      import pomodo.controllers.ModelsController;
       import mx.controls.ComboBox;
       import mx.core.Application;
       import mx.managers.PopUpManager;
       import mx.events.ListEvent;
+      import pomodo.controllers.ModelsController;
       import pomodo.models.Task;
       import pomodo.models.Project;
       import org.restfulx.Rx;
@@ -20,7 +20,7 @@
       }
       
       private function stopWorkAndLogOut(result:Object):void {
-        Rx.http(onLogout).invoke({URL: "session.fxml", method: "DELETE"});
+        Rx.amf(onLogout).invoke({URL: "session.amf", method: "DELETE"});
       }
       
       private function onLogout(result:Object):void {

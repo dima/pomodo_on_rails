@@ -8,7 +8,8 @@ class WorkunitsController < ApplicationController
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @workunits }
-      format.fxml  { render :fxml => @workunits }
+      format.fxml { render :fxml => @workunits }
+      format.amf  { render :amf => @workunits }
     end
   end
 
@@ -21,7 +22,8 @@ class WorkunitsController < ApplicationController
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @workunit }
-      format.fxml  { render :fxml => @workunit }
+      format.fxml { render :fxml => @workunit }
+      format.amf  { render :amf => @workunit }
     end
   end
 
@@ -52,11 +54,13 @@ class WorkunitsController < ApplicationController
         flash[:notice] = 'Workunit was successfully created.'
         format.html { redirect_to(@workunit) }
         format.xml  { render :xml => @workunit, :status => :created, :location => @workunit }
-        format.fxml  { render :fxml => @workunit }
+        format.fxml { render :fxml => @workunit }
+        format.amf  { render :amf => @workunit }
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @workunit.errors, :status => :unprocessable_entity }
-        format.fxml  { render :fxml => @workunit.errors }
+        format.fxml { render :fxml => @workunit.errors }
+        format.amf  { render :amf => @workunit.errors }
       end
     end
   end
@@ -72,11 +76,13 @@ class WorkunitsController < ApplicationController
         flash[:notice] = 'Workunit was successfully updated.'
         format.html { redirect_to(@workunit) }
         format.xml  { head :ok }
-        format.fxml  { render :fxml => @workunit }
+        format.fxml { render :fxml => @workunit }
+        format.amf  { render :amf => @workunit }
       else
         format.html { render :action => "edit" }
         format.xml  { render :xml => @workunit.errors, :status => :unprocessable_entity }
-        format.fxml  { render :fxml => @workunit.errors }
+        format.fxml { render :fxml => @workunit.errors }
+        format.amf  { render :amf => @workunit.errors }
       end
     end
   end
@@ -91,7 +97,8 @@ class WorkunitsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to(workunits_url) }
       format.xml  { head :ok }
-      format.fxml  { render :fxml => @workunit }
+      format.fxml { render :fxml => @workunit }
+      format.amf  { render :amf => @workunit }
     end
   end
 end

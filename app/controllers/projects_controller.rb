@@ -8,9 +8,12 @@ class ProjectsController < ApplicationController
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @projects }
-      format.fxml  { render :fxml => @projects.to_fxml(:include => {:sprints => 
+      format.fxml { render :fxml => @projects.to_fxml(:include => {:sprints => 
         {:include => {:tasks => {:methods => 
-          [:total_time, :total_time_today, :total_time_this_week, :total_time_this_month]}}}}) }    
+          [:total_time, :total_time_today, :total_time_this_week, :total_time_this_month]}}}}) }
+      format.amf  { render :amf => @projects.to_amf(:include => {:sprints => 
+        {:include => {:tasks => {:methods => 
+          [:total_time, :total_time_today, :total_time_this_week, :total_time_this_month]}}}}) }
     end
   end
 
@@ -23,7 +26,8 @@ class ProjectsController < ApplicationController
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @project }
-      format.fxml  { render :fxml => @project }
+      format.fxml { render :fxml => @project }
+      format.amf  { render :amf => @project }
     end
   end
 
@@ -54,11 +58,13 @@ class ProjectsController < ApplicationController
         flash[:notice] = 'Project was successfully created.'
         format.html { redirect_to(@project) }
         format.xml  { render :xml => @project, :status => :created, :location => @project }
-        format.fxml  { render :fxml => @project }
+        format.fxml { render :fxml => @project }
+        format.amf  { render :amf => @project }
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @project.errors, :status => :unprocessable_entity }
-        format.fxml  { render :fxml => @project.errors }
+        format.fxml { render :fxml => @project.errors }
+        format.amf  { render :amf => @project.errors }
       end
     end
   end
@@ -74,11 +80,13 @@ class ProjectsController < ApplicationController
         flash[:notice] = 'Project was successfully updated.'
         format.html { redirect_to(@project) }
         format.xml  { head :ok }
-        format.fxml  { render :fxml => @project }
+        format.fxml { render :fxml => @project }
+        format.amf  { render :amf => @project }
       else
         format.html { render :action => "edit" }
         format.xml  { render :xml => @project.errors, :status => :unprocessable_entity }
-        format.fxml  { render :fxml => @project.errors }
+        format.fxml { render :fxml => @project.errors }
+        format.amf  { render :amf => @project }
       end
     end
   end
@@ -93,7 +101,8 @@ class ProjectsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to(projects_url) }
       format.xml  { head :ok }
-      format.fxml  { render :fxml => @project }
+      format.fxml { render :fxml => @project }
+      format.amf  { render :amf => @project }
     end
   end
 end

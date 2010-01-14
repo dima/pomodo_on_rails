@@ -7,8 +7,8 @@
   <mx:Script>
     <![CDATA[
       import org.restfulx.utils.RxFileReference;
-      import mx.core.Application;
       import org.restfulx.Rx;
+      import mx.core.Application;
       import pomodo.models.User;
       import pomodo.models.Account;
       
@@ -21,7 +21,7 @@
       private var signUpFormDirty:Boolean = true;
       
       private function login():void {
-        Rx.http(onLoginSuccess, onLoginFailure).invoke("session.fxml?_session_id=" + Rx.sessionToken + 
+        Rx.amf(onLoginSuccess, onLoginFailure).invoke("session.amf?_session_id=" + Rx.sessionToken + 
           "&authenticity_token=" + Rx.authenticityToken, 
           { login: userTI.text, password: passwordTI.text }, "POST", true);
       }
@@ -69,10 +69,10 @@
 
       private function chooseFile():void {
         photo = new RxFileReference("avatar");
-        photo.addEventListener(IOErrorEvent.IO_ERROR, ioErrorHandler, false, 0, true);
-        photo.addEventListener(Event.SELECT, selectFile, false, 0, true);
-        photo.addEventListener(Event.CANCEL, cancelBrowse, false, 0, true);
-        photo.browse();
+        photo.reference.addEventListener(IOErrorEvent.IO_ERROR, ioErrorHandler, false, 0, true);
+        photo.reference.addEventListener(Event.SELECT, selectFile, false, 0, true);
+        photo.reference.addEventListener(Event.CANCEL, cancelBrowse, false, 0, true);
+        photo.reference.browse();
       }
 
       private function selectFile(event:Event):void { 
@@ -84,7 +84,7 @@
       }
       
       private function fileSelected(event:Event):void {
-        photoFileName = RxFileReference(event.target).name;
+        photoFileName = RxFileReference(event.target).reference.name;
       }
       
       private function ioErrorHandler(event:Event):void {

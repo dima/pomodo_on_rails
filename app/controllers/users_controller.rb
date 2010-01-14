@@ -8,7 +8,8 @@ class UsersController < ApplicationController
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @users }
-      format.fxml  { render :fxml => @users }
+      format.fxml { render :fxml => @users }
+      format.amf  { render :amf => @users }
     end
   end
 
@@ -21,7 +22,8 @@ class UsersController < ApplicationController
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @user }
-      format.fxml  { render :fxml => @user }
+      format.fxml { render :fxml => @user }
+      format.amf  { render :amf => @user }
     end
   end
 
@@ -52,11 +54,13 @@ class UsersController < ApplicationController
         flash[:notice] = 'User was successfully created.'
         format.html { redirect_to(@user) }
         format.xml  { render :xml => @user, :status => :created, :location => @user }
-        format.fxml  { render :fxml => @user }
+        format.fxml { render :fxml => @user }
+        format.amf  { render :amf => @user }
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @user.errors, :status => :unprocessable_entity }
-        format.fxml  { render :fxml => @user.errors }
+        format.fxml { render :fxml => @user.errors }
+        format.amf  { render :amf => @user.errors }
       end
     end
   end
@@ -72,11 +76,14 @@ class UsersController < ApplicationController
         flash[:notice] = 'User was successfully updated.'
         format.html { redirect_to(@user) }
         format.xml  { head :ok }
-        format.fxml  { render :fxml => @user.to_fxml(:methods => :photo) }
+        format.fxml { render :fxml => @user.to_fxml(:methods => :photo) }
+        format.amf  { render :amf => @user.to_amf(:methods => :photo) }
+        
       else
         format.html { render :action => "edit" }
         format.xml  { render :xml => @user.errors, :status => :unprocessable_entity }
-        format.fxml  { render :fxml => @user.errors }
+        format.fxml { render :fxml => @user.errors }
+        format.amf  { render :amf => @user.errors }
       end
     end
   end
@@ -91,7 +98,8 @@ class UsersController < ApplicationController
     respond_to do |format|
       format.html { redirect_to(users_url) }
       format.xml  { head :ok }
-      format.fxml  { render :fxml => @user }
+      format.fxml { render :fxml => @user }
+      format.amf  { render :amf => @user }
     end
   end
 end

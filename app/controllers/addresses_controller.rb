@@ -8,7 +8,8 @@ class AddressesController < ApplicationController
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @addresses }
-      format.fxml  { render :fxml => @addresses }
+      format.fxml { render :fxml => @addresses }
+      format.amf  { render :amf => @addresses }
     end
   end
 
@@ -21,7 +22,8 @@ class AddressesController < ApplicationController
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @address }
-      format.fxml  { render :fxml => @address }
+      format.fxml { render :fxml => @address }
+      format.amf  { render :amf => @address }
     end
   end
 
@@ -52,11 +54,13 @@ class AddressesController < ApplicationController
         flash[:notice] = 'Address was successfully created.'
         format.html { redirect_to(@address) }
         format.xml  { render :xml => @address, :status => :created, :location => @address }
-        format.fxml  { render :fxml => @address }
+        format.fxml { render :fxml => @address }
+        format.amf  { render :amf => @address }
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @address.errors, :status => :unprocessable_entity }
-        format.fxml  { render :fxml => @address.errors }
+        format.fxml { render :fxml => @address.errors }
+        format.amf  { render :amf => @address.errors }
       end
     end
   end
@@ -72,11 +76,13 @@ class AddressesController < ApplicationController
         flash[:notice] = 'Address was successfully updated.'
         format.html { redirect_to(@address) }
         format.xml  { head :ok }
-        format.fxml  { render :fxml => @address }
+        format.fxml { render :fxml => @address }
+        format.amf  { render :amf => @address }
       else
         format.html { render :action => "edit" }
         format.xml  { render :xml => @address.errors, :status => :unprocessable_entity }
-        format.fxml  { render :fxml => @address.errors }
+        format.fxml { render :fxml => @address.errors }
+        format.amf  { render :amf => @address.errors }
       end
     end
   end
@@ -91,7 +97,8 @@ class AddressesController < ApplicationController
     respond_to do |format|
       format.html { redirect_to(addresses_url) }
       format.xml  { head :ok }
-      format.fxml  { render :fxml => @address }
+      format.fxml { render :fxml => @address }
+      format.amf  { render :amf => @address }
     end
   end
 end

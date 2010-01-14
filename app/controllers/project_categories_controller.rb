@@ -8,7 +8,8 @@ class ProjectCategoriesController < ApplicationController
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @project_categories }
-      format.fxml  { render :fxml => @project_categories }
+      format.fxml { render :fxml => @project_categories }
+      format.amf  { render :amf => @project_categories }
     end
   end
 
@@ -21,7 +22,8 @@ class ProjectCategoriesController < ApplicationController
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @project_category }
-      format.fxml  { render :fxml => @project_category }
+      format.fxml { render :fxml => @project_category }
+      format.amf  { render :amf => @project_category }
     end
   end
 
@@ -52,11 +54,13 @@ class ProjectCategoriesController < ApplicationController
         flash[:notice] = 'ProjectCategory was successfully created.'
         format.html { redirect_to(@project_category) }
         format.xml  { render :xml => @project_category, :status => :created, :location => @project_category }
-        format.fxml  { render :fxml => @project_category }
+        format.fxml { render :fxml => @project_category }
+        format.amf  { render :amf => @project_category }
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @project_category.errors, :status => :unprocessable_entity }
-        format.fxml  { render :fxml => @project_category.errors }
+        format.fxml { render :fxml => @project_category.errors }
+        format.amf  { render :amf => @project_category.errors }
       end
     end
   end
@@ -72,11 +76,13 @@ class ProjectCategoriesController < ApplicationController
         flash[:notice] = 'ProjectCategory was successfully updated.'
         format.html { redirect_to(@project_category) }
         format.xml  { head :ok }
-        format.fxml  { render :fxml => @project_category }
+        format.fxml { render :fxml => @project_category }
+        format.amf { render :amf => @project_category }
       else
         format.html { render :action => "edit" }
         format.xml  { render :xml => @project_category.errors, :status => :unprocessable_entity }
-        format.fxml  { render :fxml => @project_category.errors }
+        format.fxml { render :fxml => @project_category.errors }
+        format.amf  { render :amf => @project_category.errors }
       end
     end
   end
@@ -91,7 +97,8 @@ class ProjectCategoriesController < ApplicationController
     respond_to do |format|
       format.html { redirect_to(project_categories_url) }
       format.xml  { head :ok }
-      format.fxml  { render :fxml => @project_category }
+      format.fxml { render :fxml => @project_category }
+      format.amf  { render :amf => @project_category }
     end
   end
 end

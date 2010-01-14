@@ -8,7 +8,8 @@ class AssignmentsController < ApplicationController
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @assignments }
-      format.fxml  { render :fxml => @assignments }
+      format.fxml { render :fxml => @assignments }
+      format.amf  { render :amf => @assignments }
     end
   end
 
@@ -21,7 +22,8 @@ class AssignmentsController < ApplicationController
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @assignment }
-      format.fxml  { render :fxml => @assignment }
+      format.fxml { render :fxml => @assignment }
+      format.amf  { render :amf => @assignment }
     end
   end
 
@@ -52,11 +54,13 @@ class AssignmentsController < ApplicationController
         flash[:notice] = 'Assignment was successfully created.'
         format.html { redirect_to(@assignment) }
         format.xml  { render :xml => @assignment, :status => :created, :location => @assignment }
-        format.fxml  { render :fxml => @assignment }
+        format.fxml { render :fxml => @assignment }
+        format.amf  { render :amf => @assignment }
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @assignment.errors, :status => :unprocessable_entity }
-        format.fxml  { render :fxml => @assignment.errors }
+        format.fxml { render :fxml => @assignment.errors }
+        format.amf  { render :amf => @assignment.errors }
       end
     end
   end
@@ -72,11 +76,13 @@ class AssignmentsController < ApplicationController
         flash[:notice] = 'Assignment was successfully updated.'
         format.html { redirect_to(@assignment) }
         format.xml  { head :ok }
-        format.fxml  { render :fxml => @assignment }
+        format.fxml { render :fxml => @assignment }
+        format.amf  { render :amf => @assignment }
       else
         format.html { render :action => "edit" }
         format.xml  { render :xml => @assignment.errors, :status => :unprocessable_entity }
-        format.fxml  { render :fxml => @assignment.errors }
+        format.fxml { render :fxml => @assignment.errors }
+        format.amf  { render :amf => @assignment.errors }
       end
     end
   end
@@ -91,7 +97,8 @@ class AssignmentsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to(assignments_url) }
       format.xml  { head :ok }
-      format.fxml  { render :fxml => @assignment }
+      format.fxml { render :fxml => @assignment }
+      format.amf  { render :amf => @assignment }
     end
   end
 end

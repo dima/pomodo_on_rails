@@ -29,6 +29,11 @@ class SessionsController < ApplicationController
             :include => {:address => {}, :account => {:only => [:id, :login, :email, :name], 
               :methods => [:photo_url]}})
         end
+        format.amf do
+          render :fxml => account.user.to_amf(:methods => :photo, 
+            :include => {:address => {}, :account => {:only => [:id, :login, :email, :name], 
+              :methods => [:photo_url]}})
+        end
         format.xml do 
           render :xml => account.user.to_fxml(:methods => :photo, 
             :include => {:address => {}, :account => {:only => [:id, :login, :email, :name], 
@@ -45,6 +50,7 @@ class SessionsController < ApplicationController
         end
         format.fxml { render :text => "login_failed" }
         format.xml { render :text => "login_failed" }
+        format.amf { render :amf => "login_failed" }
       end
     end
   end
@@ -58,6 +64,7 @@ class SessionsController < ApplicationController
       end
       format.fxml { render :text => "loggedout" }
       format.xml { render :text => "loggedout" }
+      format.amf { render :amf => "loggedout" }
     end
   end
 

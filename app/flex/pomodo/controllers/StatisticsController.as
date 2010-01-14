@@ -20,10 +20,11 @@ package pomodo.controllers {
     public function StatisticsController(enforcer:SingletonEnforcer) {
       Rx.models.addEventListener(CacheUpdateEvent.ID, onCacheUpdate);
       Rx.http(function(result:Object):void {
+        var data:XML = XML(result);
         totalTimeNumbers.addItem({
-          totalTimeToday: result.total_time_today.toString(), 
-          totalTimeThisWeek: result.total_time_this_week.toString(),
-          totalTimeThisMonth: result.total_time_this_month.toString()
+          totalTimeToday: data.total_time_today.toString(), 
+          totalTimeThisWeek: data.total_time_this_week.toString(),
+          totalTimeThisMonth: data.total_time_this_month.toString()
         });
       }).invoke("stats/summary");
     }

@@ -14,11 +14,12 @@
       import pomodo.components.main.App;
       import mx.containers.Canvas;
       import org.restfulx.Rx;
+      import org.restfulx.services.amf.AMFServiceProvider;
       import org.restfulx.utils.RxUtils;
 
       private function init():void {
         Rx.enableLogging();
-        ApplicationController.initialize();
+        ApplicationController.initialize([AMFServiceProvider], AMFServiceProvider.ID);
       }
 
       private function onLogin(event:Event):void {

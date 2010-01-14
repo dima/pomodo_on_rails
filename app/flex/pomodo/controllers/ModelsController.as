@@ -10,6 +10,8 @@ package pomodo.controllers {
   import pomodo.models.Task;
   import pomodo.models.User;
   
+  import mx.utils.ObjectUtil;
+  
   [Bindable]
   public class ModelsController {
         
@@ -38,10 +40,19 @@ package pomodo.controllers {
 
     private function onCacheUpdate(event:CacheUpdateEvent):void {
       if (event.isFor(Project)) {
+        trace(ObjectUtil.toString(Rx.models.cached(Project)));
         projectsAndAny = Rx.merge(Rx.models.cached(Project), [Project.ANY]);
         projects = Rx.models.cached(Project);
         sprints = Rx.models.cached(Sprint);
         tasks = Rx.models.cached(Task);
+        for each (var project:Project in projects) {
+          for each (var sprint:Sprint in project.sprints) {
+            if (sprint != null) {
+              sprints.addItem(sprint);
+              if (sprint.tasks != null) tasks.addAll(sprint.tasks);
+            }
+          }
+        }
         incompleteTasks = Rx.filter(Rx.models.cached(Task), filterByCompletionAndProject);
       } else if (event.isFor(ProjectCategory)) {
         projectCategories = Rx.filter(Rx.models.cached(ProjectCategory), filterByCategoryWithNoParent);
