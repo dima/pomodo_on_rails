@@ -6,16 +6,18 @@
   styleName="plain" initialize="init()" minHeight="600" minWidth="800">
   <mx:Script>
     <![CDATA[
+      import org.restfulx.Rx;
+      import org.restfulx.services.amf.AMFServiceProvider;
+      import org.restfulx.utils.RxUtils;
+      
+      import mx.containers.Canvas;
+      
       import pomodo.controllers.TaskTracker;
       import pomodo.controllers.StatisticsController;
       import pomodo.controllers.ModelsController;
       import pomodo.controllers.ApplicationController;
       import pomodo.components.login.LoginScreen;
-      import pomodo.components.main.App;
-      import mx.containers.Canvas;
-      import org.restfulx.Rx;
-      import org.restfulx.services.amf.AMFServiceProvider;
-      import org.restfulx.utils.RxUtils;
+      import pomodo.components.main.App;      
 
       private function init():void {
         Rx.enableLogging();
