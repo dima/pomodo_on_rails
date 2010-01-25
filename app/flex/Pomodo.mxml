@@ -17,7 +17,7 @@
       import pomodo.controllers.ModelsController;
       import pomodo.controllers.ApplicationController;
       import pomodo.components.login.LoginScreen;
-      import pomodo.components.main.App;      
+      import pomodo.components.main.App;
 
       private function init():void {
         Rx.enableLogging();

@@ -16,7 +16,6 @@ package pomodo.models {
 
     public var billedHourlyRate:int;
     
-    [Ignored]
     [BelongsTo]
     public var projectCategory:ProjectCategory;
 

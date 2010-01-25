@@ -36,16 +36,16 @@ package pomodo.controllers {
     public function ModelsController(enforcer:SingletonEnforcer) {
       Rx.models.addEventListener(CacheUpdateEvent.ID, onCacheUpdate);
       Rx.models.index(Project);
+      projectsAndAny = Rx.merge(Rx.models.cached(Project), [Project.ANY]);
+      projects = Rx.models.cached(Project);
+      sprints = Rx.models.cached(Sprint);
+      tasks = Rx.models.cached(Task);
     }
 
     private function onCacheUpdate(event:CacheUpdateEvent):void {
       if (event.isFor(Project)) {
-        trace(ObjectUtil.toString(Rx.models.cached(Project)));
-        projectsAndAny = Rx.merge(Rx.models.cached(Project), [Project.ANY]);
-        projects = Rx.models.cached(Project);
-        sprints = Rx.models.cached(Sprint);
-        tasks = Rx.models.cached(Task);
-        for each (var project:Project in projects) {
+        trace(ObjectUtil.toString(event.data));
+        for each (var project:Project in event.data) {
           for each (var sprint:Sprint in project.sprints) {
             if (sprint != null) {
               sprints.addItem(sprint);
