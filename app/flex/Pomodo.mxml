@@ -25,6 +25,7 @@
       }
 
       private function onLogin(event:Event):void {
+        trace("logged in");
         var app:App = new App;
         app.addEventListener("logout", onLogout);
         showScreen(app);

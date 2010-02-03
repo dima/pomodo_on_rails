@@ -16,6 +16,7 @@ package pomodo.models {
 
     public var billedHourlyRate:int;
     
+    [Lazy]
     [BelongsTo]
     public var projectCategory:ProjectCategory;
 

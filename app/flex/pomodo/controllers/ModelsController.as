@@ -43,8 +43,8 @@ package pomodo.controllers {
     }
 
     private function onCacheUpdate(event:CacheUpdateEvent):void {
+      trace("result:" + ObjectUtil.toString(event.data));
       if (event.isFor(Project)) {
-        trace(ObjectUtil.toString(event.data));
         for each (var project:Project in event.data) {
           for each (var sprint:Sprint in project.sprints) {
             if (sprint != null) {
