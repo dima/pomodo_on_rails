@@ -9,7 +9,7 @@ class ProjectCategoriesController < ApplicationController
       format.html # index.html.erb
       format.xml  { render :xml => @project_categories }
       format.fxml { render :fxml => @project_categories }
-      format.amf  { render :amf => @project_categories.to_amf(:include => [:projects]) }
+      format.amf  { render :amf => @project_categories }
     end
   end
 

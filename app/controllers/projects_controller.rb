@@ -11,11 +11,9 @@ class ProjectsController < ApplicationController
       format.fxml { render :fxml => @projects.to_fxml(:include => {:sprints => 
         {:include => {:tasks => {:methods => 
           [:total_time, :total_time_today, :total_time_this_week, :total_time_this_month]}}}}) }
-      # format.amf { render :amf => @projects }
-      # format.amf { render :amf => @projects.to_amf(:include => [:sprints]) }
       format.amf  { render :amf => @projects.to_amf(:attributes => {:foo => "bar"}, :include => {:sprints => 
         {:include => {:tasks => {:methods => 
-          [:total_time, :total_time_today, :total_time_this_week, :total_time_this_month]}}}}) }
+          [:total_time, :total_time_today, :total_time_this_week, :total_time_this_month]}}}, :project_category => {}}) }
     end
   end
 
