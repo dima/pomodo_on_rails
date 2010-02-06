@@ -47,11 +47,13 @@
       }
       
       private function onLoginSuccess(result:User):void {
+        trace("success: " + ObjectUtil.toString(result));
         Pomodo.models.currentUser = result;
         dispatchEvent(new Event("login"));
       }
       
       private function onLoginFailure(result:Object):void {
+        trace("failure: " + ObjectUtil.toString(result));
         loginForm.errorString = "Wrong username or password. Try again.";
       }
       

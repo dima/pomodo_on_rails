@@ -47,4 +47,4 @@ ActionController::Dispatcher.middleware.insert_after 'ActionController::ParamsPa
 ActionController::Base.allow_forgery_protection = false
 
 # Set up the default namespace for serializing Rails models to AMF
-RestfulX::AMF::ClassMapper.default_as_prefix = "pomodo.models."
+RestfulX::AMF::ClassMapper.default_as_prefix = "pomodo.models"
