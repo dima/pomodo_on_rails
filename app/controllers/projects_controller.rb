@@ -86,7 +86,7 @@ class ProjectsController < ApplicationController
         format.html { render :action => "edit" }
         format.xml  { render :xml => @project.errors, :status => :unprocessable_entity }
         format.fxml { render :fxml => @project.errors }
-        format.amf  { render :amf => @project }
+        format.amf  { render :amf => @project.errors }
       end
     end
   end

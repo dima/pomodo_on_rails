@@ -21,9 +21,10 @@ class AccountsController < ApplicationController
           redirect_back_or_default('/')
           flash[:notice] = "Thanks for signing up!  We're sending you an email with your activation code."
         end
-        format.fxml  { render :fxml => @account.to_fxml(:only => [:id, :name, :login, :email]) }
+        format.fxml { render :fxml => @account.to_fxml(:only => [:id, :name, :login, :email]) }
         format.xml  { render :xml => @account.to_xml(:only => [:id, :name, :login, :email]), 
           :status => :created, :location => @account }
+        format.amf  { render :amf => @account.to_amf(:only => [:id, :name, :login, :email]) }
       end
     else
       respond_to do |format|
@@ -31,8 +32,9 @@ class AccountsController < ApplicationController
           flash[:error]  = "We couldn't set up that account, sorry.  Please try again, or contact an admin (link is above)."
           render :action => 'new'
         end
-        format.fxml  { render :fxml => @account.errors }
+        format.fxml { render :fxml => @account.errors }
         format.xml  { render :xml => @account.errors, :status => :unprocessable_entity }
+        format.amf  { render :amf => @account.errors }
       end
     end
   end

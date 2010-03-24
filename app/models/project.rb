@@ -6,7 +6,7 @@ class Project < ActiveRecord::Base
   has_many :sprints
   has_many :assignments
   has_many :users, :through => :assignments
-  
+    
   private
     def create_assignment
       Assignment.new(:project => self, :user => Account.current_account.user).save
