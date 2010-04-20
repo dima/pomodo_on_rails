@@ -10,11 +10,12 @@
       import mx.core.Application;
       import mx.managers.PopUpManager;
       import mx.events.ListEvent;
-      import pomodo.controllers.ModelsController;
+      
+      import org.restfulx.Rx;
+      
       import pomodo.models.Task;
       import pomodo.models.Project;
-      import org.restfulx.Rx;
-
+      
       public function logout():void {
         Pomodo.tracker.stopWork(stopWorkAndLogOut);
       }

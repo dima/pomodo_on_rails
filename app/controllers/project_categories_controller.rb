@@ -1,4 +1,6 @@
 class ProjectCategoriesController < ApplicationController
+  skip_before_filter :login_required, :only => :index
+  
   # GET /project_categories
   # GET /project_categories.xml
   # GET /project_categories.fxml

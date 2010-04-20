@@ -18,10 +18,12 @@
       import pomodo.controllers.ApplicationController;
       import pomodo.components.login.LoginScreen;
       import pomodo.components.main.App;
+      import pomodo.models.ProjectCategory;
 
       private function init():void {
         Rx.enableLogging();
         ApplicationController.initialize([AMFServiceProvider], AMFServiceProvider.ID);
+        Rx.models.index(ProjectCategory);
       }
 
       private function onLogin(event:Event):void {

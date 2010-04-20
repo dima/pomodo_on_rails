@@ -1,4 +1,5 @@
 package pomodo.controllers {
+  import flash.events.EventDispatcher;
   import flash.utils.getQualifiedClassName;
   
   import mx.collections.ArrayCollection;
@@ -8,7 +9,7 @@ package pomodo.controllers {
   
   import pomodo.models.Project;
   
-  public class StatisticsController {
+  public class StatisticsController extends EventDispatcher {
     private static var controller:StatisticsController;
     
     [Bindable]

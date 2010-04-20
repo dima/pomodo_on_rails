@@ -91,7 +91,8 @@ class AccountsController < ApplicationController
         format.xml  { head :ok }
         format.fxml { render :fxml => @account.to_fxml(:only => [:id, :name, :login, :email],
           :methods => [:photo_url]) }
-        format.amf  { render :amf => @account.to_amf(:only => [:id, :name, :login, :email], :methods => [:photo_url]) }
+        format.amf  { render :amf => @account.to_amf(:only => [:id, :name, :login, :email], 
+          :methods => [:photo_url]) }
       else
         format.html { render :action => "edit" }
         format.xml  { render :xml => @account.errors, :status => :unprocessable_entity }

@@ -1,4 +1,6 @@
 package pomodo.controllers {
+  import flash.events.EventDispatcher;
+  
   import org.restfulx.Rx;
   import org.restfulx.collections.RxCollection;
   import org.restfulx.events.CacheUpdateEvent;
@@ -13,7 +15,7 @@ package pomodo.controllers {
   import mx.utils.ObjectUtil;
   
   [Bindable]
-  public class ModelsController {
+  public class ModelsController extends EventDispatcher {
         
     private static var controller:ModelsController;
 
@@ -22,7 +24,7 @@ package pomodo.controllers {
     public var currentUser:User;
     
     public var projectCategories:RxCollection;
-        
+            
     public var projectsAndAny:RxCollection;
     
     public var projects:RxCollection;
@@ -36,10 +38,13 @@ package pomodo.controllers {
     public function ModelsController(enforcer:SingletonEnforcer) {
       Rx.models.addEventListener(CacheUpdateEvent.ID, onCacheUpdate);
       Rx.models.index(Project);
-      projectsAndAny = Rx.merge(Rx.models.cached(Project), [Project.ANY]);
+      
+      projectCategories = Rx.filter(Rx.models.cached(ProjectCategory), filterByCategoryWithNoParent);
+      trace(ObjectUtil.toString(projectCategories));
+      
       projects = Rx.models.cached(Project);
       sprints = Rx.models.cached(Sprint);
-      tasks = Rx.models.cached(Task);
+      tasks = Rx.models.cached(Task);      
     }
 
     private function onCacheUpdate(event:CacheUpdateEvent):void {
@@ -53,6 +58,7 @@ package pomodo.controllers {
             }
           }
         }
+        projectsAndAny = Rx.merge(Rx.models.cached(Project), [Project.ANY]);
         incompleteTasks = Rx.filter(Rx.models.cached(Task), filterByCompletionAndProject);
       } else if (event.isFor(ProjectCategory)) {
         projectCategories = Rx.filter(Rx.models.cached(ProjectCategory), filterByCategoryWithNoParent);
