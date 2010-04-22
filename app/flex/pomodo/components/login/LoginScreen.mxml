@@ -6,6 +6,7 @@
   </mx:Metadata>
   <mx:Script>
     <![CDATA[
+      import org.restfulx.services.http.XMLHTTPServiceProvider;
       import org.restfulx.utils.RxFileReference;
       import org.restfulx.Rx;
 
@@ -42,7 +43,8 @@
           account.password = signUpPassword.text;
           account.passwordConfirmation = signUpPasswordConfirmation.text;
           account.attachment = photo;
-          account.create(onSignUp);
+          // don't attempt to do file uploads over AMF because Flash FileReference.upload is brain-dead
+          account.create({onSuccess: onSignUp, targetServiceId: XMLHTTPServiceProvider.ID});
         }
       }
       
@@ -90,7 +92,7 @@
       }
       
       private function fileSelected(event:Event):void {
-        photoFileName = RxFileReference(event.target).reference.name;
+        photoFileName = event.target.name;
       }
       
       private function ioErrorHandler(event:Event):void {

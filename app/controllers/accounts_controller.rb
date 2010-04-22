@@ -9,6 +9,20 @@ class AccountsController < ApplicationController
   def new
     @account = Account.new
   end
+  
+  def index
+    @accounts = Account.find(:all)
+    
+    # :except => [:activated_at, :activation_code, 
+    #   :avatar_content_type, :avatar_file_name, :avatar_file_size, :avatar_updated_at, :deleted_at, :state]
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.xml  { render :xml => @accounts }
+      format.fxml { render :fxml => @accounts }
+      format.amf  { render :amf => @accounts.to_amf(:methods => [:photo_url], :only => [:id]) }
+    end
+  end
  
   def create
     logout_keeping_session!
@@ -21,10 +35,13 @@ class AccountsController < ApplicationController
           redirect_back_or_default('/')
           flash[:notice] = "Thanks for signing up!  We're sending you an email with your activation code."
         end
-        format.fxml { render :fxml => @account.to_fxml(:only => [:id, :name, :login, :email]) }
-        format.xml  { render :xml => @account.to_xml(:only => [:id, :name, :login, :email]), 
+        format.fxml { render :fxml => @account.to_fxml(:only => [:id, :name, :login, :email], 
+          :methods => [:photo_url]) }
+        format.xml  { render :xml => @account.to_xml(:only => [:id, :name, :login, :email], 
+            :methods => [:photo_url]), 
           :status => :created, :location => @account }
-        format.amf  { render :amf => @account.to_amf(:only => [:id, :name, :login, :email]) }
+        format.amf  { render :amf => @account.to_amf(:only => [:id, :name, :login, :email], 
+            :methods => [:photo_url]) }
       end
     else
       respond_to do |format|
@@ -91,13 +108,13 @@ class AccountsController < ApplicationController
         format.xml  { head :ok }
         format.fxml { render :fxml => @account.to_fxml(:only => [:id, :name, :login, :email],
           :methods => [:photo_url]) }
-        format.amf  { render :amf => @account.to_amf(:only => [:id, :name, :login, :email], 
+        format.amf  { render :fxml => @account.to_amf(:only => [:id, :name, :login, :email], 
           :methods => [:photo_url]) }
       else
         format.html { render :action => "edit" }
         format.xml  { render :xml => @account.errors, :status => :unprocessable_entity }
         format.fxml { render :fxml => @account.errors }
-        format.amf  { render :amf => @account.errors }
+        format.amf  { render :fxml => @account.errors }
       end
     end
   end

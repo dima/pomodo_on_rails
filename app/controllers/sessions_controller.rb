@@ -25,18 +25,15 @@ class SessionsController < ApplicationController
           flash[:notice] = "Logged in successfully"
         end
         format.fxml do
-          render :fxml => account.user.to_fxml(:methods => :photo, 
-            :include => {:address => {}, :account => {:only => [:id, :login, :email, :name], 
+          render :fxml => account.user.to_fxml(:include => {:address => {}, :account => {:only => [:id, :login, :email, :name], 
               :methods => [:photo_url]}})
         end
         format.amf do
-          render :amf => account.user.to_amf(:methods => :photo, 
-            :include => {:address => {}, :account => {:only => [:id, :login, :email, :name], 
+          render :amf => account.user.to_amf(:include => {:address => {}, :account => {:only => [:id, :login, :email, :name], 
               :methods => [:photo_url]}})
         end
         format.xml do 
-          render :xml => account.user.to_fxml(:methods => :photo, 
-            :include => {:address => {}, :account => {:only => [:id, :login, :email, :name], 
+          render :xml => account.user.to_fxml(:include => {:address => {}, :account => {:only => [:id, :login, :email, :name], 
               :methods => [:photo_url]}})
         end
       end

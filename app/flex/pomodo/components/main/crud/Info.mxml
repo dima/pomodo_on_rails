@@ -2,8 +2,10 @@
 <mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%">
   <mx:Script>
     <![CDATA[
+      import org.restfulx.services.http.XMLHTTPServiceProvider;
       import org.restfulx.utils.RxFileReference;
       import org.restfulx.utils.RxUtils;
+      
       import pomodo.models.Account;
       import pomodo.models.Address;
       import pomodo.models.User;
@@ -77,7 +79,7 @@
         }
         
         if (accountModelDirty) {
-          account.update({onSuccess: onAccountUpdate});
+          account.update({onSuccess: onAccountUpdate, targetServiceId: XMLHTTPServiceProvider.ID});
         }
         
         if (address.lineOne != lineOneTextInput.text) {
@@ -111,6 +113,7 @@
         }
         
         if (addressModelDirty) {
+          // don't attempt to do file uploads over AMF because Flash FileReference.upload is brain-dead
           address.update({onSuccess: onAddressUpdate});
         }
       }
