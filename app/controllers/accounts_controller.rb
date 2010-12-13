@@ -114,7 +114,7 @@ class AccountsController < ApplicationController
         format.html { render :action => "edit" }
         format.xml  { render :xml => @account.errors, :status => :unprocessable_entity }
         format.fxml { render :fxml => @account.errors }
-        format.amf  { render :fxml => @account.errors }
+        format.amf  { render :amf => @account.errors }
       end
     end
   end
