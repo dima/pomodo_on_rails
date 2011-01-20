@@ -1,0 +1,46 @@
+class <%= migration_name %> < ActiveRecord::Migration
+  def self.up
+<% if distributed -%>
+    create_table :<%= table_name %>, :id => false do |t|
+      t.string :id
+<% else -%>
+    create_table :<%= table_name %> do |t|
+<% end -%>
+<% for attribute in args_for_generation -%>
+      t.<%= attribute.split(':')[1] %> :<%= attribute.split(':')[0] %>
+<% end -%>
+<% for model in belongs_tos -%>
+<% if distributed -%>
+      t.string :<%= model %>_id
+<% else -%>
+      t.references :<%= model %>
+<% end -%>
+<% end -%>
+<% if attachment_field.size > 0 -%>
+<% if RestfulX::Configuration::RxSettings.attachment_plugin == 'paperclip' -%>
+      # For paperclip
+      t.column :<%= attachment_field[0] %>_file_name, :string
+      t.column :<%= attachment_field[0] %>_content_type, :string
+      t.column :<%= attachment_field[0] %>_file_size, :integer
+      t.column :<%= attachment_field[0] %>_updated_at, :datetime
+<% elsif RestfulX::Configuration::RxSettings.attachment_plugin == 'attachment_fu' -%>
+      # For attachment_fu
+      t.column :parent_id,  :integer
+      t.column :content_type, :string
+      t.column :filename, :string    
+      t.column :thumbnail, :string 
+      t.column :size, :integer
+      t.column :width, :integer
+      t.column :height, :integer
+<% end -%>
+<% end -%>
+<% unless options[:skip_timestamps] %>
+      t.timestamps
+<% end -%>
+    end
+  end
+
+  def self.down
+    drop_table :<%= table_name %>
+  end
+end

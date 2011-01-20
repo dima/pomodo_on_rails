@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Module: RestfulX::Configuration</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+ 
+    <script language="JavaScript" type="text/javascript">
+    // <![CDATA[
+ 
+        function toggleSource( id )
+        {
+          var elem
+          var link
+ 
+          if( document.getElementById )
+          {
+            elem = document.getElementById( id )
+            link = document.getElementById( "l_" + id )
+          }
+          else if ( document.all )
+          {
+            elem = eval( "document.all." + id )
+            link = eval( "document.all.l_" + id )
+          }
+          else
+            return false;
+ 
+          if( elem.style.display == "block" )
+          {
+            elem.style.display = "none"
+            link.innerHTML = "show source"
+          }
+          else
+          {
+            elem.style.display = "block"
+            link.innerHTML = "hide source"
+          }
+        }
+ 
+        function openCode( url )
+        {
+          window.open( url, "SOURCE_CODE", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=480,width=750" ).focus();
+        }
+      // ]]>
+    </script>
+  </head>
+ 
+  <body>
+  <table width="100%" border='0' cellpadding='0' cellspacing='0' class='banner'><tr>
+  <td class="file-title"><span class="file-title-prefix">Module</span><br />RestfulX::Configuration</td>
+  <td align="right">
+    <table cellspacing="0" cellpadding="2">
+      <tr valign="top">
+        <td>In:</td>
+        <td>
+<a href="../../files/lib/restfulx/configuration_rb.html">lib/restfulx/configuration.rb</a>
+        </td>
+      </tr>
+         </table>
+        </td>
+        </tr>
+      </table>
+ <!-- banner header -->
+ 
+  <div id="bodyContent">
+      <div id="content">
+ 
+  <div class="description"><p>
+Computes necessary configuration options from the environment. This can be
+used in Rails or standalone from the command line.
+</p>
+</div>
+ 
+ 
+ 
+  <div class="sectiontitle">Methods</div>
+  <ul>
+  <li><a href="#M000029">extract_names</a></li>
+  <li><a href="#M000030">list_as_files</a></li>
+  <li><a href="#M000031">list_mxml_files</a></li>
+  </ul>
+ 
+ 
+ 
+ 
+  <div class="sectiontitle">Constants</div>
+  <table border='0' cellpadding='5'>
+  <tr valign='top'>
+    <td class="attr-name">APP_ROOT</td>
+    <td>=</td>
+    <td class="attr-value">defined?(RAILS_ROOT) ? RAILS_ROOT : File.expand_path(&quot;.&quot;)</td>
+  </tr>
+  <tr valign='top'>
+    <td>&nbsp;</td>
+    <td colspan="2" class="attr-desc">
+We try to figure out the application root using a number of possible
+options
+
+</td>
+  </tr>
+  <tr valign='top'>
+    <td class="attr-name">RxSettings</td>
+    <td>=</td>
+    <td class="attr-value">SchemaToRxYaml::Settings::Core</td>
+  </tr>
+  </table>
+ 
+ 
+<div class="sectiontitle">Public Instance methods</div>
+<div class="method">
+  <div class="title">
+    <a name="M000029"></a><b>extract_names</b>(project = nil)
+  </div>
+  <div class="description">
+  <p>
+Extract project, package, controller name, etc from the environment. This
+will respect config/restfulx.yml if it exists, you can override all of the
+defaults there.
+</p>
+  </div>
+<div class="sourcecode">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000029_source')" id="l_M000029_source">show source</a> ]</p>
+  <div id="M000029_source" class="dyn-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/restfulx/configuration.rb, line 41</span>
+41:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">extract_names</span>(<span class="ruby-identifier">project</span> = <span class="ruby-keyword kw">nil</span>)
+42:       <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">project</span>
+43:         <span class="ruby-identifier">project_name</span> = <span class="ruby-identifier">project</span>.<span class="ruby-identifier">downcase</span>.<span class="ruby-identifier">gsub</span>(<span class="ruby-regexp re">/\W/</span>, <span class="ruby-value str">''</span>)
+44:         <span class="ruby-identifier">flex_project_name</span> = <span class="ruby-identifier">project_name</span>.<span class="ruby-identifier">camelize</span>
+45:       <span class="ruby-keyword kw">else</span>
+46:         <span class="ruby-identifier">project_name</span> = <span class="ruby-constant">APP_ROOT</span>.<span class="ruby-identifier">split</span>(<span class="ruby-value str">&quot;/&quot;</span>).<span class="ruby-identifier">last</span>.<span class="ruby-identifier">gsub</span>(<span class="ruby-regexp re">/\W/</span>, <span class="ruby-value str">''</span>)
+47:         <span class="ruby-identifier">flex_project_name</span> = <span class="ruby-identifier">project_name</span>.<span class="ruby-identifier">camelize</span>
+48:       <span class="ruby-keyword kw">end</span>
+49:             
+50:       <span class="ruby-comment cmt"># give a chance to override the settings via restfulx.yml</span>
+51:       <span class="ruby-keyword kw">begin</span>      
+52:         <span class="ruby-identifier">config</span> = <span class="ruby-constant">YAML</span>.<span class="ruby-identifier">load</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-node">&quot;#{APP_ROOT}/config/restfulx.yml&quot;</span>))
+53:         <span class="ruby-identifier">base_package</span> = <span class="ruby-identifier">config</span>[<span class="ruby-value str">'base_package'</span>] <span class="ruby-operator">||</span> <span class="ruby-identifier">flex_project_name</span>.<span class="ruby-identifier">downcase</span>
+54:         <span class="ruby-identifier">base_folder</span> = <span class="ruby-identifier">base_package</span>.<span class="ruby-identifier">gsub</span>(<span class="ruby-value str">'.'</span>, <span class="ruby-value str">'/'</span>)
+55:         <span class="ruby-identifier">project_name</span> = <span class="ruby-identifier">config</span>[<span class="ruby-value str">'project_name'</span>].<span class="ruby-identifier">downcase</span>.<span class="ruby-identifier">gsub</span>(<span class="ruby-regexp re">/\W/</span>, <span class="ruby-value str">''</span>) <span class="ruby-operator">||</span> <span class="ruby-identifier">project_name</span>
+56:         <span class="ruby-identifier">flex_project_name</span> = <span class="ruby-identifier">project_name</span>.<span class="ruby-identifier">camelize</span>
+57:         <span class="ruby-identifier">controller_name</span> = <span class="ruby-identifier">config</span>[<span class="ruby-value str">'controller_name'</span>] <span class="ruby-operator">||</span> <span class="ruby-value str">&quot;ApplicationController&quot;</span>
+58:         <span class="ruby-identifier">flex_root</span> = <span class="ruby-identifier">config</span>[<span class="ruby-value str">'flex_root'</span>] <span class="ruby-operator">||</span> <span class="ruby-value str">&quot;app/flex&quot;</span>
+59:         <span class="ruby-identifier">distributed</span> = <span class="ruby-identifier">config</span>[<span class="ruby-value str">'distributed'</span>] <span class="ruby-operator">||</span> <span class="ruby-keyword kw">false</span>
+60:       <span class="ruby-keyword kw">rescue</span>
+61:         <span class="ruby-identifier">base_folder</span> = <span class="ruby-identifier">base_package</span> = <span class="ruby-identifier">flex_project_name</span>.<span class="ruby-identifier">downcase</span>
+62:         <span class="ruby-identifier">controller_name</span> = <span class="ruby-value str">&quot;ApplicationController&quot;</span>
+63:         <span class="ruby-identifier">flex_root</span> = <span class="ruby-value str">&quot;app/flex&quot;</span>
+64:         <span class="ruby-identifier">distributed</span> = <span class="ruby-keyword kw">false</span>
+65:       <span class="ruby-keyword kw">end</span>
+66:       [<span class="ruby-identifier">project_name</span>, <span class="ruby-identifier">flex_project_name</span>, <span class="ruby-identifier">controller_name</span>, <span class="ruby-identifier">base_package</span>, <span class="ruby-identifier">base_folder</span>, <span class="ruby-identifier">flex_root</span>, <span class="ruby-identifier">distributed</span>]
+67:     <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000030"></a><b>list_as_files</b>(dir_name)
+  </div>
+  <div class="description">
+  <p>
+List files ending in *.as (ActionScript) in a given folder
+</p>
+  </div>
+<div class="sourcecode">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000030_source')" id="l_M000030_source">show source</a> ]</p>
+  <div id="M000030_source" class="dyn-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/restfulx/configuration.rb, line 70</span>
+70:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">list_as_files</span>(<span class="ruby-identifier">dir_name</span>)
+71:       <span class="ruby-constant">Dir</span>.<span class="ruby-identifier">entries</span>(<span class="ruby-identifier">dir_name</span>).<span class="ruby-identifier">grep</span>(<span class="ruby-regexp re">/\.as$/</span>).<span class="ruby-identifier">map</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">name</span><span class="ruby-operator">|</span> <span class="ruby-identifier">name</span>.<span class="ruby-identifier">sub</span>(<span class="ruby-regexp re">/\.as$/</span>, <span class="ruby-value str">&quot;&quot;</span>) }.<span class="ruby-identifier">join</span>(<span class="ruby-value str">&quot;, &quot;</span>)
+72:     <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000031"></a><b>list_mxml_files</b>(dir_name)
+  </div>
+  <div class="description">
+  <p>
+List files ending in *.mxml in a given folder
+</p>
+  </div>
+<div class="sourcecode">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000031_source')" id="l_M000031_source">show source</a> ]</p>
+  <div id="M000031_source" class="dyn-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/restfulx/configuration.rb, line 75</span>
+75:     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">list_mxml_files</span>(<span class="ruby-identifier">dir_name</span>)
+76:       <span class="ruby-constant">Dir</span>.<span class="ruby-identifier">entries</span>(<span class="ruby-identifier">dir_name</span>).<span class="ruby-identifier">grep</span>(<span class="ruby-regexp re">/\.mxml$/</span>).<span class="ruby-identifier">map</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">name</span><span class="ruby-operator">|</span> <span class="ruby-identifier">name</span>.<span class="ruby-identifier">sub</span>(<span class="ruby-regexp re">/\.mxml$/</span>, <span class="ruby-value str">&quot;&quot;</span>) }
+77:     <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+</div>
+
+  </div>
+ 
+    </body>
+</html>

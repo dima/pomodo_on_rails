@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:<%= application_tag %> xmlns:mx="http://www.adobe.com/2006/mxml"
+  xmlns:generated="<%= base_package %>.views.generated.*"
+  paddingBottom="8" paddingLeft="8" paddingRight="8" paddingTop="8"
+  layout="horizontal" styleName="plain" initialize="init()">
+  <mx:Script>
+    <![CDATA[
+<% if use_air -%>
+<% if distributed -%>
+      import air.net.SocketMonitor;
+      import org.restfulx.events.PullEndEvent;
+      import org.restfulx.events.PullStartEvent;
+      import org.restfulx.events.PushEndEvent;
+      import org.restfulx.events.PushStartEvent;
+      import org.restfulx.controllers.ChangeController;
+      import org.restfulx.services.ISyncingServiceProvider;
+      import org.restfulx.services.http.XMLHTTPServiceProvider;
+<% end -%>
+      import org.restfulx.services.air.AIRServiceProvider;
+<% end -%>
+      import org.restfulx.Rx;
+      import <%= base_package %>.controllers.<%= command_controller_name %>;
+<% if use_air -%>
+<% if distributed -%>
+
+      [Bindable]
+      private var socketMonitor:SocketMonitor;
+
+      [Bindable]
+      private var online:Boolean;
+
+      [Bindable]
+      private var syncStatus:String;
+<% end -%>
+<% end -%>
+
+      private function init():void {
+<% if use_air -%>
+<% if distributed -%>
+        Rx.httpRootUrl = "http://localhost:3000/";
+        Rx.enableSync = true;
+
+        socketMonitor = new SocketMonitor("localhost", 3000);
+        socketMonitor.pollInterval = 2000; /* miliseconds */
+        socketMonitor.addEventListener(StatusEvent.STATUS, onNetworkStatusChange);
+        socketMonitor.start();
+        
+<% end -%>
+        <%= command_controller_name %>.initialize([AIRServiceProvider], 
+          AIRServiceProvider.ID, "<%= base_package %>");
+<% if distributed -%>
+
+        Rx.changes.setSyncProviders(
+          ISyncingServiceProvider(Rx.services.getServiceProvider(AIRServiceProvider.ID)),
+            Rx.services.getServiceProvider(XMLHTTPServiceProvider.ID));
+
+        Rx.changes.addEventListener(PushStartEvent.ID, onPushStart);
+        Rx.changes.addEventListener(PushEndEvent.ID, onPushEnd);
+        Rx.changes.addEventListener(PullStartEvent.ID, onPullStart);
+        Rx.changes.addEventListener(PullEndEvent.ID, onPullEnd);
+<% end -%>
+<% else -%>
+        <%= command_controller_name %>.initialize();
+<% end -%>
+      }
+<% if use_air -%>
+<% if distributed -%>
+
+      private function onPushStart(event:Event):void {
+        syncStatus = "Pushing changes ...";
+      }
+
+      private function onPushEnd(event:Event):void {
+        syncStatus = "Push complete.";
+      }
+
+      private function onPullStart(event:Event):void {
+        syncStatus = "Pulling data...";
+      }
+
+      private function onPullEnd(event:Event):void {
+        syncStatus = "Pull complete.";
+      }
+
+      private function onNetworkStatusChange(event:StatusEvent):void {
+        online = (socketMonitor.available) ? true : false;
+  
+        if (online) {
+          Rx.defaultServiceId = XMLHTTPServiceProvider.ID;
+        } else {
+          Rx.defaultServiceId = AIRServiceProvider.ID;
+        }
+      }
+
+      private function getCurrentProviderName(id:int):String {
+        switch (id) {
+          case XMLHTTPServiceProvider.ID:
+            return "Rails";
+          case AIRServiceProvider.ID:
+            return "AIR (SQLite)";
+          default :
+            return "No idea";
+        }
+      }
+<% end -%>
+<% end -%>
+    ]]>
+  </mx:Script>
+<% if use_air -%>
+<% if distributed -%>
+  <mx:VBox height="100%">
+    <mx:Label text="Current Provider: {getCurrentProviderName(Rx.defaultServiceId)}"/>
+    <mx:Label text="Status: {online ? 'Online' : 'Offline' }"/>
+    <mx:HBox>
+      <mx:Button label="Push" click="{Rx.changes.push()}" enabled="{online}"/>
+      <mx:Button label="Pull" click="{Rx.changes.pull()}" enabled="{online}"/>
+    </mx:HBox>
+    <mx:Label text="{syncStatus}"/>
+  </mx:VBox>
+<% end -%>
+<% end -%>
+  <mx:LinkBar dataProvider="{mainViewStack}" direction="vertical" borderStyle="solid" backgroundColor="#EEEEEE"/>
+  <mx:ViewStack id="mainViewStack" width="100%" height="100%">
+    <!-- For a simple demo, put all the components here. -->
+<% for component in component_names -%>
+    <generated:<%= component %>/>
+<% end -%>
+  </mx:ViewStack>
+</mx:<%= application_tag %>>

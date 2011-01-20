@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Module: ActiveSupport::CoreExtensions::Hash::Conversions</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <link rel="stylesheet" href="../../../.././rdoc-style.css" type="text/css" media="screen" />
+ 
+    <script language="JavaScript" type="text/javascript">
+    // <![CDATA[
+ 
+        function toggleSource( id )
+        {
+          var elem
+          var link
+ 
+          if( document.getElementById )
+          {
+            elem = document.getElementById( id )
+            link = document.getElementById( "l_" + id )
+          }
+          else if ( document.all )
+          {
+            elem = eval( "document.all." + id )
+            link = eval( "document.all.l_" + id )
+          }
+          else
+            return false;
+ 
+          if( elem.style.display == "block" )
+          {
+            elem.style.display = "none"
+            link.innerHTML = "show source"
+          }
+          else
+          {
+            elem.style.display = "block"
+            link.innerHTML = "hide source"
+          }
+        }
+ 
+        function openCode( url )
+        {
+          window.open( url, "SOURCE_CODE", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=480,width=750" ).focus();
+        }
+      // ]]>
+    </script>
+  </head>
+ 
+  <body>
+  <table width="100%" border='0' cellpadding='0' cellspacing='0' class='banner'><tr>
+  <td class="file-title"><span class="file-title-prefix">Module</span><br />ActiveSupport::CoreExtensions::Hash::Conversions</td>
+  <td align="right">
+    <table cellspacing="0" cellpadding="2">
+      <tr valign="top">
+        <td>In:</td>
+        <td>
+<a href="../../../../files/lib/restfulx/rx_active_support_rb.html">lib/restfulx/rx_active_support.rb</a>
+        </td>
+      </tr>
+         </table>
+        </td>
+        </tr>
+      </table>
+ <!-- banner header -->
+ 
+  <div id="bodyContent">
+      <div id="content">
+ 
+  <div class="description"><p>
+refer to: <a href="http://api.rubyonrails.org">api.rubyonrails.org</a>/ for
+more details
+</p>
+</div>
+ 
+ 
+ 
+  <div class="sectiontitle">Methods</div>
+  <ul>
+  <li><a href="#M000016">to_amf</a></li>
+  <li><a href="#M000015">to_fxml</a></li>
+  </ul>
+ 
+ 
+ 
+ 
+ 
+ 
+<div class="sectiontitle">Public Instance methods</div>
+<div class="method">
+  <div class="title">
+    <a name="M000016"></a><b>to_amf</b>(options = {})
+  </div>
+  <div class="description">
+  <p>
+serialize as AMF
+</p>
+  </div>
+<div class="sourcecode">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000016_source')" id="l_M000016_source">show source</a> ]</p>
+  <div id="M000016_source" class="dyn-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/restfulx/rx_active_support.rb, line 75</span>
+75:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">to_amf</span>(<span class="ruby-identifier">options</span> = {})
+76:         <span class="ruby-constant">RestfulX</span><span class="ruby-operator">::</span><span class="ruby-constant">AMF</span>.<span class="ruby-identifier">serialize_property</span>(<span class="ruby-keyword kw">self</span>, {<span class="ruby-identifier">:serializable_names</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">keys</span>, <span class="ruby-identifier">:options</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">options</span>})
+77:       <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+<div class="method">
+  <div class="title">
+    <a name="M000015"></a><b>to_fxml</b>(options = {}) {|options[:builder] if block_given?| ...}
+  </div>
+  <div class="description">
+  <p>
+Flex friendly XML format, no dashes, etc
+</p>
+  </div>
+<div class="sourcecode">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000015_source')" id="l_M000015_source">show source</a> ]</p>
+  <div id="M000015_source" class="dyn-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/restfulx/rx_active_support.rb, line 21</span>
+21:       <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">to_fxml</span>(<span class="ruby-identifier">options</span> = {})
+22:         <span class="ruby-identifier">options</span>.<span class="ruby-identifier">merge!</span>(<span class="ruby-identifier">:dasherize</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword kw">false</span>)
+23:         <span class="ruby-identifier">options</span>[<span class="ruby-identifier">:indent</span>] <span class="ruby-operator">||=</span> <span class="ruby-value">2</span>
+24:         <span class="ruby-identifier">options</span>.<span class="ruby-identifier">reverse_merge!</span>({ <span class="ruby-identifier">:builder</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">Builder</span><span class="ruby-operator">::</span><span class="ruby-constant">XmlMarkup</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">:indent</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">options</span>[<span class="ruby-identifier">:indent</span>]),
+25:                                  <span class="ruby-identifier">:root</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">&quot;hash&quot;</span> })
+26:         <span class="ruby-identifier">options</span>[<span class="ruby-identifier">:builder</span>].<span class="ruby-identifier">instruct!</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">options</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-identifier">:skip_instruct</span>)
+27:         <span class="ruby-identifier">dasherize</span> = <span class="ruby-operator">!</span><span class="ruby-identifier">options</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">:dasherize</span>) <span class="ruby-operator">||</span> <span class="ruby-identifier">options</span>[<span class="ruby-identifier">:dasherize</span>]
+28:         <span class="ruby-identifier">root</span> = <span class="ruby-identifier">dasherize</span> <span class="ruby-value">? </span><span class="ruby-identifier">options</span>[<span class="ruby-identifier">:root</span>].<span class="ruby-identifier">to_s</span>.<span class="ruby-identifier">dasherize</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">options</span>[<span class="ruby-identifier">:root</span>].<span class="ruby-identifier">to_s</span>
+29: 
+30:         <span class="ruby-identifier">options</span>[<span class="ruby-identifier">:builder</span>].<span class="ruby-identifier">__send__</span>(<span class="ruby-identifier">:method_missing</span>, <span class="ruby-identifier">root</span>) <span class="ruby-keyword kw">do</span>
+31:           <span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span><span class="ruby-operator">|</span>
+32:             <span class="ruby-keyword kw">case</span> <span class="ruby-identifier">value</span>
+33:               <span class="ruby-keyword kw">when</span> <span class="ruby-operator">::</span><span class="ruby-constant">Hash</span>
+34:                 <span class="ruby-identifier">value</span>.<span class="ruby-identifier">to_fxml</span>(<span class="ruby-identifier">options</span>.<span class="ruby-identifier">merge</span>({ <span class="ruby-identifier">:root</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">key</span>, <span class="ruby-identifier">:skip_instruct</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword kw">true</span> }))
+35:               <span class="ruby-keyword kw">when</span> <span class="ruby-operator">::</span><span class="ruby-constant">Array</span>
+36:                 <span class="ruby-identifier">value</span>.<span class="ruby-identifier">to_fxml</span>(<span class="ruby-identifier">options</span>.<span class="ruby-identifier">merge</span>({ <span class="ruby-identifier">:root</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">key</span>, <span class="ruby-identifier">:children</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">key</span>.<span class="ruby-identifier">to_s</span>.<span class="ruby-identifier">singularize</span>, <span class="ruby-identifier">:skip_instruct</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword kw">true</span>}))
+37:               <span class="ruby-keyword kw">when</span> <span class="ruby-operator">::</span><span class="ruby-constant">Method</span>, <span class="ruby-operator">::</span><span class="ruby-constant">Proc</span>
+38:                 <span class="ruby-comment cmt"># If the Method or Proc takes two arguments, then</span>
+39:                 <span class="ruby-comment cmt"># pass the suggested child element name.  This is</span>
+40:                 <span class="ruby-comment cmt"># used if the Method or Proc will be operating over</span>
+41:                 <span class="ruby-comment cmt"># multiple records and needs to create an containing</span>
+42:                 <span class="ruby-comment cmt"># element that will contain the objects being</span>
+43:                 <span class="ruby-comment cmt"># serialized.</span>
+44:                 <span class="ruby-keyword kw">if</span> <span class="ruby-value">1</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">value</span>.<span class="ruby-identifier">arity</span>
+45:                   <span class="ruby-identifier">value</span>.<span class="ruby-identifier">call</span>(<span class="ruby-identifier">options</span>.<span class="ruby-identifier">merge</span>({ <span class="ruby-identifier">:root</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">key</span>, <span class="ruby-identifier">:skip_instruct</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword kw">true</span> }))
+46:                 <span class="ruby-keyword kw">else</span>
+47:                   <span class="ruby-identifier">value</span>.<span class="ruby-identifier">call</span>(<span class="ruby-identifier">options</span>.<span class="ruby-identifier">merge</span>({ <span class="ruby-identifier">:root</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">key</span>, <span class="ruby-identifier">:skip_instruct</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword kw">true</span> }), <span class="ruby-identifier">key</span>.<span class="ruby-identifier">to_s</span>.<span class="ruby-identifier">singularize</span>)
+48:                 <span class="ruby-keyword kw">end</span>
+49:               <span class="ruby-keyword kw">else</span>
+50:                 <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">value</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-identifier">:to_fxml</span>)
+51:                   <span class="ruby-identifier">value</span>.<span class="ruby-identifier">to_fxml</span>(<span class="ruby-identifier">options</span>.<span class="ruby-identifier">merge</span>({ <span class="ruby-identifier">:root</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">key</span>, <span class="ruby-identifier">:skip_instruct</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword kw">true</span> }))
+52:                 <span class="ruby-keyword kw">else</span>
+53:                   <span class="ruby-identifier">type_name</span> = <span class="ruby-constant">XML_TYPE_NAMES</span>[<span class="ruby-identifier">value</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">name</span>]
+54: 
+55:                   <span class="ruby-identifier">key</span> = <span class="ruby-identifier">dasherize</span> <span class="ruby-value">? </span><span class="ruby-identifier">key</span>.<span class="ruby-identifier">to_s</span>.<span class="ruby-identifier">dasherize</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">key</span>.<span class="ruby-identifier">to_s</span>
+56: 
+57:                   <span class="ruby-identifier">attributes</span> = <span class="ruby-identifier">options</span>[<span class="ruby-identifier">:skip_types</span>] <span class="ruby-operator">||</span> <span class="ruby-identifier">value</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">type_name</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-value">? </span>{ } <span class="ruby-operator">:</span> { <span class="ruby-identifier">:type</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">type_name</span> }
+58:                   <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">value</span>.<span class="ruby-identifier">nil?</span>
+59:                     <span class="ruby-identifier">attributes</span>[<span class="ruby-identifier">:nil</span>] = <span class="ruby-keyword kw">true</span>
+60:                   <span class="ruby-keyword kw">end</span>
+61: 
+62:                   <span class="ruby-identifier">options</span>[<span class="ruby-identifier">:builder</span>].<span class="ruby-identifier">tag!</span>(<span class="ruby-identifier">key</span>,
+63:                     <span class="ruby-constant">XML_FORMATTING</span>[<span class="ruby-identifier">type_name</span>] <span class="ruby-operator">?</span> <span class="ruby-constant">XML_FORMATTING</span>[<span class="ruby-identifier">type_name</span>].<span class="ruby-identifier">call</span>(<span class="ruby-identifier">value</span>) <span class="ruby-operator">:</span> <span class="ruby-identifier">value</span>,
+64:                     <span class="ruby-identifier">attributes</span>
+65:                   )
+66:               <span class="ruby-keyword kw">end</span>
+67:             <span class="ruby-keyword kw">end</span>
+68:           <span class="ruby-keyword kw">end</span>
+69:   
+70:           <span class="ruby-keyword kw">yield</span> <span class="ruby-identifier">options</span>[<span class="ruby-identifier">:builder</span>] <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">block_given?</span>
+71:         <span class="ruby-keyword kw">end</span>
+72:       <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+</div>
+
+  </div>
+ 
+    </body>
+</html>

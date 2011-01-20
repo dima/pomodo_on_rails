@@ -1,0 +1,46 @@
+class <%= class_name %> < ActiveRecord::Base
+<% if distributed -%>
+  include RestfulX::UUIDHelper
+<% end -%>
+<% for model in belongs_tos -%>
+  belongs_to :<%= model %>
+<% end -%>
+<% for model in has_ones -%>
+  has_one :<%= model %>
+<% end -%>
+<% for model in has_manies -%>
+  has_many :<%= model %>, :dependent => :destroy
+<% end -%>
+<% for model in polymorphic -%>
+  belongs_to :<%= model %>, :polymorphic => true
+<% end -%>
+<% if has_many_through.size > 0 -%>
+<% has_many_through.each do |k,v| %>
+  has_many :<%= k %>
+  has_many :<%= v %>, :through => :<%= k %>
+<% end -%>
+<% end -%>
+<% if tree_model.size > 0 -%>
+  acts_as_category
+<% end -%>
+<% if attachment_field.size > 0 -%>
+<% if RestfulX::Configuration::RxSettings.attachment_plugin == 'paperclip' -%>
+  # paperclip examples:
+  #   http://github.com/thoughtbot/paperclip/tree/master
+  has_attached_file :<%= attachment_field[0] %>,
+    :styles => { :medium => "600x480>", :thumb  => "100x100#" }
+    
+  def attachment_url
+    <%= attachment_field[0] %>.url(:original)
+  end
+<% elsif RestfulX::Configuration::RxSettings.attachment_plugin == 'attachment_fu' -%>
+  # attachment_fu examples:
+  #   http://github.com/technoweenie/attachment_fu/blob/ab1e4f7b0b9de85e0c9decf061d2ef5c1dc0feaa/README#L56-69
+  has_attachment
+  
+  def attachment_url
+    "" # FIX ME
+  end
+<% end -%>
+<% end -%>
+end

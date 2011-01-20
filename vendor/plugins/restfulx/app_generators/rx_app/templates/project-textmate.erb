@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>currentDocument</key>
+	<string>app/flex/<%= flex_project_name %>.mxml</string>
+	<key>documents</key>
+	<array>
+		<dict>
+			<key>expanded</key>
+			<true/>
+			<key>name</key>
+			<string><%= project_name %></string>
+			<key>regexFolderFilter</key>
+			<string>!.*/(\.[^/]*|CVS|_darcs|_MTN|\{arch\}|blib|.*~\.nib|.*\.(framework|app|pbproj|pbxproj|xcode(proj)?|bundle))$</string>
+			<key>sourceDirectory</key>
+			<string></string>
+		</dict>
+	</array>
+  <key>fileHierarchyDrawerWidth</key> 
+  <integer>299</integer> 
+  <key>metaData</key> 
+  <dict/> 
+	<key>shellVariables</key>
+	<array>
+		<dict>
+			<key>enabled</key>
+			<true/>
+			<key>value</key>
+			<string>app/flex/<%= flex_project_name %>.mxml</string>
+			<key>variable</key>
+			<string>TM_FLEX_FILE_SPECS</string>
+		</dict>
+		<dict>
+			<key>enabled</key>
+			<true/>
+			<key>value</key>
+			<string>public/bin/<%= flex_project_name %>.swf</string>
+			<key>variable</key>
+			<string>TM_FLEX_OUTPUT</string>
+		</dict>
+		<dict>
+			<key>enabled</key>
+			<true/>
+			<key>value</key>
+			<string>app/flex</string>
+			<key>variable</key>
+			<string>TM_AS3_USUAL_SRC_DIRS</string>
+		</dict>
+		<dict>
+			<key>enabled</key>
+			<true/>
+			<key>value</key>
+			<string>/Users/Dima/Projects/dev/restfulx_framework/framework/src</string>
+			<key>variable</key>
+			<string>TM_AS3_LIB_SRC_DIRS</string>
+		</dict>
+    <dict>
+      <key>enabled</key>
+      <true/>
+      <key>value</key>
+      <string><%= use_air ? 'air' : 'flex' %></string>
+      <key>variable</key>
+      <string>TM_FLEX_RUNTIME</string>
+    </dict>
+	</array>
+	<key>showFileHierarchyDrawer</key>
+	<false/>
+	<key>windowFrame</key>
+	<string>{{53, 14}, {1221, 864}}</string>
+</dict>
+</plist>

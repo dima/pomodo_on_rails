@@ -1,0 +1,9 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+<% for i in 1..1000 %>
+  user_<%= i %>:
+    login: user<%= i %>
+    first_name: Foo<%= i %>
+    last_name: Bar<%= i %>
+    email: foo@bar.com
+<% end %>

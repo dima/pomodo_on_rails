@@ -1,0 +1,7 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+<% for i in 1..1000 %>
+  note_<%= i %>:
+    content: SomeNote<%= i %>
+    user_id: <%= i %>
+<% end %>

@@ -1,0 +1,9 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+<% for i in 1..1000 %>
+  project_<%= i %>:
+    name: Project<%= i %>
+    start_date: <%= 20.days.ago %>
+    completed: false
+    user_id: <%= i %>
+<% end %>

@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>File: active_record_tasks.rb</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+ 
+    <script language="JavaScript" type="text/javascript">
+    // <![CDATA[
+ 
+        function toggleSource( id )
+        {
+          var elem
+          var link
+ 
+          if( document.getElementById )
+          {
+            elem = document.getElementById( id )
+            link = document.getElementById( "l_" + id )
+          }
+          else if ( document.all )
+          {
+            elem = eval( "document.all." + id )
+            link = eval( "document.all.l_" + id )
+          }
+          else
+            return false;
+ 
+          if( elem.style.display == "block" )
+          {
+            elem.style.display = "none"
+            link.innerHTML = "show source"
+          }
+          else
+          {
+            elem.style.display = "block"
+            link.innerHTML = "hide source"
+          }
+        }
+ 
+        function openCode( url )
+        {
+          window.open( url, "SOURCE_CODE", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=480,width=750" ).focus();
+        }
+      // ]]>
+    </script>
+  </head>
+ 
+  <body>
+  <table border='0' cellpadding='0' cellspacing='0' width="100%" class='banner'>
+  <tr><td>
+    <table width="100%" border='0' cellpadding='0' cellspacing='0'><tr>
+      <td class="file-title" colspan="2"><span class="file-title-prefix">File</span><br />active_record_tasks.rb</td>
+      <td align="right">
+        <table border='0' cellspacing="0" cellpadding="2">
+          <tr>
+            <td>Path:</td>
+            <td>lib/restfulx/active_record_tasks.rb
+            </td>
+          </tr>
+          <tr>
+            <td>Modified:</td>
+            <td>Thu Dec 23 16:00:01 -0800 2010</td>
+          </tr>
+        </table>
+      </td></tr>
+    </table>
+  </td></tr>
+</table><br />
+ <!-- banner header -->
+ 
+  <div id="bodyContent">
+      <div id="content">
+ 
+ 
+  <div class="sectiontitle">Required Files</div>
+  <ul>
+  <li>tasks</li>
+  <li>schema_to_rx_yaml</li>
+  </ul>
+ 
+ 
+  <div class="sectiontitle">Methods</div>
+  <ul>
+  <li><a href="#M000001">stage_database</a></li>
+  </ul>
+ 
+ 
+ 
+ 
+  <div class="sectiontitle">Constants</div>
+  <table border='0' cellpadding='5'>
+  <tr valign='top'>
+    <td class="attr-name">APP_ENV</td>
+    <td>=</td>
+    <td class="attr-value">ENV['RAILS_ENV']</td>
+  </tr>
+  <tr valign='top'>
+    <td>&nbsp;</td>
+    <td colspan="2" class="attr-desc">
+stores local copy of the application environment (&#8216;production&#8217;,
+&#8216;test&#8217;, etc) so that appropriate values in config/database.yml
+are used
+
+</td>
+  </tr>
+  </table>
+ 
+ 
+<div class="sectiontitle">Public Instance methods</div>
+<div class="method">
+  <div class="title">
+    <a name="M000001"></a><b>stage_database</b>(db_names, admin_password, db_user_name, db_password)
+  </div>
+  <div class="description">
+  <p>
+Performs MySQL database set-up based on the username and password provided.
+Also updates Rails config/database.yml file with database username and
+password
+</p>
+  </div>
+<div class="sourcecode">
+  <p class="source-link">[ <a href="javascript:toggleSource('M000001_source')" id="l_M000001_source">show source</a> ]</p>
+  <div id="M000001_source" class="dyn-source">
+<pre>
+    <span class="ruby-comment cmt"># File lib/restfulx/active_record_tasks.rb, line 39</span>
+39:   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">stage_database</span>(<span class="ruby-identifier">db_names</span>, <span class="ruby-identifier">admin_password</span>, <span class="ruby-identifier">db_user_name</span>, <span class="ruby-identifier">db_password</span>)
+40:     <span class="ruby-identifier">sql_command</span> = <span class="ruby-value str">&quot;&quot;</span>
+41:     
+42:     <span class="ruby-identifier">db_names</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">name</span><span class="ruby-operator">|</span>
+43:       <span class="ruby-identifier">db_name</span> = <span class="ruby-constant">ActiveRecord</span><span class="ruby-operator">::</span><span class="ruby-constant">Base</span>.<span class="ruby-identifier">configurations</span>[<span class="ruby-identifier">name</span>][<span class="ruby-value str">'database'</span>]
+44:       <span class="ruby-identifier">sql_command</span> <span class="ruby-operator">+=</span> <span class="ruby-node">&quot;drop database if exists #{db_name}; &quot;</span> <span class="ruby-operator">&lt;&lt;</span> 
+45:         <span class="ruby-node">&quot;create database #{db_name}; grant all privileges on #{db_name}.* &quot;</span> <span class="ruby-operator">&lt;&lt;</span> 
+46:         <span class="ruby-node">&quot;to #{db_user_name}@localhost identified by \'#{db_password}\';&quot;</span>
+47:       <span class="ruby-constant">ActiveRecord</span><span class="ruby-operator">::</span><span class="ruby-constant">Base</span>.<span class="ruby-identifier">configurations</span>[<span class="ruby-identifier">name</span>][<span class="ruby-value str">'username'</span>] = <span class="ruby-identifier">db_user_name</span>
+48:       <span class="ruby-constant">ActiveRecord</span><span class="ruby-operator">::</span><span class="ruby-constant">Base</span>.<span class="ruby-identifier">configurations</span>[<span class="ruby-identifier">name</span>][<span class="ruby-value str">'password'</span>] = <span class="ruby-identifier">db_password</span>
+49:     <span class="ruby-keyword kw">end</span>
+50: 
+51:     <span class="ruby-keyword kw">if</span> (<span class="ruby-operator">!</span><span class="ruby-constant">File</span>.<span class="ruby-identifier">exist?</span>(<span class="ruby-node">&quot;#{APP_ROOT}/tmp/stage.sql&quot;</span>))
+52:       <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-node">&quot;#{APP_ROOT}/tmp/stage.sql&quot;</span>, <span class="ruby-value str">&quot;w&quot;</span>) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">file</span><span class="ruby-operator">|</span>
+53:         <span class="ruby-identifier">file</span>.<span class="ruby-identifier">print</span> <span class="ruby-identifier">sql_command</span>
+54:       <span class="ruby-keyword kw">end</span>
+55:     <span class="ruby-keyword kw">end</span>
+56: 
+57:     <span class="ruby-comment cmt"># back up the original database.yml file just in case</span>
+58:     <span class="ruby-constant">File</span>.<span class="ruby-identifier">copy</span>(<span class="ruby-node">&quot;#{APP_ROOT}/config/database.yml&quot;</span>, 
+59:       <span class="ruby-node">&quot;#{APP_ROOT}/config/database.yml.sample&quot;</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-operator">!</span><span class="ruby-constant">File</span>.<span class="ruby-identifier">exist?</span>(<span class="ruby-node">&quot;#{APP_ROOT}/config/database.yml.sample&quot;</span>)
+60:     
+61:     <span class="ruby-identifier">dbconfig</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">read</span>(<span class="ruby-node">&quot;#{APP_ROOT}/config/database.yml&quot;</span>)
+62:     <span class="ruby-identifier">dbconfig</span>.<span class="ruby-identifier">gsub!</span>(<span class="ruby-regexp re">/username:.*/</span>, <span class="ruby-node">&quot;username: #{db_user_name}&quot;</span>)
+63:     <span class="ruby-identifier">dbconfig</span>.<span class="ruby-identifier">gsub!</span>(<span class="ruby-regexp re">/password:.*/</span>, <span class="ruby-node">&quot;password: #{db_password}&quot;</span>)
+64:     
+65:     <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-node">&quot;#{APP_ROOT}/config/database.yml&quot;</span>, <span class="ruby-value str">&quot;w&quot;</span>) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">file</span><span class="ruby-operator">|</span>
+66:       <span class="ruby-identifier">file</span>.<span class="ruby-identifier">print</span> <span class="ruby-identifier">dbconfig</span>
+67:     <span class="ruby-keyword kw">end</span>
+68: 
+69:     <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">system</span> <span class="ruby-node">%(mysql -h localhost -u root --password=#{admin_password} &lt; tmp/stage.sql)</span>
+70:       <span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;Updated config/database.yml and staged the database based on your settings&quot;</span>
+71:       <span class="ruby-constant">File</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-value str">&quot;tmp/stage.sql&quot;</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">file?</span>(<span class="ruby-value str">&quot;tmp/stage.sql&quot;</span>)
+72:     <span class="ruby-keyword kw">else</span>
+73:       <span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;Staging was not performed. Check console for errors. It is possible that 'mysql' executable was not found.&quot;</span>
+74:     <span class="ruby-keyword kw">end</span>
+75:   <span class="ruby-keyword kw">end</span>
+</pre>
+  </div>
+</div>
+</div>
+</div>
+
+  </div>
+ 
+    </body>
+</html>
